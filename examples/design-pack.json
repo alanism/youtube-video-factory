@@ -1,0 +1,36 @@
+{
+  "pack": {
+    "id": "cobalt-newsroom",
+    "label": "Cobalt Newsroom",
+    "palette": "cobalt-newsroom",
+    "typography": "cobalt-newsroom-type",
+    "defaultLayout": "feature-left-16x9",
+    "motion": "cobalt-newsroom-motion"
+  },
+  "palette": {
+    "id": "cobalt-newsroom",
+    "label": "Cobalt Newsroom",
+    "group": "factory",
+    "colors": ["#F4F1E8", "#D6DCE8", "#101827", "#335C9B", "#C08A3E"],
+    "primary": "#335C9B",
+    "secondary": "#C08A3E",
+    "surface": "#D6DCE8",
+    "ink": "#101827",
+    "muted": "#335C9B"
+  },
+  "typography": {
+    "id": "cobalt-newsroom-type",
+    "label": "Cobalt Newsroom Type",
+    "description": "Editorial title with direct sans body",
+    "titleFamily": "Newsreader",
+    "bodyFamily": "IBM Plex Sans",
+    "captionFamily": "IBM Plex Sans",
+    "monoFamily": "IBM Plex Mono"
+  },
+  "motion": {
+    "id": "cobalt-newsroom-motion",
+    "transition": "editorial-push",
+    "transitionDuration": 0.6,
+    "entrance": "rise-fade"
+  }
+}

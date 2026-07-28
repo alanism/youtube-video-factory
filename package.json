@@ -1,9 +1,19 @@
 {
   "name": "youtube-video-factory",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "A Codex-first, HyperFrames-first compiler for narrated YouTube videos.",
+  "license": "MIT",
+  "private": false,
   "type": "module",
+  "bin": {
+    "ytvf": "bin/ytvf.mjs"
+  },
   "scripts": {
+    "ytvf": "node bin/ytvf.mjs",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts tests/**/*.test.ts",
+    "test:security": "node --import tsx --test tests/security/*.test.ts",
     "doctor": "hyperframes doctor --json",
     "lint": "hyperframes lint --json",
     "check": "hyperframes check --strict --snapshots --at-transitions --samples 15",
@@ -15,10 +25,15 @@
   "engines": {
     "node": ">=22"
   },
+  "dependencies": {
+    "hyperframes": "0.7.77",
+    "tsx": "4.20.6"
+  },
   "devDependencies": {
+    "@types/node": "24.10.1",
     "@fontsource-variable/ibm-plex-sans": "5.2.8",
     "@fontsource-variable/newsreader": "5.2.8",
     "gsap": "3.14.2",
-    "hyperframes": "0.7.77"
+    "typescript": "5.9.3"
   }
 }

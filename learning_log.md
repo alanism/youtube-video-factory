@@ -1,5 +1,65 @@
 # Learning Log
 
+## 2026-07-28 — ACDF wrapper added before GitHub release
+
+### Factory work needed governance before publication
+
+- Issue: The repository had substantial implementation work but lacked an ACDF change container, authority snapshot, task board, evidence logs, and receipts.
+- Cause: The project expanded from a single video workflow into an installable open-source factory while still being executed as ordinary coding work.
+- Fix: Added `.acdf/reference/` and `.acdf/changes/youtube-video-factory-v1/` with intent, models, proposal, design, tasks, risk review, authority, runbook, and retrospective.
+- Prevention: Any future public factory release should start by creating the ACDF change container before broad implementation or GitHub publication.
+- Confidence: High.
+
+### Codex Image 2 completion validation deferred
+
+- Issue: The Codex built-in Image 2 completion path may need an independent decodability and dimension check before marking generated images complete.
+- Cause: Built-in Codex image generation is an agent-mediated capability rather than a normal provider API the CLI can call directly.
+- Fix: Recorded the issue as a future hardening task instead of spending release-candidate effort on it now.
+- Prevention: Add a focused v0.2.0 task and test when image-output validation becomes active work.
+- Confidence: Medium.
+
+### Provider integrations should not be re-litigated without evidence
+
+- Issue: Existing ElevenLabs, HeyGen, OpenRouter, and GCP implementation work risked being treated as unknown or broken without concrete failure evidence.
+- Cause: Provider implementation status, mocked test status, and live account verification status were not separated clearly enough.
+- Fix: ACDF reference and risk review now distinguish implemented/mocked provider capability from manually approved live provider smoke tests.
+- Prevention: Provider receipts should track implementation status, mock status, and live status separately.
+- Confidence: High.
+
+## 2026-07-28 — Public factory completion audit
+
+### Milestone proof was mistaken for an installable factory
+
+- Issue: The first public repository contained a HyperFrames proof but not the full 17 layouts or provider workflows users were promised.
+- Cause: Publication occurred at the milestone boundary without a clone-to-first-video acceptance gate.
+- Fix: Port the complete design registry; add the project CLI, Codex skill, brief editor, image tasks, provider adapters, deterministic compiler, security controls, tests, and operator documentation.
+- Prevention: A public release must pass a clean-clone acceptance flow that creates a fresh project, compiles multiple layouts, exercises mocked provider lifecycles, and verifies the local skill is discoverable.
+- Confidence: High.
+
+### Image generation had an application-switching gap
+
+- Issue: Four-panel frames had to be generated manually in another GPT application.
+- Cause: The workflow treated Image 2 as an external API/provider instead of a Codex agent capability.
+- Fix: Add project-local awaiting-agent image tasks and a Codex skill procedure that invokes built-in image generation, stores selected outputs in the project, and records prompt/reference/output hashes.
+- Prevention: Keep judgment-heavy media generation in the Codex skill layer while the CLI owns deterministic task state and validation. Never add an API-key fallback without separate authorization.
+- Confidence: High.
+
+### Compiled full-frame scenes started visible
+
+- Issue: The clean-clone HyperFrames check flagged incoming scene wrappers as visible before their reveal tween.
+- Cause: The compiler relied on clip timing but did not declare the GSAP-controlled inner wrapper's initial opacity.
+- Fix: Set `.scene-inner` to `opacity: 0` and let the single paused timeline reveal it at the scene start.
+- Prevention: Keep a compiler regression assertion for the hidden initial state and run strict checks against a freshly initialized project.
+- Confidence: High.
+
+### Antique-gold folios missed small-text contrast
+
+- Issue: HyperFrames contrast validation measured the decorative gold folio text below WCAG AA.
+- Cause: Antique gold works as a rule/accent on warm ivory but is too light for 20px informational text.
+- Fix: Keep gold for rules and borders; use dusk ink for folio text.
+- Prevention: Separate decorative palette roles from readable text roles in the compiler and keep strict contrast enabled.
+- Confidence: High.
+
 ## 2026-07-28 — Milestone 0 HyperFrames proof
 
 ### HyperFrames readiness failed under memory pressure

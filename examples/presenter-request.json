@@ -1,0 +1,10 @@
+{
+  "sceneId": "02",
+  "audioPath": "audio/02.mp3",
+  "audioDurationSeconds": 35,
+  "outputPath": "presenters/02.webm",
+  "presenterMode": "circle-bottom-right",
+  "aspectRatio": "16:9",
+  "outputFormat": "webm",
+  "title": "Scene 02 presenter"
+}

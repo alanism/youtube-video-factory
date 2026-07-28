@@ -1,0 +1,5 @@
+interface:
+  display_name: "YouTube Video Factory"
+  short_description: "Build narrated YouTube videos from a brief"
+  brand_color: "#A6793B"
+  default_prompt: "Use $youtube-video-factory to turn my production brief and approved assets into a validated YouTube video."

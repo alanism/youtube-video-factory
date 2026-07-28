@@ -1,4 +1,5 @@
 node_modules/
+dist/
 .hyperframes/
 .hf-tmp/
 .tmp/
@@ -11,4 +12,5 @@ validation/
 .env.*
 !.env.example
 *.log
+!.acdf/changes/**/evidence/*.log
 .DS_Store

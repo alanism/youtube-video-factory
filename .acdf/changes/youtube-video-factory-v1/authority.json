@@ -1,0 +1,55 @@
+{
+  "changeId": "youtube-video-factory-v1",
+  "createdAt": "2026-07-28T00:00:00Z",
+  "authorityVersion": 1,
+  "snapshots": {
+    ".acdf/reference/guide.md": "949c6df6eeed2bf6850b49b701792efe8ced26f24fddffd4410a5bf08086f977",
+    ".acdf/reference/trust-zones.md": "16e1a0cc30df791aa85d757b924cc14ed3a997d7bc957573f167596a0f1d7ec0",
+    ".acdf/reference/forbidden-files.md": "e3b42a6f273a089eefabcdb5e91e8a629e17aac786008322851223aa97cb4919",
+    ".acdf/changes/youtube-video-factory-v1/STAGE0_INTENT.md": "ffe720e9c80f72d811510c030267cbcb8b9f18f457072d274b7e94ad99332a36",
+    ".acdf/changes/youtube-video-factory-v1/OPEN_QUESTIONS.md": "f8ab31d0b59a4a94e6dfd19de5baebae9d5cdff957a9f293c598d5c8419654b3",
+    ".acdf/changes/youtube-video-factory-v1/REFERENCE_RESEARCH_NOTES.md": "ea6d1d9e97bc3a6395dbd8bafa3d915ebebaed47ac9ecc44c158fd0d189e0c47",
+    ".acdf/changes/youtube-video-factory-v1/models/factory-flow.mmd": "1283f5436d69a3a8d677e44356f957f46ef7fe6f2e4819c616eda1bd25e73fd5",
+    ".acdf/changes/youtube-video-factory-v1/models/hyperframes-render-flow.mmd": "286b1f8d2c7f501dc5161d607e730dd4ea0b5d9da06e05fdb17334d1cd7e95fc",
+    ".acdf/changes/youtube-video-factory-v1/models/media-asset-lifecycle.mmd": "8be91e2ea10e892038033106ced5146f7fdb9cb89e658029444e736a39341bcc",
+    ".acdf/changes/youtube-video-factory-v1/models/provider-sequence.mmd": "ea6877070c6f4725b40d1bad4e9ca9bb6860f4142404c460072293b72f0c8605",
+    ".acdf/changes/youtube-video-factory-v1/models/reference-quarantine-state.mmd": "710aca01ba1c555bd1f419c540f46f37fe7ad6c4d0188915b3a0022c90837103",
+    ".acdf/changes/youtube-video-factory-v1/proposal.md": "d502c8a429e701b556cc715223dea2c120355bfb71ebc78f5cfd1ff82343bdec",
+    ".acdf/changes/youtube-video-factory-v1/design.md": "b1e4ac5c16fd201ab779d6b7b6e941f8e79be06237b889f8536d3053a8b790cd",
+    ".acdf/changes/youtube-video-factory-v1/tasks.md": "fba32ced1b5355ec8f6335643db37bf665d708e29f26dc56f2b6852ccf3c7d70",
+    ".acdf/changes/youtube-video-factory-v1/risk_review.md": "5ead307fe7033cb721db1b1315aaddaa181bff3ed80d7cdf29704cb8f118f49d"
+  },
+  "writeRules": {
+    "allowedFiles": [
+      ".acdf/**",
+      "AGENTS.md",
+      "README.md",
+      "BUILD_RECEIPT.json",
+      "learning_log.md",
+      "package.json",
+      "pnpm-lock.yaml",
+      ".env.example",
+      "API_CONFIGURATION.md",
+      "BUILD_SPEC.md",
+      "CACHE_STRATEGY.md",
+      "ONTOLOGY.md",
+      "WORKFLOW_PLAYBOOK.md",
+      "bin/**",
+      "docs/**",
+      "examples/**",
+      "schemas/**",
+      "skills/**",
+      "src/**",
+      "tests/**",
+      "tsconfig.json"
+    ],
+    "forbiddenFiles": [
+      ".git/**",
+      "node_modules/**",
+      "**/*secret*",
+      "**/*.key",
+      "**/*.pem"
+    ]
+  },
+  "status": "LOCKED_FOR_VALIDATION"
+}

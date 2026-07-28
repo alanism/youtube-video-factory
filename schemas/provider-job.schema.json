@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Provider Job Ledger",
+  "type": "object",
+  "required": ["schemaVersion", "jobs"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "jobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider", "requestHash", "jobId", "state"],
+        "properties": {
+          "provider": { "type": "string", "minLength": 1 },
+          "requestHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "jobId": { "type": "string" },
+          "state": { "enum": ["submitted", "running", "complete", "failed"] },
+          "outputPath": { "type": "string" },
+          "error": { "type": "string" },
+          "usage": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

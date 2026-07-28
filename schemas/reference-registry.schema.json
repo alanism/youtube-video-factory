@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reference Registry",
+  "type": "object",
+  "required": ["schemaVersion", "references"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "ontologyVersion",
+          "lifecycle",
+          "originalName",
+          "path",
+          "hash",
+          "role",
+          "mime",
+          "bytes",
+          "trust",
+          "modelUseAuthorized",
+          "providerEgressAuthorized",
+          "approvedProviders"
+        ],
+        "properties": {
+          "ontologyVersion": { "const": 1 },
+          "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "trust": {
+            "enum": [
+              "quarantined",
+              "reviewed",
+              "approved-for-model",
+              "approved-for-provider"
+            ]
+          },
+          "modelUseAuthorized": { "type": "boolean" },
+          "providerEgressAuthorized": { "type": "boolean" },
+          "approvedProviders": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        }
+      }
+    }
+  }
+}

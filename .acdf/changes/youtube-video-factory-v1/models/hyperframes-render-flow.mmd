@@ -1,0 +1,13 @@
+flowchart TD
+    Manifest["Approved manifest"] --> Compiler["Compile index.html + hyperframes.json"]
+    Compiler --> Doctor["hyperframes doctor"]
+    Doctor --> Check["hyperframes check --strict --snapshots"]
+    Check --> SnapshotReview["Inspect representative frames"]
+    SnapshotReview --> Studio["HyperFrames Studio preview"]
+    Studio --> Approval{"Explicit preview approval?"}
+    Approval -->|No| Fix["Fix smallest failed scene or media issue"]
+    Fix --> Compiler
+    Approval -->|Yes| Render["hyperframes render"]
+    Render --> Probe["ffprobe media properties"]
+    Probe --> Decode["full FFmpeg decode"]
+    Decode --> Receipt["BUILD_RECEIPT.json"]

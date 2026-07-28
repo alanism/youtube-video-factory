@@ -1,0 +1,10 @@
+{
+  "taskId": "t01-acdf-wrapper",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "allowedFiles": [
+    ".acdf/**",
+    "learning_log.md"
+  ]
+}

@@ -1,0 +1,13 @@
+flowchart LR
+    Raw["User reference or source asset"] --> Quarantine["references/quarantine"]
+    Quarantine --> Review["hash, classify, license, role"]
+    Review --> Approved["assets/approved"]
+    Approved --> Deterministic["local deterministic media"]
+    Approved --> ProviderJob["paid provider job"]
+    ProviderJob --> ProviderOutput["provider output asset"]
+    Deterministic --> Composition["HyperFrames composition"]
+    ProviderOutput --> Composition
+    Composition --> Deliverable["validated deliverable"]
+    Deliverable --> Library{"Promote to media library?"}
+    Library -->|Yes| Catalog["media-library catalog record"]
+    Library -->|No| ProjectOnly["project-local asset"]

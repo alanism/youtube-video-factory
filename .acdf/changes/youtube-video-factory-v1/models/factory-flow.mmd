@@ -1,0 +1,17 @@
+flowchart TD
+    Brief["PRODUCTION_BRIEF.md"] --> Plan["ytvf plan"]
+    Plan --> Manifest["production-manifest.json"]
+    Manifest --> Approval{"Manifest approved by hash?"}
+    Approval -->|No| Revise["Revise brief or manifest"]
+    Revise --> Plan
+    Approval -->|Yes| ReviewDocs["STORYBOARD.md + SCRIPT.md"]
+    ReviewDocs --> Assets["Approved assets and provider outputs"]
+    Assets --> Compile["HyperFrames compiler"]
+    Compile --> Preview["Studio preview and strict check"]
+    Preview --> PreviewApproval{"Preview approved?"}
+    PreviewApproval -->|No| ReviseScene["Revise failed scenes only"]
+    ReviseScene --> Compile
+    PreviewApproval -->|Yes| Render["HyperFrames render"]
+    Render --> Validate["FFmpeg and ytvf validate"]
+    Validate --> Receipt["BUILD_RECEIPT.json"]
+    Receipt --> Deliverable["output/*.mp4"]

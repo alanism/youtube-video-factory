@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> quarantined
+    quarantined --> reviewed: user/Codex classifies role and provenance
+    reviewed --> approved_for_model: model-use authorization granted
+    approved_for_model --> approved_for_provider: provider-egress authorization granted
+    reviewed --> quarantined: rejected or missing provenance
+    approved_for_model --> reviewed: authorization revoked
+    approved_for_provider --> reviewed: provider egress revoked
+    approved_for_provider --> [*]: copied to assets/approved for authorized provider use

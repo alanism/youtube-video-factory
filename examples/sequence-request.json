@@ -1,0 +1,9 @@
+{
+  "clips": [
+    "motion/scene-02/clip-01.mp4",
+    "motion/scene-02/clip-02.mp4",
+    "motion/scene-02/clip-03.mp4"
+  ],
+  "finalPanel": "assets/panels/scene-02/panel-04.png",
+  "outputPath": "motion/scene-02/sequence.mp4"
+}

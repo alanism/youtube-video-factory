@@ -1,0 +1,4 @@
+{"timestamp":"2026-07-28T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t01-acdf-wrapper","agentId":"root","event":"claim","status":"STARTED"}
+{"timestamp":"2026-07-28T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t02-release-candidate-validation","agentId":"root","event":"claim","status":"STARTED"}
+{"timestamp":"2026-07-28T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t01-acdf-wrapper","agentId":"root","event":"complete","status":"PASS"}
+{"timestamp":"2026-07-28T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t02-release-candidate-validation","agentId":"root","event":"complete","status":"PASS"}

@@ -1,0 +1,11 @@
+{
+  "taskId": "t02-release-candidate-validation",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "allowedFiles": [
+    ".acdf/changes/youtube-video-factory-v1/evidence/**",
+    ".acdf/changes/youtube-video-factory-v1/receipts/**",
+    "BUILD_RECEIPT.json"
+  ]
+}
