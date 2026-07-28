@@ -10,6 +10,14 @@ test("root start page is a briefing worksheet with Codex export paths", async ()
     "Minimal Workspace briefing page",
     'id="title"',
     'id="projectId"',
+    'id="deliverableType"',
+    'id="outputCount"',
+    'id="aspectRatio"',
+    'id="imageSourcePolicy"',
+    'id="frameCount"',
+    'id="curriculumStandards"',
+    'id="creativeLenses"',
+    'id="qualityGates"',
     'id="paletteGrid"',
     'id="typeGrid"',
     "font-specimen",
@@ -30,6 +38,31 @@ test("root start page is a briefing worksheet with Codex export paths", async ()
     "Use the YouTube Video Factory skill",
     "PRODUCTION_BRIEF.md",
     "docs/start-here/design.md",
+  ]) {
+    assert.ok(page.includes(required), required);
+  }
+});
+
+test("root start page supports deliverable-agnostic briefs", async () => {
+  const page = await readFile("start_here.html", "utf8");
+  for (const required of [
+    "youtube-video",
+    "image-deck",
+    "slide-deck",
+    "image-set",
+    "motion-sequence",
+    "interactive",
+    "deliverableType:",
+    "imageSourcePolicy:",
+    "outputPattern:",
+    "frameCount:",
+    "education:",
+    "standards: |-",
+    "creativeLenses: |-",
+    "qualityGates: |-",
+    "frames/frame-{##}-{slug}.png",
+    "voiceProvider: \"${voiceProvider}\"",
+    "interactivePlanningOnly:",
   ]) {
     assert.ok(page.includes(required), required);
   }

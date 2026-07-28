@@ -239,6 +239,37 @@ Work:
 - Include headline, body, caption, and mono samples so users can see the typography combination before selecting it.
 - Add regression coverage for the specimen markup.
 
+## t10-deliverable-agnostic-start-here
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `start_here.html`
+- `tests/start-here.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `BUILD_RECEIPT.json`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+
+Work:
+
+- Add deliverable type selection for YouTube video, image deck, slide deck, image set, motion sequence, and interactive planning.
+- Add output count, aspect ratio, resolution, output format, and output naming pattern fields.
+- Add image source policy so Codex can distinguish AI-generated, user-supplied, mixed, reused, or no-new-image projects.
+- Add optional education/domain metadata, curriculum standards, reading level, and creative/review lenses.
+- Add structured scene/frame planning and quality-gate fields.
+- Ensure non-video briefs do not silently default to MP4, narration, or voice generation.
+- Update generated YAML and Markdown to preserve these decisions for Codex.
+- Add regression tests for deliverable-agnostic brief fields.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

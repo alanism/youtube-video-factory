@@ -1,0 +1,14 @@
+{
+  "taskId": "t10-deliverable-agnostic-start-here",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "start_here.html",
+    "tests/start-here.test.ts",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "BUILD_RECEIPT.json",
+    "learning_log.md"
+  ]
+}

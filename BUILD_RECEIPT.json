@@ -25,7 +25,7 @@
     "typecheck": "pass",
     "unitAndIntegrationTests": {
       "status": "pass",
-      "count": 28,
+      "count": 29,
       "includes": [
         "brief determinism",
         "manifest approval hashes",
@@ -47,7 +47,8 @@
         "local start page generation",
         "root briefing worksheet with copy and download export",
         "Start Here visible palette selection",
-        "Start Here visible typography selection"
+        "Start Here visible typography selection",
+        "Start Here deliverable-agnostic image deck and non-video brief fields"
       ]
     },
     "designSystemDocs": "pass",

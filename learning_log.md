@@ -187,3 +187,11 @@
 - Fix: Added an in-card specimen stack with headline, body, caption, and mono samples using the selected IBM Plex family roles.
 - Prevention: Added regression checks for the specimen elements on the Start Here page.
 - Confidence: High.
+
+### Start Here must not assume every brief is video
+
+- Issue: A Hermes-filled image-deck brief had to manually override video-centric defaults such as MP4 output, narration, and runtime.
+- Cause: The first Start Here generator was optimized for YouTube videos and lacked a structural deliverable-type decision.
+- Fix: Added deliverable type selection, output specs, image source policy, optional education metadata, creative/review lenses, structured frame planning, and quality gates. Non-video briefs now export voice as `none` and can use image/deck output patterns.
+- Prevention: Added regression checks for deliverable-agnostic YAML fields and image-deck output patterns.
+- Confidence: High.

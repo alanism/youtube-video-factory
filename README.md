@@ -16,7 +16,7 @@ The repo includes the complete retained YouTube system:
 - GCP temporary public-frame staging
 - Localhost brief editing, reference quarantine, approval hashes, cost gates, and build receipts
 
-If you downloaded the repo locally, open [start_here.html](start_here.html) first. It is a self-contained briefing worksheet: state what you want, choose visible color palettes and typography combinations, list references you will attach, draft image/video/copywriting prompts, then copy the generated brief into Codex or download it as `PRODUCTION_BRIEF.md` / `.txt`.
+If you downloaded the repo locally, open [start_here.html](start_here.html) first. It is a self-contained briefing worksheet: state what you want, choose the deliverable type, choose visible color palettes and typography combinations, list references you will attach, draft image/video/copywriting prompts, then copy the generated brief into Codex or download it as `PRODUCTION_BRIEF.md` / `.txt`.
 
 For visual options, open the visible design catalog: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 
@@ -39,11 +39,13 @@ pnpm ytvf doctor
 ## Use It In Codex
 
 1. Clone the repository and open its folder in the Codex app.
-2. Open [start_here.html](start_here.html), fill out the briefing worksheet, select a palette and typography system, then copy or download the generated brief.
+2. Open [start_here.html](start_here.html), fill out the briefing worksheet, select a deliverable type, palette, typography system, asset policy, and output specs, then copy or download the generated brief.
 3. Tell Codex: "Use the YouTube Video Factory skill. Create a project from this brief..." and paste the brief or place it in a file.
 4. Codex follows [skills/youtube-video-factory/SKILL.md](skills/youtube-video-factory/SKILL.md), identifies missing decisions, and guides the gated build.
 
 The repository-local `AGENTS.md` makes the skill discoverable when the folder is opened in Codex. Image generation stays inside Codex through the built-in image tool.
+
+`start_here.html` is deliverable-aware. It can prepare briefs for YouTube videos, image decks, slide decks, image sets, motion sequences, and interactive / mini-app planning. Non-video briefs explicitly set voice to `none`, avoid MP4-only output assumptions, and include output count, aspect ratio, image source policy, education metadata, creative/review lenses, and quality gates.
 
 ## Quick Start
 
