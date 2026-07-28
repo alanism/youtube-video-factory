@@ -185,10 +185,14 @@ Use Codex built-in Image 2 for project image generation. The CLI creates awaitin
 
 Use the four-panel workflow when a 2x2 contact sheet should become a motion sequence:
 
+- for 1:1 image decks, consider generating one 2x2 four-frame contact sheet first
 - split the sheet into four 1:1 panels
 - preserve reading order: top-left, top-right, bottom-left, bottom-right
+- use the panels directly as still slides, or generate three Seedance 1.5 Pro first/last-frame transitions: panel 1 to 2, 2 to 3, and 3 to 4
 - generate panel transitions only after approval
 - assemble silent motion clips under the slide composition
+
+The factory must not add disclaimers, warnings, or advisory language unless the user, Hermes, or another briefing agent explicitly writes that text into the brief.
 
 ### 6. Generate Narration And Captions
 

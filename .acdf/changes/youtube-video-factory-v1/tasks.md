@@ -270,6 +270,31 @@ Work:
 - Update generated YAML and Markdown to preserve these decisions for Codex.
 - Add regression tests for deliverable-agnostic brief fields.
 
+## t11-start-here-contact-sheet-guidance
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `start_here.html`
+- `skills/youtube-video-factory/references/image-workflow.md`
+- `tests/start-here.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm test -- tests/start-here.test.ts`
+- `pnpm test:security`
+
+Work:
+
+- Add Start Here guidance recommending 2×2 four-frame 1:1 contact sheets for image decks.
+- Explain that the split panels can be used directly as still slides or as three Seedance 1.5 Pro first/last-frame transitions: 1→2, 2→3, 3→4.
+- Record that the factory must not insert disclaimers, warnings, or advisory language unless the user, Hermes, or another briefing agent explicitly writes that text into the brief.
+- Add regression coverage for the contact-sheet and disclaimer-policy guidance.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

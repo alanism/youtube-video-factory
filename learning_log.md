@@ -195,3 +195,19 @@
 - Fix: Added deliverable type selection, output specs, image source policy, optional education metadata, creative/review lenses, structured frame planning, and quality gates. Non-video briefs now export voice as `none` and can use image/deck output patterns.
 - Prevention: Added regression checks for deliverable-agnostic YAML fields and image-deck output patterns.
 - Confidence: High.
+
+### Contact-sheet workflow belongs in the intake brief
+
+- Issue: Users need to know early that a four-frame 1:1 image deck can also become a Seedance motion source, but the Start Here page did not surface that reusable path.
+- Cause: The four-panel workflow existed in deeper reference docs, not at the moment where users decide output shape and asset strategy.
+- Fix: Added Start Here and docs guidance recommending a 2×2 four-frame contact sheet for 1:1 image decks, with optional split-panel use for still slides or Seedance 1→2, 2→3, 3→4 transitions.
+- Prevention: Added Start Here tests for the contact-sheet and Seedance guidance.
+- Confidence: High.
+
+### Disclaimers must be explicitly user-authored
+
+- Issue: Process feedback suggested safety/disclaimer fields, but the user clarified that the factory must never auto-insert disclaimers.
+- Cause: Safety review language can easily drift into generated advisory text if not constrained.
+- Fix: Added Start Here and README guidance that disclaimers, warnings, or advisory language are only included when written by the user, Hermes, or another briefing agent.
+- Prevention: Added Start Here tests for the user-authored-only disclaimer policy.
+- Confidence: High.

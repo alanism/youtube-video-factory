@@ -12,6 +12,8 @@ Image generation runs through Codex's built-in `imagegen` capability. It does no
 8. Generate subsequent panels using the approved pilot and adjacent continuity references.
 9. Validate identity, wardrobe, props, lighting, palette, style, borders, and action continuity. Regenerate only failed panels.
 
+For 1:1 image decks, recommend generating one 2×2 four-frame contact sheet when the user wants a coherent visual story. The same sheet can be split into four still slide images, or it can become a motion source for three Seedance 1.5 Pro first/last-frame transitions.
+
 For a 2×2 story sheet, run `ytvf panels split <project> --source <path> --id <sheet-id>`. It splits in reading order: top-left, top-right, bottom-left, bottom-right; detects and removes central gutters deterministically; preserves the source; and records crop rectangles and hashes in `panel-map.json`.
 
 For a four-panel motion sequence, submit exactly three silent first/last-frame jobs: 1→2, 2→3, 3→4. Use `ytvf sequence assemble` to normalize them to a silent 480×480, 24 fps, 360-frame/15-second master. Repair weak endpoint frames without a paid retry, and let HyperFrames own narration and final timing.
