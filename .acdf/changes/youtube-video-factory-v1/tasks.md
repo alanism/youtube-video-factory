@@ -295,6 +295,31 @@ Work:
 - Record that the factory must not insert disclaimers, warnings, or advisory language unless the user, Hermes, or another briefing agent explicitly writes that text into the brief.
 - Add regression coverage for the contact-sheet and disclaimer-policy guidance.
 
+## t12-hermes-slide-video-maker-guide
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `hermes-slide-video-maker.md`
+- `tests/hermes-guide.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm test -- tests/hermes-guide.test.ts`
+- `pnpm test:security`
+
+Work:
+
+- Add a Hermes-facing guide that explains how to use `start_here.html`.
+- Explain the Hermes → Codex handoff boundary.
+- Document deliverable types, image source policy, four-frame contact-sheet workflow, disclaimer policy, provider policy, local CLI commands, and Codex handoff prompt.
+- Link the guide from README.
+- Add regression coverage for the guide and README link.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

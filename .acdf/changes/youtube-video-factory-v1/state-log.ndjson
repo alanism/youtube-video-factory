@@ -20,3 +20,5 @@
 {"timestamp":"2026-07-29T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t10-deliverable-agnostic-start-here","agentId":"root","event":"complete","status":"PASS"}
 {"timestamp":"2026-07-29T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t11-start-here-contact-sheet-guidance","agentId":"root","event":"claim","status":"STARTED"}
 {"timestamp":"2026-07-29T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t11-start-here-contact-sheet-guidance","agentId":"root","event":"complete","status":"PASS"}
+{"timestamp":"2026-07-29T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t12-hermes-slide-video-maker-guide","agentId":"root","event":"claim","status":"STARTED"}
+{"timestamp":"2026-07-29T00:00:00Z","changeId":"youtube-video-factory-v1","taskId":"t12-hermes-slide-video-maker-guide","agentId":"root","event":"complete","status":"PASS"}

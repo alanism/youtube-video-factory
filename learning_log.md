@@ -211,3 +211,11 @@
 - Fix: Added Start Here and README guidance that disclaimers, warnings, or advisory language are only included when written by the user, Hermes, or another briefing agent.
 - Prevention: Added Start Here tests for the user-authored-only disclaimer policy.
 - Confidence: High.
+
+### Hermes needs its own operator guide
+
+- Issue: Hermes can fill out Start Here, but another agent still needs explicit instructions for how to produce a Codex-ready brief and where its responsibility stops.
+- Cause: The repo had Codex-facing skill docs and human README docs, but not a Hermes-facing handoff guide.
+- Fix: Added `hermes-slide-video-maker.md` with Start Here usage, deliverable typing, image policy, provider policy, contact-sheet strategy, disclaimer constraints, local commands, and Codex handoff wording.
+- Prevention: Added a regression test requiring the Hermes guide and README link.
+- Confidence: High.

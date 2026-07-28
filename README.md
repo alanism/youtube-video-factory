@@ -20,6 +20,8 @@ If you downloaded the repo locally, open [start_here.html](start_here.html) firs
 
 For visual options, open the visible design catalog: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 
+If Hermes or another planning agent is creating briefs before Codex builds, use [hermes-slide-video-maker.md](hermes-slide-video-maker.md).
+
 ## Install
 
 Requirements:
