@@ -187,6 +187,36 @@ Work:
 - Add a regression test proving the root page exposes the briefing fields and export actions.
 - Update README and learning capture.
 
+## t08-start-here-design-selection
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `start_here.html`
+- `docs/start-here/design.md`
+- `tests/start-here.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `BUILD_RECEIPT.json`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+
+Work:
+
+- Restyle the root Start Here page using the Minimal Workspace design system.
+- Commit a Start Here `design.md` with the approved Minimal Workspace palette, typography, spacing, layout, components, motion, and accessibility guidance.
+- Make all registered color palettes visible and selectable as color-chip cards.
+- Make all registered typography systems visible and selectable as typography cards.
+- Include selected palette and typography in the generated brief frontmatter and visual-system section.
+- Add regression tests proving the visible Start Here selectors cover every registered palette and typography option.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

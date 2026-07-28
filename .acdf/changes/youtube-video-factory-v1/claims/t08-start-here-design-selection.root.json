@@ -1,0 +1,15 @@
+{
+  "taskId": "t08-start-here-design-selection",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "start_here.html",
+    "docs/start-here/design.md",
+    "tests/start-here.test.ts",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "BUILD_RECEIPT.json",
+    "learning_log.md"
+  ]
+}

@@ -171,3 +171,11 @@
 - Fix: Converted the root start page into a self-contained brief builder with project intent, visual direction, provider/budget policy, scene planning, image/video/copywriting prompt drafts, copy-to-Codex, Markdown download, and plain-text download.
 - Prevention: Added a regression test that requires the root start page to expose briefing fields and export actions.
 - Confidence: High.
+
+### Design choices must be visible at intake time
+
+- Issue: Start Here collected visual direction as text/dropdowns, but users could not see and choose the actual palette chips or typography combinations from the design system.
+- Cause: The design registry was visible in `DESIGN_SYSTEM.md`, but the first-run briefing page did not expose those options where the decision is made.
+- Fix: Restyled Start Here with the Minimal Workspace system, added visible palette cards, visible typography cards, selected-choice summaries, and generated-brief fields for `palette` and `typography`.
+- Prevention: Added tests that require every registered palette and typography system to appear on the Start Here page.
+- Confidence: High.
