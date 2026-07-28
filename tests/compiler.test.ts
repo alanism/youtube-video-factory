@@ -49,6 +49,9 @@ Duration: 5
   assert.equal((html.match(/class="clip scene-clip"/g) ?? []).length, 2);
   assert.match(html, /gsap\.timeline\(\{paused:true\}\)/);
   assert.match(html, /\.scene-inner\{[^}]*opacity:0/);
+  assert.match(html, /font-family:"IBM Plex Sans"/);
+  assert.match(html, /font-family:"IBM Plex Serif"/);
+  assert.match(html, /font-family:"IBM Plex Mono"/);
   const ids = [...html.matchAll(/data-hf-id="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length);
 });

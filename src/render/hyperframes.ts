@@ -99,6 +99,8 @@ export async function compileHyperFrames(
     copyFile(join(sourceRoot, "assets/vendor/gsap/gsap.min.js"), join(buildDirectory, "assets/vendor/gsap.min.js")),
     copyFile(join(sourceRoot, "assets/fonts/newsreader/newsreader-latin-wght-normal.woff2"), join(buildDirectory, "assets/fonts/newsreader.woff2")),
     copyFile(join(sourceRoot, "assets/fonts/ibm-plex-sans/ibm-plex-sans-latin-wght-normal.woff2"), join(buildDirectory, "assets/fonts/ibm-plex-sans.woff2")),
+    copyFile(join(sourceRoot, "assets/fonts/ibm-plex-serif/ibm-plex-serif-latin-400-normal.woff2"), join(buildDirectory, "assets/fonts/ibm-plex-serif.woff2")),
+    copyFile(join(sourceRoot, "assets/fonts/ibm-plex-mono/ibm-plex-mono-latin-400-normal.woff2"), join(buildDirectory, "assets/fonts/ibm-plex-mono.woff2")),
   ]);
 
   const palette = manifest.design.palette;
@@ -187,6 +189,8 @@ export async function compileHyperFrames(
 <style>
 @font-face{font-family:"Newsreader";src:url("assets/fonts/newsreader.woff2") format("woff2");font-weight:200 800;font-display:block}
 @font-face{font-family:"IBM Plex Sans";src:url("assets/fonts/ibm-plex-sans.woff2") format("woff2");font-weight:100 700;font-display:block}
+@font-face{font-family:"IBM Plex Serif";src:url("assets/fonts/ibm-plex-serif.woff2") format("woff2");font-weight:400;font-display:block}
+@font-face{font-family:"IBM Plex Mono";src:url("assets/fonts/ibm-plex-mono.woff2") format("woff2");font-weight:400;font-display:block}
 *{box-sizing:border-box}html,body{margin:0;width:${manifest.output.width}px;height:${manifest.output.height}px;overflow:hidden;background:${palette.ink}}
 body{font-family:"${typography.bodyFamily}",sans-serif;color:${palette.ink}}#root{position:relative;width:${manifest.output.width}px;height:${manifest.output.height}px;overflow:hidden}
 .clip{position:absolute}.scene-clip{inset:0;overflow:hidden}.scene-inner{position:absolute;inset:0;background:${palette.colors[0]};overflow:hidden;opacity:0}

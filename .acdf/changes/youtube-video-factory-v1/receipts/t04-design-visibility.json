@@ -1,0 +1,25 @@
+{
+  "taskId": "t04-design-visibility",
+  "agentId": "root",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Make layouts, palettes, typography, and workflow visible from GitHub without requiring users to run the CLI.",
+  "actualChange": "Added registry-generated DESIGN_SYSTEM.md, 17 committed layout PNGs, full IBM Plex Sans/Serif/Mono font assets and notices, README workflow playbook content, design-doc generator, and docs-sync tests.",
+  "verificationCommands": [
+    "pnpm ytvf:design-docs",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm test:security",
+    "pnpm build",
+    "npm pack --dry-run"
+  ],
+  "evidenceFiles": [
+    "evidence/t04_design_docs.log",
+    "evidence/t04_typecheck.log",
+    "evidence/t04_test.log",
+    "evidence/t04_security.log",
+    "evidence/t04_build.log",
+    "evidence/t04_pack.log"
+  ],
+  "prevention": "Docs-sync tests now require every layout, palette, and IBM Plex family member to be visible in committed GitHub docs and renderer code."
+}

@@ -1,5 +1,15 @@
 # Learning Log
 
+## 2026-07-28 — GitHub design visibility
+
+### Runtime design registry was not enough
+
+- Issue: GitHub readers could not see the 17 template layouts, 31 palettes, or full IBM Plex typography system without running the CLI or reading TypeScript.
+- Cause: The design registry was treated as sufficient proof, but the public repo needs visible design assets and docs.
+- Fix: Add registry-generated `DESIGN_SYSTEM.md`, committed layout PNG previews, README workflow content, IBM Plex Serif and Mono assets, and docs-sync tests.
+- Prevention: Any public design claim must be backed by committed docs/assets generated from the registry and validated by tests.
+- Confidence: High.
+
 ## 2026-07-28 — ACDF wrapper added before GitHub release
 
 ### Factory work needed governance before publication

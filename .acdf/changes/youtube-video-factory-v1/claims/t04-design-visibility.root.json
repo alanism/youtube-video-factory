@@ -1,0 +1,22 @@
+{
+  "taskId": "t04-design-visibility",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "DESIGN_SYSTEM.md",
+    "WORKFLOW_PLAYBOOK.md",
+    "package.json",
+    "pnpm-lock.yaml",
+    "scripts/**",
+    "src/design/**",
+    "src/render/**",
+    "tests/**",
+    "docs/assets/layouts/**",
+    "assets/fonts/**",
+    "THIRD_PARTY_NOTICES/**",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "learning_log.md"
+  ]
+}

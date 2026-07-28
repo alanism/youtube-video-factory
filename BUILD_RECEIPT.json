@@ -25,7 +25,7 @@
     "typecheck": "pass",
     "unitAndIntegrationTests": {
       "status": "pass",
-      "count": 20,
+      "count": 23,
       "includes": [
         "brief determinism",
         "manifest approval hashes",
@@ -39,9 +39,14 @@
         "mocked GCP staging",
         "private 15-scene Enochian forward compile",
         "Enochian four-panel gutter split",
-        "360-frame silent sequence assembly"
+        "360-frame silent sequence assembly",
+        "GitHub-visible design docs",
+        "layout PNG preview coverage",
+        "IBM Plex Sans Serif Mono typography coverage"
       ]
     },
+    "designSystemDocs": "pass",
+    "layoutPreviewPngs": 17,
     "cleanCloneFlow": "pass",
     "hyperframesStrictCheck": "pass",
     "hyperframesSnapshots": "inspected",

@@ -68,9 +68,9 @@ export const palettes: PaletteDefinition[] = [
 ];
 
 export const typographies: TypographyDefinition[] = [
-  { id:"editorial-authority", label:"Editorial Authority", description:"Serif headline · Sans body", titleFamily:"Newsreader", bodyFamily:"IBM Plex Sans", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
-  { id:"modern-clarity", label:"Modern Clarity", description:"Sans headline · Serif body", titleFamily:"IBM Plex Sans", bodyFamily:"Newsreader", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
-  { id:"humanist-voice", label:"Humanist Voice", description:"Italic sans headline · Serif body", titleFamily:"IBM Plex Sans", bodyFamily:"Newsreader", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
+  { id:"editorial-authority", label:"Editorial Authority", description:"IBM Plex Serif headline · IBM Plex Sans body", titleFamily:"IBM Plex Serif", bodyFamily:"IBM Plex Sans", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
+  { id:"modern-clarity", label:"Modern Clarity", description:"IBM Plex Sans headline · IBM Plex Serif body", titleFamily:"IBM Plex Sans", bodyFamily:"IBM Plex Serif", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
+  { id:"humanist-voice", label:"Humanist Voice", description:"IBM Plex Sans headline · IBM Plex Serif body", titleFamily:"IBM Plex Sans", bodyFamily:"IBM Plex Serif", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
   { id:"research-notebook", label:"Research Notebook", description:"Mono headline · Sans body", titleFamily:"IBM Plex Mono", bodyFamily:"IBM Plex Sans", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" },
   { id:"technical-signal", label:"Technical Signal", description:"Mono headline · Mono body", titleFamily:"IBM Plex Mono", bodyFamily:"IBM Plex Mono", captionFamily:"IBM Plex Sans", monoFamily:"IBM Plex Mono" }
 ];

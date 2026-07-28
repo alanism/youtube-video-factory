@@ -63,6 +63,44 @@ Work:
 - Commit the ACDF-wrapped release candidate.
 - Push to GitHub after validation evidence is recorded.
 
+## t04-design-visibility
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `DESIGN_SYSTEM.md`
+- `WORKFLOW_PLAYBOOK.md`
+- `package.json`
+- `pnpm-lock.yaml`
+- `scripts/**`
+- `src/design/**`
+- `src/render/**`
+- `tests/**`
+- `docs/assets/layouts/**`
+- `assets/fonts/**`
+- `THIRD_PARTY_NOTICES/**`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm ytvf:design-docs`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+- `npm pack --dry-run`
+
+Work:
+
+- Generate committed layout PNG previews and `DESIGN_SYSTEM.md` from the design registry.
+- Move the practical workflow playbook into `README.md`.
+- Add IBM Plex Sans, Serif, and Mono as the visible public typography system.
+- Add docs-sync tests proving GitHub docs match the registry.
+- Record Engineering Council recommendations and validation evidence.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED
