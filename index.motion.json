@@ -1,0 +1,10 @@
+{
+  "duration": 17.665229,
+  "maxStaticSec": 3,
+  "assertions": [
+    { "kind": "appearsBy", "selector": "#proof-one-title", "bySec": 1 },
+    { "kind": "before", "a": "#proof-one-title", "b": "#proof-two-title" },
+    { "kind": "staysInFrame", "selector": "#proof-media-shell" },
+    { "kind": "keepsMoving", "withinSelector": "#root" }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "receiptVersion": 1,
+  "recordedOn": "2026-07-28",
+  "sourceRepository": {
+    "workspaceRelativePath": "../UCC-Slidedeck-YT-generator",
+    "remote": "https://github.com/alanism/UCC-Slidedeck-YT-generator.git",
+    "commit": "b7a9e0941b9651ec4b5ef2677a7f3153aaad8a96",
+    "dirtyFiles": [
+      "index.html",
+      "src/App.tsx",
+      "src/core/route.ts",
+      "src/model.ts",
+      "src/youtube.css",
+      "src/youtube/YouTubeGallery.tsx",
+      "tests/browser/youtube.spec.ts",
+      "homework-police-video/",
+      "public/favicon.svg",
+      "public/homework-police-tvc.mp4",
+      "public/media/homework-police/",
+      "src/components/HomeworkPoliceDeck.tsx",
+      "src/mediaFactory.ts",
+      "src/youtube/homeworkPolice.ts"
+    ]
+  },
+  "selectedSources": [
+    { "path": "src/youtube/index.ts", "sha256": "d925a7d0dcbf2d9ca68bdd97617106c1f1edcfff51a2a8cbae662313eea4c464" },
+    { "path": "src/youtube/YouTubeTemplate.tsx", "sha256": "498607770d337a9fa69eaab84df4ec878e3b5a316299b3fc88032f6444772797" },
+    { "path": "src/youtube.css", "sha256": "b58922208a750559fc8c57a31b06937dd7c31f6bd5d4ae9894701da8b451f908" },
+    { "path": "src/design/options.ts", "sha256": "63735ef8c56483052bab8b015fb242d1018d8fd39aa5419a1a122120a09ed490" },
+    { "path": "src/model.ts", "sha256": "6ec50e727885a6bedf391a02771a7a111d0165a7108697667753bc5940aae8d0" },
+    { "path": "homework-police-video/index.html", "sha256": "6c164570f4daa799ef5f2af6f21ff5cfc7cfa87ab4a5895edb3d47c066802019" }
+  ],
+  "policy": {
+    "sourceRepositoriesModified": false,
+    "dirtyWorkingTreePreserved": true,
+    "publicMigrationRequiresLicenseReview": true
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+.hyperframes/
+.hf-tmp/
+.tmp/
+.thumbnails/
+.waveform-cache/
+renders/
+snapshots/
+validation/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store

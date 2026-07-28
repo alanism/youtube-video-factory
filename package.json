@@ -1,0 +1,24 @@
+{
+  "name": "youtube-video-factory",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "doctor": "hyperframes doctor --json",
+    "lint": "hyperframes lint --json",
+    "check": "hyperframes check --strict --snapshots --at-transitions --samples 15",
+    "preview": "hyperframes preview",
+    "render": "hyperframes render --quality high --fps 30",
+    "probe": "ffprobe -v error -show_entries format=duration,format_name:stream=index,codec_type,codec_name,width,height,r_frame_rate,sample_rate,channels -of json",
+    "publish": "hyperframes publish"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@fontsource-variable/ibm-plex-sans": "5.2.8",
+    "@fontsource-variable/newsreader": "5.2.8",
+    "gsap": "3.14.2",
+    "hyperframes": "0.7.77"
+  }
+}
