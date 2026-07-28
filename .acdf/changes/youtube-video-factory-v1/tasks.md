@@ -158,6 +158,35 @@ Work:
 - Add a project-local start page that links to `PRODUCTION_BRIEF.html`.
 - Keep the ACDF task list, evidence, and receipt current.
 
+## t07-root-briefing-page
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `start_here.html`
+- `tests/start-here.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `BUILD_RECEIPT.json`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+
+Work:
+
+- Make the root `start_here.html` the actual first-run briefing worksheet, not only a navigation guide.
+- Let users state the video they want, list references, and draft image, video, and copywriting prompts.
+- Generate Markdown suitable for copy/paste into Codex.
+- Support downloading either `PRODUCTION_BRIEF.md` or a plain text brief.
+- Add a regression test proving the root page exposes the briefing fields and export actions.
+- Update README and learning capture.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

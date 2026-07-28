@@ -7,37 +7,129 @@
   <style>
     *{box-sizing:border-box}
     body{margin:0;background:#24202A;color:#24202A;font-family:system-ui,-apple-system,sans-serif}
-    main{width:min(1080px,calc(100% - 40px));margin:42px auto;padding:clamp(34px,6vw,72px);background:#EEE6D8;border-top:10px solid #A6793B;box-shadow:0 30px 80px #0008}
-    h1{font-family:Georgia,serif;font-size:clamp(44px,8vw,92px);line-height:.94;margin:0 0 20px}
-    h2{font-family:Georgia,serif;font-size:32px;margin-top:42px}
-    p,li{font-size:19px;line-height:1.55;color:#5F5363}
-    a.button{display:inline-block;margin:10px 12px 10px 0;padding:14px 18px;background:#24202A;color:#EEE6D8;text-decoration:none;font-weight:750}
-    code,pre{background:#D8CBB8;color:#24202A}
-    code{padding:2px 6px}
-    pre{padding:18px;overflow:auto;border-left:5px solid #A6793B}
+    main{width:min(1180px,calc(100% - 40px));margin:40px auto;padding:clamp(28px,6vw,72px);background:#EEE6D8;border-top:10px solid #A6793B;box-shadow:0 30px 80px #0008}
+    h1{font-family:Georgia,serif;font-size:clamp(46px,8vw,96px);line-height:.93;margin:0 0 18px}
+    h2{font-family:Georgia,serif;font-size:32px;margin:34px 0 12px}
+    p,label,li{font-size:18px;line-height:1.5;color:#5F5363}
+    label{display:block;font-weight:750;margin:16px 0 8px;color:#24202A}
+    input,select,textarea{width:100%;border:1px solid #A6793B;background:#fffaf2;color:#24202A;padding:12px;font:16px/1.45 system-ui,-apple-system,sans-serif}
+    textarea{min-height:110px;resize:vertical}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+    .panel{margin:24px 0;padding:22px;background:#efe3d2;border:1px solid #A6793B55}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}
+    button,a.button{border:0;background:#24202A;color:#EEE6D8;padding:14px 18px;text-decoration:none;font-weight:800;cursor:pointer}
+    .secondary{background:#5F5363}
+    pre{white-space:pre-wrap;min-height:320px;max-height:620px;overflow:auto;background:#fffaf2;border-left:5px solid #A6793B;padding:20px;color:#24202A}
+    code{background:#D8CBB8;padding:2px 6px}
+    .eyebrow{letter-spacing:.16em;text-transform:uppercase;color:#A6793B;font-weight:850}
   </style>
 </head>
 <body>
   <main>
-    <p>YouTube Video Factory</p>
+    <div class="eyebrow">YouTube Video Factory</div>
     <h1>Start Here</h1>
-    <p>This repo turns a production brief, references, prompt drafts, and optional provider keys into a narrated HyperFrames YouTube video project.</p>
+    <p>Use this page to write the first production brief. Copy or download the generated Markdown, then paste it into Codex and ask it to create the video project.</p>
 
-    <a class="button" href="README.md">Read the workflow</a>
-    <a class="button" href="DESIGN_SYSTEM.md">See layouts and palettes</a>
-    <a class="button" href="skills/youtube-video-factory/SKILL.md">Codex skill</a>
+    <section class="panel">
+      <h2>1. Project Intent</h2>
+      <div class="grid">
+        <label>Project title<input id="title" value="My YouTube Video"></label>
+        <label>Project ID<input id="projectId" value="my-youtube-video"></label>
+        <label>Audience<input id="audience" placeholder="Who should watch this?"></label>
+        <label>Target runtime<input id="runtime" placeholder="Example: 5 minutes"></label>
+      </div>
+      <label>What should the viewer understand, feel, or do after watching?</label>
+      <textarea id="outcome"></textarea>
+      <label>Topic, thesis, and story arc</label>
+      <textarea id="story"></textarea>
+      <label>Explicit exclusions</label>
+      <textarea id="exclusions" placeholder="No music, no logo, no new narration, no provider spend without approval..."></textarea>
+    </section>
 
-    <h2>Create a project folder</h2>
-    <p>From this repo folder, a simple project name creates a new subfolder under <code>projects/</code>.</p>
-    <pre>pnpm install
-pnpm ytvf init my-video --title "My Video"
-pnpm ytvf brief projects/my-video</pre>
+    <section class="panel">
+      <h2>2. Visual Direction</h2>
+      <div class="grid">
+        <label>Design pack<select id="designPack"><option>ivory-dusk-editorial</option><option>ivory-dusk</option></select></label>
+        <label>Frame rate<select id="fps"><option>30</option><option>24</option><option>60</option></select></label>
+        <label>Quality target<select id="quality"><option>high</option><option>standard</option><option>draft</option></select></label>
+        <label>Captions<select id="captions"><option>phrase</option><option>word</option><option>off</option></select></label>
+      </div>
+      <label>Reference files you will attach later</label>
+      <textarea id="references" placeholder="List local filenames or folders, and describe role: style, identity, composition, palette, subject, prompt-draft, copy-context, source-media."></textarea>
+      <label>Image prompt drafts</label>
+      <textarea id="imagePrompts"></textarea>
+      <label>Video / motion prompt drafts</label>
+      <textarea id="videoPrompts"></textarea>
+      <label>Copywriting or script context</label>
+      <textarea id="copyContext"></textarea>
+    </section>
 
-    <h2>Where your project files go</h2>
-    <p>Each video project gets its own folder, for example <code>projects/my-video/</code>. That folder contains the brief, uploaded references, prompt drafts, generated media, provider records, previews, validation artifacts, and final output.</p>
+    <section class="panel">
+      <h2>3. Providers And Budget</h2>
+      <div class="grid">
+        <label>Voice provider<select id="voiceProvider"><option>elevenlabs</option><option>existing</option><option>none</option></select></label>
+        <label>Voice ID<input id="voiceId" placeholder="Optional"></label>
+        <label>Voice model<input id="voiceModel" value="eleven_flash_v2_5"></label>
+        <label>Cost ceiling USD<input id="costCeiling" value="0"></label>
+      </div>
+      <label>Provider permissions</label>
+      <textarea id="providers" placeholder="Example: ElevenLabs allowed for narration. OpenRouter allowed only after estimate. HeyGen no. GCP staging yes if needed."></textarea>
+      <label>Music / SFX policy</label>
+      <textarea id="audioPolicy" placeholder="Default: music off, sound effects off."></textarea>
+    </section>
 
-    <h2>What to do in Codex</h2>
-    <p>Open this repo in the Codex app and say: <code>Use the YouTube Video Factory skill. Create a video project from my brief.</code></p>
+    <section class="panel">
+      <h2>4. Scenes</h2>
+      <label>Scene plan</label>
+      <textarea id="scenes" style="min-height:220px" placeholder="Scene 01: Opening&#10;Purpose:&#10;Narration:&#10;Layout preference:&#10;Visual idea:&#10;Duration:"></textarea>
+    </section>
+
+    <div class="actions">
+      <button id="generate">Generate brief</button>
+      <button id="copy" class="secondary">Copy for Codex</button>
+      <button id="download-md" class="secondary">Download PRODUCTION_BRIEF.md</button>
+      <button id="download-txt" class="secondary">Download brief.txt</button>
+      <a class="button secondary" href="DESIGN_SYSTEM.md">See layouts and palettes</a>
+    </div>
+
+    <h2>Generated Markdown</h2>
+    <pre id="output"></pre>
+
+    <h2>Paste into Codex</h2>
+    <p>Open this repo in Codex and paste the generated brief with: <code>Use the YouTube Video Factory skill. Create a video project from this brief.</code></p>
   </main>
+  <script>
+    const slug=(value)=>String(value||"untitled-video").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"untitled-video";
+    const value=(id)=>document.getElementById(id).value.trim();
+    const block=(title,content)=>content?`## ${title}\n\n${content}\n\n`:"";
+    function brief(){
+      const title=value("title")||"Untitled YouTube Video";
+      const projectId=slug(value("projectId")||title);
+      const providerText=value("providers");
+      const providerList=providerText.toLowerCase().includes("openrouter")?`["elevenlabs","openrouter"]`:(value("voiceProvider")==="elevenlabs"?`["elevenlabs"]`:`[]`);
+      return `---\ntitle: "${title.replaceAll('"', '\\"')}"\nprojectId: "${projectId}"\naudience: "${value("audience").replaceAll('"', '\\"')}"\ndeliverable: "YouTube video"\ndesignPack: "${value("designPack")}"\nfps: ${value("fps")}\nquality: "${value("quality")}"\nmusic: false\nsoundEffects: false\ncaptions: "${value("captions")}"\nvoiceProvider: "${value("voiceProvider")}"\nvoiceId: "${value("voiceId")}"\nvoiceModel: "${value("voiceModel")}"\nproviders: ${providerList}\ncostCeilingUsd: ${Number(value("costCeiling")||0)}\nautonomy: "review-gated"\noutput: "output/${projectId}.mp4"\n---\n\n# ${title}\n\n${block("Summary",value("outcome"))}${block("Story Arc",value("story"))}${block("Runtime",value("runtime"))}${block("References To Attach",value("references"))}${block("Image Prompt Drafts",value("imagePrompts"))}${block("Video / Motion Prompt Drafts",value("videoPrompts"))}${block("Copywriting / Script Context",value("copyContext"))}${block("Provider Permissions",providerText)}${block("Music / SFX Policy",value("audioPolicy"))}${block("Exclusions",value("exclusions"))}## Scene Plan\n\n${value("scenes") || "Scene 01: Opening\\nPurpose:\\nNarration:\\nLayout:\\nVisual:\\nDuration:"}\n`;
+    }
+    function render(){document.getElementById("output").textContent=brief()}
+    document.querySelectorAll("input,select,textarea").forEach((field)=>field.addEventListener("input",render));
+    document.getElementById("generate").addEventListener("click",render);
+    document.getElementById("copy").addEventListener("click",async()=>{
+      render();
+      const output=document.getElementById("output");
+      try{
+        await navigator.clipboard.writeText(output.textContent);
+      }catch{
+        const range=document.createRange();
+        range.selectNodeContents(output);
+        const selection=window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        alert("Browser clipboard access was blocked. The brief is selected now; press Cmd+C or Ctrl+C to copy it.");
+      }
+    });
+    function download(name,type){render();const blob=new Blob([document.getElementById("output").textContent],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+    document.getElementById("download-md").addEventListener("click",()=>download("PRODUCTION_BRIEF.md","text/markdown"));
+    document.getElementById("download-txt").addEventListener("click",()=>download("youtube-video-brief.txt","text/plain"));
+    render();
+  </script>
 </body>
 </html>

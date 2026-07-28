@@ -16,9 +16,9 @@ The repo includes the complete retained YouTube system:
 - GCP temporary public-frame staging
 - Localhost brief editing, reference quarantine, approval hashes, cost gates, and build receipts
 
-Start with the visible design catalog: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
+If you downloaded the repo locally, open [start_here.html](start_here.html) first. It is a self-contained briefing worksheet: state what you want, list references you will attach, draft image/video/copywriting prompts, then copy the generated brief into Codex or download it as `PRODUCTION_BRIEF.md` / `.txt`.
 
-If you downloaded the repo locally, open [start_here.html](start_here.html) first.
+For visual options, open the visible design catalog: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 
 ## Install
 
@@ -39,8 +39,9 @@ pnpm ytvf doctor
 ## Use It In Codex
 
 1. Clone the repository and open its folder in the Codex app.
-2. Tell Codex: "Use the YouTube Video Factory skill. Create a project from this brief..." and provide the creative brief or place it in a file.
-3. Codex follows [skills/youtube-video-factory/SKILL.md](skills/youtube-video-factory/SKILL.md), identifies missing decisions, and guides the gated build.
+2. Open [start_here.html](start_here.html), fill out the briefing worksheet, then copy or download the generated brief.
+3. Tell Codex: "Use the YouTube Video Factory skill. Create a project from this brief..." and paste the brief or place it in a file.
+4. Codex follows [skills/youtube-video-factory/SKILL.md](skills/youtube-video-factory/SKILL.md), identifies missing decisions, and guides the gated build.
 
 The repository-local `AGENTS.md` makes the skill discoverable when the folder is opened in Codex. Image generation stays inside Codex through the built-in image tool.
 

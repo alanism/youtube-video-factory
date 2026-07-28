@@ -163,3 +163,11 @@
 - Fix: Published only the preview-ready, provider-free Milestone 0 commit; no final MP4 or provider credentials were included.
 - Prevention: Keep the repository release status separate from deliverable approval and require a final acceptance checklist before tagging a public release.
 - Confidence: High.
+
+### Root start page must be the briefing surface
+
+- Issue: The repository entry page was too close to a passive guide, while first-time users need a place to state what they want and hand that brief to Codex.
+- Cause: The project-local briefing editor existed, but the root `start_here.html` did not yet behave like the first-run intake worksheet.
+- Fix: Converted the root start page into a self-contained brief builder with project intent, visual direction, provider/budget policy, scene planning, image/video/copywriting prompt drafts, copy-to-Codex, Markdown download, and plain-text download.
+- Prevention: Added a regression test that requires the root start page to expose briefing fields and export actions.
+- Confidence: High.

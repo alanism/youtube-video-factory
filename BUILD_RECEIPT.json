@@ -25,7 +25,7 @@
     "typecheck": "pass",
     "unitAndIntegrationTests": {
       "status": "pass",
-      "count": 25,
+      "count": 26,
       "includes": [
         "brief determinism",
         "manifest approval hashes",
@@ -44,7 +44,8 @@
         "layout PNG preview coverage",
         "IBM Plex Sans Serif Mono typography coverage",
         "project subfolder initialization",
-        "local start page generation"
+        "local start page generation",
+        "root briefing worksheet with copy and download export"
       ]
     },
     "designSystemDocs": "pass",
