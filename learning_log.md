@@ -179,3 +179,11 @@
 - Fix: Restyled Start Here with the Minimal Workspace system, added visible palette cards, visible typography cards, selected-choice summaries, and generated-brief fields for `palette` and `typography`.
 - Prevention: Added tests that require every registered palette and typography system to appear on the Start Here page.
 - Confidence: High.
+
+### Typography selectors need live specimens
+
+- Issue: Typography cards exposed the typography names and descriptions, but the boxes did not clearly show the actual font behavior.
+- Cause: The first selector used a single sample line plus descriptive metadata, which made the cards feel like labels instead of type specimens.
+- Fix: Added an in-card specimen stack with headline, body, caption, and mono samples using the selected IBM Plex family roles.
+- Prevention: Added regression checks for the specimen elements on the Start Here page.
+- Confidence: High.

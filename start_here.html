@@ -54,8 +54,13 @@
     .palette-card small,.type-card small{display:block;margin-top:4px;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.025em}
     .swatches{display:grid;grid-template-columns:repeat(5,1fr);height:54px;overflow:hidden;border-radius:var(--radius-md);border:1px solid var(--border-light);margin-bottom:10px}
     .swatch{min-width:0}
-    .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-    .type-sample{display:block;margin:6px 0;font-size:1.6rem;line-height:1.1;font-weight:600;letter-spacing:-.025em}
+    .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+    .type-card{min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+    .font-specimen{display:grid;gap:10px;margin-bottom:14px;padding:16px;border:1px solid var(--border-light);border-radius:var(--radius-md);background:linear-gradient(180deg,#fff,#fbfbfc)}
+    .type-headline{font-size:2rem;line-height:1;letter-spacing:-.045em;font-weight:600;color:var(--text-primary)}
+    .type-body{font-size:.95rem;line-height:1.45;color:var(--text-secondary)}
+    .type-caption{font-size:.72rem;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+    .type-mono{font-size:.78rem;line-height:1.25;color:var(--text-secondary)}
     .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
     .serif{font-family:"IBM Plex Serif",Georgia,serif}
     .sans{font-family:"IBM Plex Sans","IBM Plex",system-ui,sans-serif}
@@ -231,11 +236,11 @@
       {id:"ivory-dusk-editorial",label:"Ivory Dusk Editorial",group:"factory",colors:["#EEE6D8","#D8CBB8","#24202A","#5F5363","#A6793B"]}
     ];
     const typographies=[
-      {id:"editorial-authority",label:"Editorial Authority",description:"IBM Plex Serif headline · IBM Plex Sans body",sampleClass:"serif"},
-      {id:"modern-clarity",label:"Modern Clarity",description:"IBM Plex Sans headline · IBM Plex Serif body",sampleClass:"sans"},
-      {id:"humanist-voice",label:"Humanist Voice",description:"IBM Plex Sans headline · IBM Plex Serif body",sampleClass:"sans"},
-      {id:"research-notebook",label:"Research Notebook",description:"Mono headline · Sans body",sampleClass:"mono"},
-      {id:"technical-signal",label:"Technical Signal",description:"Mono headline · Mono body",sampleClass:"mono"}
+      {id:"editorial-authority",label:"Editorial Authority",description:"IBM Plex Serif headline · IBM Plex Sans body",headlineClass:"serif",bodyClass:"sans",captionClass:"sans",monoClass:"mono"},
+      {id:"modern-clarity",label:"Modern Clarity",description:"IBM Plex Sans headline · IBM Plex Serif body",headlineClass:"sans",bodyClass:"serif",captionClass:"sans",monoClass:"mono"},
+      {id:"humanist-voice",label:"Humanist Voice",description:"IBM Plex Sans headline · IBM Plex Serif body",headlineClass:"sans",bodyClass:"serif",captionClass:"sans",monoClass:"mono"},
+      {id:"research-notebook",label:"Research Notebook",description:"Mono headline · Sans body",headlineClass:"mono",bodyClass:"sans",captionClass:"sans",monoClass:"mono"},
+      {id:"technical-signal",label:"Technical Signal",description:"Mono headline · Mono body",headlineClass:"mono",bodyClass:"mono",captionClass:"sans",monoClass:"mono"}
     ];
     const state={palette:"ivory-dusk-editorial",typography:"editorial-authority"};
     const slug=(input)=>String(input||"untitled-video").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"untitled-video";
@@ -266,7 +271,7 @@
         button.type="button";
         button.className="type-card";
         button.setAttribute("aria-pressed",String(type.id===state.typography));
-        button.innerHTML=`<span class="type-sample ${type.sampleClass}">Feature Round</span><b>${type.label}</b><small>${type.description}</small>`;
+        button.innerHTML=`<div class="font-specimen" aria-hidden="true"><span class="type-caption ${type.captionClass}">Font sample</span><span class="type-headline ${type.headlineClass}">Feature Round</span><span class="type-body ${type.bodyClass}">A clean briefing page for turning ideas into narrated video.</span><span class="type-mono ${type.monoClass}">scene_01 · 1920x1080 · 30fps</span></div><b>${type.label}</b><small>${type.description}</small>`;
         button.addEventListener("click",()=>{state.typography=type.id;renderAll()});
         grid.appendChild(button);
       }

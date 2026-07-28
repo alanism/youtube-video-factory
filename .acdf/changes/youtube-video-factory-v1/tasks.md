@@ -217,6 +217,28 @@ Work:
 - Include selected palette and typography in the generated brief frontmatter and visual-system section.
 - Add regression tests proving the visible Start Here selectors cover every registered palette and typography option.
 
+## t09-start-here-font-specimens
+
+Status: DONE
+
+Allowed files:
+
+- `start_here.html`
+- `tests/start-here.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm test -- tests/start-here.test.ts`
+- `pnpm test:security`
+
+Work:
+
+- Show a real font specimen inside every typography card.
+- Include headline, body, caption, and mono samples so users can see the typography combination before selecting it.
+- Add regression coverage for the specimen markup.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

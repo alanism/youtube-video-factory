@@ -1,0 +1,18 @@
+{
+  "taskId": "t09-start-here-font-specimens",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Show real font samples inside every Start Here typography card.",
+  "actualChange": "Expanded typography cards into specimen panels that show caption, headline, body, and mono samples using the chosen IBM Plex family roles.",
+  "verificationCommands": [
+    "pnpm test -- tests/start-here.test.ts",
+    "pnpm test:security",
+    "git diff --check"
+  ],
+  "evidenceFiles": [
+    "evidence/t09_start_here_test.log",
+    "evidence/t09_security.log"
+  ],
+  "prevention": "Start Here tests now require specimen markup and sample copy in the typography selector."
+}

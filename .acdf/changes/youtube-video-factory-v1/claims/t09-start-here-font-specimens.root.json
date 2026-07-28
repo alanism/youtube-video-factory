@@ -1,0 +1,12 @@
+{
+  "taskId": "t09-start-here-font-specimens",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "allowedFiles": [
+    "start_here.html",
+    "tests/start-here.test.ts",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "learning_log.md"
+  ]
+}
