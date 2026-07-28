@@ -15,7 +15,12 @@ test("localhost brief editor saves Markdown and quarantines references", async (
   try {
     const page = await fetch(editor.url);
     assert.equal(page.status, 200);
-    assert.match(await page.text(), /Reference intake/);
+    const html = await page.text();
+    assert.match(html, /Reference files/);
+    assert.match(html, /Prompt and copy drafts/);
+    assert.match(html, /Image prompt draft/);
+    assert.match(html, /Video prompt draft/);
+    assert.match(html, /Copywriting \/ script context/);
     const brief = await readFile(join(project, "PRODUCTION_BRIEF.md"), "utf8");
     const save = await fetch(new URL("/api/brief", editor.url), { method: "PUT", body: brief });
     assert.equal(save.status, 204);
@@ -30,6 +35,37 @@ test("localhost brief editor saves Markdown and quarantines references", async (
       }),
     });
     assert.equal(intake.status, 201);
+    const draft = await fetch(new URL("/api/text-reference", editor.url), {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        title: "Scene 01 image prompt",
+        content: "Create a warm editorial image with a clear subject and no text.",
+        draftType: "image",
+        role: "prompt-draft",
+        provenance: "User typed in brief editor",
+      }),
+    });
+    assert.equal(draft.status, 201);
+    const copyDraft = await fetch(new URL("/api/text-reference", editor.url), {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        title: "Intro copy notes",
+        content: "Open with the viewer problem, then state the transformation.",
+        draftType: "copy",
+        role: "copy-context",
+        provenance: "User typed in brief editor",
+      }),
+    });
+    assert.equal(copyDraft.status, 201);
+    const registry = JSON.parse(await readFile(join(project, "references/reference-registry.json"), "utf8")) as {
+      references: Array<{ role: string; mime: string; path: string }>;
+    };
+    assert.equal(registry.references.length, 3);
+    assert.equal(registry.references.filter((reference) => reference.role === "prompt-draft").length, 1);
+    assert.equal(registry.references.filter((reference) => reference.role === "copy-context").length, 1);
+    assert.ok(registry.references.every((reference) => reference.path.startsWith("references/quarantine/")));
   } finally {
     await editor.close();
   }

@@ -54,6 +54,14 @@ pnpm ytvf storyboard projects/my-video
 
 Edit `projects/my-video/PRODUCTION_BRIEF.md` directly or use the generated `PRODUCTION_BRIEF.html` report/editor.
 
+When served through `pnpm ytvf brief projects/my-video`, the briefing page lets users:
+
+- edit the Markdown production brief
+- attach reference images, audio, video, PDF, Markdown, and text files
+- assign reference roles such as style, identity, composition, palette, subject, copy context, prompt draft, or source media
+- type image prompt drafts, video prompt drafts, and copywriting/script context directly in the page
+- save those typed drafts as quarantined Markdown references for Codex to review, improve, and map into the video plan
+
 If visuals are missing, ask Codex to complete the built-in image tasks:
 
 ```bash
@@ -127,7 +135,7 @@ The factory reports missing decisions rather than silently selecting consequenti
 
 ### 2. Attach References Safely
 
-References can include images, context docs, copywriting drafts, prompt drafts, existing audio, existing video, and style examples.
+References can include images, context docs, copywriting drafts, prompt drafts, existing audio, existing video, and style examples. The localhost briefing page can intake both attached files and typed prompt/copy drafts.
 
 New references enter `references/quarantine/`. They need role, provenance, license, model-use authorization, and provider-egress authorization before they can influence prompts or provider uploads. Provider jobs only read approved copies under `assets/approved/`.
 

@@ -101,6 +101,33 @@ Work:
 - Add docs-sync tests proving GitHub docs match the registry.
 - Record Engineering Council recommendations and validation evidence.
 
+## t05-brief-intake-editor
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `src/core/brief-html.ts`
+- `src/core/quarantine.ts`
+- `tests/brief-editor.test.ts`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+
+Work:
+
+- Make the localhost briefing page clearly support file attachments and typed draft prompts for image, video, and copywriting context.
+- Store typed drafts as quarantined Markdown references with roles Codex can later review and approve.
+- Keep all uploads and typed drafts inside the selected project folder.
+- Preserve quarantine, provenance, license, and provider-egress boundaries.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

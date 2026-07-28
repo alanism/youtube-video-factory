@@ -1,0 +1,149 @@
+$ node --import tsx --test tests/*.test.ts tests/**/*.test.ts
+TAP version 13
+# Subtest: localhost brief editor saves Markdown and quarantines references
+ok 1 - localhost brief editor saves Markdown and quarantines references
+  ---
+  duration_ms: 292.998333
+  type: 'test'
+  ...
+# Subtest: brief conversion is deterministic and approval is hash-bound
+ok 2 - brief conversion is deterministic and approval is hash-bound
+  ---
+  duration_ms: 23.894
+  type: 'test'
+  ...
+# Subtest: incomplete brief stops before manifest generation
+ok 3 - incomplete brief stops before manifest generation
+  ---
+  duration_ms: 0.334291
+  type: 'test'
+  ...
+# Subtest: manifest validation enforces visual limits and presenter-safe layouts
+ok 4 - manifest validation enforces visual limits and presenter-safe layouts
+  ---
+  duration_ms: 0.192542
+  type: 'test'
+  ...
+# Subtest: Codex image tasks are deterministic and require no API credential
+ok 5 - Codex image tasks are deterministic and require no API credential
+  ---
+  duration_ms: 122.246875
+  type: 'test'
+  ...
+# Subtest: compiles one deterministic top-level HyperFrames composition
+ok 6 - compiles one deterministic top-level HyperFrames composition
+  ---
+  duration_ms: 208.805
+  type: 'test'
+  ...
+# Subtest: GitHub design docs expose every registered layout and palette
+ok 7 - GitHub design docs expose every registered layout and palette
+  ---
+  duration_ms: 23.604
+  type: 'test'
+  ...
+# Subtest: README is self-sufficient for workflow and provider discovery
+ok 8 - README is self-sufficient for workflow and provider discovery
+  ---
+  duration_ms: 1.7285
+  type: 'test'
+  ...
+# Subtest: typography docs and renderer expose the full IBM Plex family
+ok 9 - typography docs and renderer expose the full IBM Plex family
+  ---
+  duration_ms: 2.7
+  type: 'test'
+  ...
+# Subtest: ships the complete YouTube design registry
+ok 10 - ships the complete YouTube design registry
+  ---
+  duration_ms: 1.002458
+  type: 'test'
+  ...
+# Subtest: every layout frame stays within 1920x1080
+ok 11 - every layout frame stays within 1920x1080
+  ---
+  duration_ms: 0.270625
+  type: 'test'
+  ...
+# Subtest: forward-compiles the private 15-scene Enochian fixture when available
+ok 12 - forward-compiles the private 15-scene Enochian fixture when available
+  ---
+  duration_ms: 628.245042
+  type: 'test'
+  ...
+# Subtest: detects and deterministically splits the supplied Enochian 2x2 contact sheet
+ok 13 - detects and deterministically splits the supplied Enochian 2x2 contact sheet
+  ---
+  duration_ms: 6230.815875
+  type: 'test'
+  ...
+# Subtest: canonical request claims prevent duplicate paid submissions
+ok 14 - canonical request claims prevent duplicate paid submissions
+  ---
+  duration_ms: 71.217708
+  type: 'test'
+  ...
+# Subtest: paid execution requires approval and respects the ceiling
+ok 15 - paid execution requires approval and respects the ceiling
+  ---
+  duration_ms: 0.441042
+  type: 'test'
+  ...
+# Subtest: ElevenLabs adapter verifies, generates timestamped audio, and reuses the request
+ok 16 - ElevenLabs adapter verifies, generates timestamped audio, and reuses the request
+  ---
+  duration_ms: 75.068541
+  type: 'test'
+  ...
+# Subtest: OpenRouter adapter discovers, estimates, submits, polls, and downloads
+ok 17 - OpenRouter adapter discovers, estimates, submits, polls, and downloads
+  ---
+  duration_ms: 78.871541
+  type: 'test'
+  ...
+# Subtest: HeyGen CLI adapter verifies account/avatar and runs a resumable generation
+ok 18 - HeyGen CLI adapter verifies account/avatar and runs a resumable generation
+  ---
+  duration_ms: 800.658542
+  type: 'test'
+  ...
+# Subtest: GCP frame stager uses content-addressed objects, verifies public access, and releases
+ok 19 - GCP frame stager uses content-addressed objects, verifies public access, and releases
+  ---
+  duration_ms: 2.94275
+  type: 'test'
+  ...
+# Subtest: quarantines signed content and requires explicit approval
+ok 20 - quarantines signed content and requires explicit approval
+  ---
+  duration_ms: 14.347292
+  type: 'test'
+  ...
+# Subtest: rejects traversal, active content, spoofed formats, and duplicates without residue
+ok 21 - rejects traversal, active content, spoofed formats, and duplicates without residue
+  ---
+  duration_ms: 13.216917
+  type: 'test'
+  ...
+# Subtest: refuses approval when a quarantined file is replaced by a symlink
+ok 22 - refuses approval when a quarantined file is replaced by a symlink
+  ---
+  duration_ms: 9.600792
+  type: 'test'
+  ...
+# Subtest: repository text contains no credential-shaped values or signed URLs
+ok 23 - repository text contains no credential-shaped values or signed URLs
+  ---
+  duration_ms: 138.765958
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7417.486042

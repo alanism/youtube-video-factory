@@ -10,6 +10,16 @@
 - Prevention: Any public design claim must be backed by committed docs/assets generated from the registry and validated by tests.
 - Confidence: High.
 
+## 2026-07-28 — Briefing page prompt intake
+
+### File attachment alone did not cover prompt drafting
+
+- Issue: The briefing page supported file uploads, but users also need to type draft prompts for images, videos, and copywriting directly into the workflow.
+- Cause: Prompt drafts were treated as uploaded reference files rather than a first-class editor action.
+- Fix: Add typed draft intake to `PRODUCTION_BRIEF.html`; drafts are saved as quarantined Markdown references with `prompt-draft` or `copy-context` roles.
+- Prevention: The brief editor test now verifies visible draft fields and quarantined references for uploaded files plus typed drafts.
+- Confidence: High.
+
 ## 2026-07-28 — ACDF wrapper added before GitHub release
 
 ### Factory work needed governance before publication
