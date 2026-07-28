@@ -46,7 +46,7 @@ Work:
 
 ## t03-github-publication
 
-Status: TODO
+Status: DONE
 
 Allowed files:
 
