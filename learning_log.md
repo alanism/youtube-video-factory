@@ -57,3 +57,11 @@
 - Fix: Capture the required opening, transition, late-scene, and ending frames with the pinned standalone snapshot command.
 - Prevention: Add a harness assertion that expected snapshot files exist after the strict check, with standalone capture as the documented non-rendering fallback.
 - Confidence: Medium.
+
+### Repository publication happened before final render approval
+
+- Issue: The approved release sequence originally placed public GitHub publication after acceptance testing.
+- Cause: The user explicitly authorized creating and pushing the new public repository while the Milestone 0 Studio preview was still awaiting review.
+- Fix: Published only the preview-ready, provider-free Milestone 0 commit; no final MP4 or provider credentials were included.
+- Prevention: Keep the repository release status separate from deliverable approval and require a final acceptance checklist before tagging a public release.
+- Confidence: High.
