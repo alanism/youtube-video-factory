@@ -1,0 +1,21 @@
+{
+  "taskId": "t06-start-here-and-project-folders",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Add an obvious local start page and make simple project initialization create a project subfolder.",
+  "actualChange": "Added root start_here.html, project-local start_here.html generation, simple-name init routing to projects/<name>, explicit path preservation, cwd-independent CLI tsx loader resolution, README updates, learning-log entries, and project-init tests.",
+  "verificationCommands": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm test:security",
+    "pnpm build"
+  ],
+  "evidenceFiles": [
+    "evidence/t06_typecheck.log",
+    "evidence/t06_test.log",
+    "evidence/t06_security.log",
+    "evidence/t06_build.log"
+  ],
+  "prevention": "Project-init tests now run the CLI from temporary folders and verify simple-name subfolders, explicit paths, and project start pages."
+}

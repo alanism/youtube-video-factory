@@ -25,7 +25,7 @@
     "typecheck": "pass",
     "unitAndIntegrationTests": {
       "status": "pass",
-      "count": 23,
+      "count": 25,
       "includes": [
         "brief determinism",
         "manifest approval hashes",
@@ -42,7 +42,9 @@
         "360-frame silent sequence assembly",
         "GitHub-visible design docs",
         "layout PNG preview coverage",
-        "IBM Plex Sans Serif Mono typography coverage"
+        "IBM Plex Sans Serif Mono typography coverage",
+        "project subfolder initialization",
+        "local start page generation"
       ]
     },
     "designSystemDocs": "pass",

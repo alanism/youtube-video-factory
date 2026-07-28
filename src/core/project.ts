@@ -1,6 +1,6 @@
 import { access, mkdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { sanitizeIdentifier, writeJsonAtomic, writeTextAtomic } from "./files.js";
+import { escapeHtml, sanitizeIdentifier, writeJsonAtomic, writeTextAtomic } from "./files.js";
 
 const briefTemplate = (title: string, id: string) => `---
 title: "${title}"
@@ -48,6 +48,34 @@ Duration: 10
 Visual: assets/approved/explanation.mp4
 `;
 
+const projectStartPage = (title: string) => `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${escapeHtml(title)} - Start Here</title>
+  <style>
+    body{margin:0;background:#24202A;color:#24202A;font-family:system-ui,-apple-system,sans-serif}
+    main{width:min(920px,calc(100% - 40px));margin:42px auto;padding:54px;background:#EEE6D8;border-top:10px solid #A6793B;box-shadow:0 30px 80px #0008}
+    h1{font-family:Georgia,serif;font-size:clamp(42px,7vw,78px);line-height:.96;margin:0 0 22px}
+    p{font-size:20px;line-height:1.5;color:#5F5363}
+    a{display:inline-block;margin:10px 12px 10px 0;padding:14px 18px;background:#24202A;color:#EEE6D8;text-decoration:none;font-weight:750}
+    code{background:#D8CBB8;padding:2px 6px}
+  </style>
+</head>
+<body>
+  <main>
+    <p>YouTube Video Factory project</p>
+    <h1>${escapeHtml(title)}</h1>
+    <p>Start by opening the production brief. Attach references and type draft prompts there, then return to Codex and ask it to build the video from this project folder.</p>
+    <a href="PRODUCTION_BRIEF.html">Open briefing page</a>
+    <a href="PRODUCTION_BRIEF.md">Open Markdown brief</a>
+    <p>Codex command path: <code>pnpm ytvf brief &lt;this-project-folder&gt;</code></p>
+  </main>
+</body>
+</html>
+`;
+
 export async function initializeProject(directory: string, title: string): Promise<string> {
   const target = resolve(directory);
   try {
@@ -74,6 +102,7 @@ export async function initializeProject(directory: string, title: string): Promi
   ];
   for (const child of directories) await mkdir(join(target, child), { recursive: true });
   await writeTextAtomic(join(target, "PRODUCTION_BRIEF.md"), briefTemplate(title, id));
+  await writeTextAtomic(join(target, "start_here.html"), projectStartPage(title));
   await writeJsonAtomic(join(target, "references/reference-registry.json"), {
     schemaVersion: 1,
     references: [],

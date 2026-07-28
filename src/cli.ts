@@ -2,7 +2,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { mkdir, readFile } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseBrief, readBrief } from "./core/brief.js";
 import { serveBriefEditor, writePortableBrief } from "./core/brief-html.js";
@@ -33,7 +33,7 @@ function help(): string {
 Turn a decision-complete Markdown brief into an approved, narrated HyperFrames video.
 
 Core workflow
-  ytvf init <project-dir> --title "My Video"
+  ytvf init <project-name> --title "My Video"   # creates projects/<project-name>/
   ytvf brief <project-dir> [--port 4178]
   ytvf plan <project-dir>
   ytvf manifest <project-dir> [--approve]
@@ -80,6 +80,15 @@ function projectArgument(position = 3): string {
   return resolve(value);
 }
 
+function initTargetArgument(position = 3): { directory: string; titleCandidate: string } {
+  const value = process.argv[position];
+  if (!value || value.startsWith("-")) throw new Error("A project name or directory is required.");
+  const explicitPath = isAbsolute(value) || value.includes("/") || value.includes("\\") || value.startsWith(".");
+  const directory = explicitPath ? resolve(value) : resolve("projects", value);
+  const titleCandidate = value.split(/[\\/]/).filter(Boolean).at(-1) ?? value;
+  return { directory, titleCandidate: titleCandidate.replaceAll("-", " ").replaceAll("_", " ") };
+}
+
 async function loadApprovedManifest(projectDirectory: string): Promise<ProductionManifest> {
   const manifest = await readJson<ProductionManifest>(join(projectDirectory, "production-manifest.json"));
   const errors = validateManifest(manifest, projectDirectory);
@@ -110,11 +119,11 @@ function runHyperFrames(arguments_: string[], cwd: string): Promise<void> {
 }
 
 async function commandInit(): Promise<void> {
-  const directory = projectArgument();
-  const title = flag("--title") ?? "Untitled YouTube Video";
-  const target = await initializeProject(directory, title);
+  const targetArgument = initTargetArgument();
+  const title = flag("--title") ?? targetArgument.titleCandidate;
+  const target = await initializeProject(targetArgument.directory, title);
   await writePortableBrief(target);
-  console.log(`Created ${target}\nOpen PRODUCTION_BRIEF.html or run: ytvf brief "${target}"`);
+  console.log(`Created ${target}\nOpen start_here.html or run: ytvf brief "${target}"`);
 }
 
 async function commandBrief(): Promise<void> {

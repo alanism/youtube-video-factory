@@ -20,6 +20,24 @@
 - Prevention: The brief editor test now verifies visible draft fields and quarantined references for uploaded files plus typed drafts.
 - Confidence: High.
 
+## 2026-07-29 — Start page and project folders
+
+### Users needed an obvious local front door
+
+- Issue: A downloaded repo had no obvious first HTML page, and `ytvf init <name>` did not automatically create `projects/<name>/`.
+- Cause: The CLI expected users to already understand the project-folder convention.
+- Fix: Add root `start_here.html`, project-local `start_here.html`, and make simple init names create `projects/<slug>/` while preserving explicit paths.
+- Prevention: Project-init tests now verify simple-name subfolders, explicit paths, and project start pages.
+- Confidence: High.
+
+### CLI wrapper depended on caller working directory
+
+- Issue: Running `bin/ytvf.mjs` from a temporary project folder could not resolve `tsx`.
+- Cause: The wrapper used `--import tsx`, which Node resolved from the caller's current working directory.
+- Fix: Resolve `tsx/esm` from the wrapper's own package location and pass the absolute loader path.
+- Prevention: Project-init tests run the CLI from a temporary directory outside the repo.
+- Confidence: High.
+
 ## 2026-07-28 — ACDF wrapper added before GitHub release
 
 ### Factory work needed governance before publication

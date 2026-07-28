@@ -128,6 +128,36 @@ Work:
 - Keep all uploads and typed drafts inside the selected project folder.
 - Preserve quarantine, provenance, license, and provider-egress boundaries.
 
+## t06-start-here-and-project-folders
+
+Status: DONE
+
+Allowed files:
+
+- `README.md`
+- `start_here.html`
+- `bin/ytvf.mjs`
+- `src/cli.ts`
+- `src/core/project.ts`
+- `tests/**`
+- `.acdf/changes/youtube-video-factory-v1/**`
+- `learning_log.md`
+
+Binary gate:
+
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm test:security`
+- `pnpm build`
+
+Work:
+
+- Add a root `start_here.html` that gives GitHub/download users an obvious local entry point.
+- Make simple `ytvf init <name>` calls create project folders under `projects/<slug>`.
+- Preserve explicit project paths such as `projects/my-video`.
+- Add a project-local start page that links to `PRODUCTION_BRIEF.html`.
+- Keep the ACDF task list, evidence, and receipt current.
+
 ## Deferred image-output-hardening
 
 Status: DEFERRED

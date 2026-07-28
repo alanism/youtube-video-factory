@@ -18,6 +18,8 @@ The repo includes the complete retained YouTube system:
 
 Start with the visible design catalog: [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 
+If you downloaded the repo locally, open [start_here.html](start_here.html) first.
+
 ## Install
 
 Requirements:
@@ -45,12 +47,14 @@ The repository-local `AGENTS.md` makes the skill discoverable when the folder is
 ## Quick Start
 
 ```bash
-pnpm ytvf init projects/my-video --title "My Video"
+pnpm ytvf init my-video --title "My Video"
 pnpm ytvf brief projects/my-video
 pnpm ytvf plan projects/my-video
 pnpm ytvf manifest projects/my-video --approve
 pnpm ytvf storyboard projects/my-video
 ```
+
+Simple names like `my-video` create project folders under `projects/<name>/`. Explicit paths such as `projects/my-video` or `/path/to/my-video` are preserved.
 
 Edit `projects/my-video/PRODUCTION_BRIEF.md` directly or use the generated `PRODUCTION_BRIEF.html` report/editor.
 
