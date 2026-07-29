@@ -88,6 +88,7 @@
       header{padding:12px 20px}
       .actions{border-radius:var(--radius-lg)}
     }
+    .workflow-step{width:100%;border:0;background:transparent;color:var(--text-secondary);text-align:left;margin:4px 0;padding:10px;border-radius:var(--radius-md);font-weight:650;cursor:pointer}.workflow-step b{color:var(--brand-active);margin-right:8px}.workflow-step.active{background:#ecfdf3;color:var(--text-primary)}.guided-hidden{display:none}.readiness-rail{position:fixed;right:28px;top:88px;width:250px;padding:18px;background:#fff;border:1px solid var(--border-standard);border-radius:var(--radius-lg);box-shadow:0 12px 30px rgba(0,0,0,.08);z-index:20}.readiness-rail h3{font-size:1rem}.readiness-rail ul{padding-left:18px;color:var(--text-secondary);font-size:.85rem;line-height:1.7}.readiness-rail li.ready{color:#15803d}.workflow-tools{display:flex;gap:8px;align-items:center;margin-top:12px}.workflow-tools button{padding:8px 10px;font-size:.8rem}@media(min-width:1240px){.editor{margin-right:285px}}@media(max-width:1239px){.readiness-rail{display:none}}
   </style>
 </head>
 <body>
@@ -414,6 +415,27 @@
     document.getElementById("download-md").addEventListener("click",()=>download("PRODUCTION_BRIEF.md","text/markdown"));
     document.getElementById("download-txt").addEventListener("click",()=>download("youtube-video-brief.txt","text/plain"));
     renderAll();
+    // Guided workspace overlay: existing fields and generated brief stay unchanged for compatibility.
+    const steps=[{label:"Setup",sections:["intent","deliverable"],required:["title","projectId","audience","outcome"]},{label:"Creative",sections:["visual"],required:["story"]},{label:"Production",sections:["providers","scenes"],required:["scenePlan"]},{label:"Review",sections:["output-section"],required:[]}];
+    let activeStep=Number(localStorage.getItem("ytvf-start-step")||0);
+    const nav=document.querySelector("aside nav");
+    const rail=document.createElement("aside");rail.className="readiness-rail";document.body.appendChild(rail);
+    const saveKey="ytvf-start-here-draft";
+    function renderWorkflow(){
+      activeStep=Math.max(0,Math.min(steps.length-1,activeStep));localStorage.setItem("ytvf-start-step",String(activeStep));
+      nav.innerHTML=steps.map((step,index)=>`<button class="workflow-step ${index===activeStep?"active":""}" data-step="${index}"><b>0${index+1}</b>${step.label}</button>`).join("");
+      steps.forEach((step,index)=>step.sections.forEach(id=>document.getElementById(id).classList.toggle("guided-hidden",index!==activeStep)));
+      document.querySelector(".actions").classList.toggle("guided-hidden",activeStep!==3);
+      const complete=steps.flatMap(step=>step.required).filter(id=>value(id).trim()).length;
+      const total=steps.flatMap(step=>step.required).length;
+      rail.innerHTML=`<div class="mono">BRIEF READINESS</div><h3>${complete}/${total} required decisions</h3><ul>${steps.flatMap(step=>step.required).map(id=>`<li class="${value(id).trim()?"ready":""}">${id.replace(/([A-Z])/g," $1")}</li>`).join("")}</ul><p class="hint">Save drafts locally. Export only after Review.</p><div class="workflow-tools"><button id="previous-step" type="button">Previous</button><button id="next-step" type="button">${activeStep===3?"Review complete":"Next"}</button></div><label class="hint" for="import-brief">Import existing brief<input id="import-brief" type="file" accept=".md,.txt,text/markdown,text/plain"></label>`;
+      nav.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{activeStep=Number(button.dataset.step);renderWorkflow()}));
+      rail.querySelector("#previous-step").addEventListener("click",()=>{activeStep--;renderWorkflow()});rail.querySelector("#next-step").addEventListener("click",()=>{if(activeStep<3){activeStep++;renderWorkflow()}});
+      rail.querySelector("#import-brief").addEventListener("change",async(event)=>{const file=event.target.files[0];if(!file)return;const text=await file.text();const frontmatter=text.match(/^---\n([\s\S]*?)\n---/);for(const [,key,raw] of (frontmatter?.[1]||"").matchAll(/^(title|projectId|audience|deliverableType|designPack|quality|aspectRatio|resolution|outputFormat|imageSourcePolicy|imageModel|costCeilingUsd):\s*["']?(.+?)["']?\s*$/gm)){const field=document.getElementById(key);if(field)field.value=raw}const summary=text.match(/## Summary\s*\n+([\s\S]*?)(?=\n## |$)/);if(summary)document.getElementById("outcome").value=summary[1].trim();const story=text.match(/## Story Arc\s*\n+([\s\S]*?)(?=\n## |$)/);if(story)document.getElementById("story").value=story[1].trim();renderAll();renderWorkflow()});
+    }
+    const saved=localStorage.getItem(saveKey);if(saved){try{const draft=JSON.parse(saved);Object.entries(draft).forEach(([id,stored])=>{const field=document.getElementById(id);if(field&&typeof stored==="string")field.value=stored});}catch{localStorage.removeItem(saveKey)}}
+    document.querySelectorAll("input,select,textarea").forEach(field=>field.addEventListener("input",()=>{const draft=Object.fromEntries([...document.querySelectorAll("input,select,textarea")].filter(item=>item.id).map(item=>[item.id,item.value]));localStorage.setItem(saveKey,JSON.stringify(draft));renderWorkflow()}));
+    renderWorkflow();
   </script>
 </body>
 </html>

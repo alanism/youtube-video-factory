@@ -27,11 +27,15 @@ Reuse approved source media, narration clips, provider outputs, and exact reques
 
 ## Model guidance
 
-- Routine manifests, scripts, provider orchestration, polling, documentation, and validation: a capable general coding model at medium reasoning.
-- Difficult compositing, transparency, or late-timeline media diagnosis: a stronger current model.
-- Repeated cross-system failures or a high-risk final audit: the best frontier model available.
+- **Luna (low reasoning)**: deterministic scoped revisions, file discovery, hashing, brief formatting, palette/type swaps, and validation summaries.
+- **Terra (medium reasoning)**: normal production builds, cross-media changes, provider-aware updates, and visual QA.
+- **Sol (high reasoning)**: only repeated cross-system failures, security or billing risk, or a high-consequence final audit.
 
-High model reasoning is unnecessary for deterministic file copying, polling, hashing, probing, or ordinary documentation.
+High reasoning is unnecessary for deterministic file copying, polling, hashing, probing, or ordinary documentation. Escalate one step only when the prior tier cannot produce a decision-complete result.
+
+## Revision workflow
+
+For a feedback-driven update, open `make_changes.html` through `pnpm ytvf changes <project-folder>`. Select what changes, preserve every reusable asset explicitly, and state acceptance criteria. The saved `CHANGE_BRIEF.md` and `change-request.json` bind the request to a manifest hash, prevent contradictory preservation choices, and make the requested provider rerun explicit.
 
 ## Media decisions
 

@@ -70,7 +70,7 @@ const projectStartPage = (title: string) => `<!doctype html>
     <p>Start by opening the production brief. Attach references and type draft prompts there, then return to Codex and ask it to build the video from this project folder.</p>
     <a href="PRODUCTION_BRIEF.html">Open briefing page</a>
     <a href="PRODUCTION_BRIEF.md">Open Markdown brief</a>
-    <p>Codex command path: <code>pnpm ytvf brief &lt;this-project-folder&gt;</code></p>
+    <p>Codex command paths: <code>pnpm ytvf brief &lt;this-project-folder&gt;</code> for the brief, then <code>pnpm ytvf changes &lt;this-project-folder&gt;</code> after a manifest exists.</p>
   </main>
 </body>
 </html>

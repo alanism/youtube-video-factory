@@ -43,9 +43,17 @@ test("root start page is a briefing worksheet with Codex export paths", async ()
     "Use the YouTube Video Factory skill",
     "PRODUCTION_BRIEF.md",
     "docs/start-here/design.md",
+    "BRIEF READINESS",
+    "ytvf-start-here-draft",
+    "Guided workspace overlay",
   ]) {
     assert.ok(page.includes(required), required);
   }
+});
+
+test("make changes landing page explains the project-aware revision handoff", async () => {
+  const page = await readFile("make_changes.html", "utf8");
+  for (const required of ["Change only what needs changing.", "ytvf changes", "CHANGE_BRIEF.md", "change-request.json", "Preserve & reuse"]) assert.ok(page.includes(required), required);
 });
 
 test("root start page supports deliverable-agnostic briefs", async () => {

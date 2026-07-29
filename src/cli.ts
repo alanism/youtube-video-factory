@@ -6,6 +6,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseBrief, readBrief } from "./core/brief.js";
 import { serveBriefEditor, writePortableBrief } from "./core/brief-html.js";
+import { serveChangeEditor, writePortableChangePage } from "./core/change-html.js";
 import { approveReference } from "./core/quarantine.js";
 import { approveManifest, manifestFromBrief, validateManifest, type CustomDesignRegistry } from "./core/manifest.js";
 import { initializeProject } from "./core/project.js";
@@ -35,6 +36,7 @@ Turn a decision-complete Markdown brief into an approved, narrated HyperFrames v
 Core workflow
   ytvf init <project-name> --title "My Video"   # creates projects/<project-name>/
   ytvf brief <project-dir> [--port 4178]
+  ytvf changes <project-dir> [--port 4179]
   ytvf plan <project-dir>
   ytvf manifest <project-dir> [--approve]
   ytvf storyboard <project-dir>
@@ -141,6 +143,18 @@ async function commandBrief(): Promise<void> {
     };
     process.once("SIGINT", finish);
     process.once("SIGTERM", finish);
+  });
+}
+
+async function commandChanges(): Promise<void> {
+  const projectDirectory = projectArgument();
+  const port = Number(flag("--port") ?? 4179);
+  const editor = await serveChangeEditor(projectDirectory, port);
+  console.log(`Change editor: ${editor.url}\nPress Ctrl-C to stop.`);
+  if (process.platform === "darwin" && !hasFlag("--no-open")) spawn("open", [editor.url], { detached: true, stdio: "ignore" }).unref();
+  await new Promise<void>((resolvePromise) => {
+    const finish = async () => { await editor.close(); resolvePromise(); };
+    process.once("SIGINT", finish); process.once("SIGTERM", finish);
   });
 }
 
@@ -721,6 +735,7 @@ async function main(): Promise<void> {
   const commands: Record<string, () => Promise<void>> = {
     init: commandInit,
     brief: commandBrief,
+    changes: commandChanges,
     plan: commandPlan,
     manifest: commandManifest,
     storyboard: commandStoryboard,

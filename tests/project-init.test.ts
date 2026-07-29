@@ -17,6 +17,7 @@ test("ytvf init creates a projects subfolder for simple project names", async ()
   await access(join(project, "PRODUCTION_BRIEF.html"));
   const page = await readFile(join(project, "start_here.html"), "utf8");
   assert.match(page, /Open briefing page/);
+  assert.match(page, /ytvf changes/);
 });
 
 test("ytvf init preserves explicit project paths", async () => {
