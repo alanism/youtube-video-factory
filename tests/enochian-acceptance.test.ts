@@ -45,9 +45,16 @@ designPack: ivory-dusk-editorial
 fps: 30
 music: false
 captions: phrase
-voiceProvider: existing
+narrationAuthority: existing
 providers: []
 costCeilingUsd: 0
+renditions: [16:9, 9:16]
+landscapeTemplate: feature-left-4x3
+portraitTemplate: portrait-concept-explainer
+rubricMinimum: 40
+minimumCriterionScore: 3
+maxRepairCycles: 3
+blockers: [missing-template]
 ---
 # Enochian Acceptance
 ${blocks.join("\n")}`);

@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import type { ProductionManifest } from "../types.js";
 import { writeTextAtomic } from "./files.js";
+import { buildPlanMarkdown } from "./build-plan.js";
 
 export function storyboardMarkdown(manifest: ProductionManifest): string {
   const scenes = manifest.scenes.map((scene, index) => [
@@ -44,6 +45,7 @@ export async function writeReviewDocuments(
   manifest: ProductionManifest,
 ): Promise<void> {
   await Promise.all([
+    writeTextAtomic(join(projectDirectory, "BUILD_PLAN.md"), buildPlanMarkdown(manifest)),
     writeTextAtomic(join(projectDirectory, "STORYBOARD.md"), storyboardMarkdown(manifest)),
     writeTextAtomic(join(projectDirectory, "SCRIPT.md"), scriptMarkdown(manifest)),
   ]);

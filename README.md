@@ -15,6 +15,8 @@ The repo includes the complete retained YouTube system:
 - OpenRouter / Seedance motion generation with resumable jobs and duplicate-charge protection
 - GCP temporary public-frame staging
 - Localhost brief editing, reference quarantine, approval hashes, cost gates, and build receipts
+- A manifest-v2 paired-release contract: shared assets compiled into official UCC 16:9 and 9:16 template renditions
+- A user-facing build plan with a Key Message, learner outcome, scene table, exact provider decisions, and Mermaid compilation diagram before any paid call
 
 If you downloaded the repo locally, open [start_here.html](start_here.html) first. It is a self-contained briefing worksheet: state what you want, choose the deliverable type, choose visible color palettes and typography combinations, list references you will attach, draft image/video/copywriting prompts, then copy the generated brief into Codex or download it as `PRODUCTION_BRIEF.md` / `.txt`.
 
@@ -58,6 +60,10 @@ pnpm ytvf plan projects/my-video
 pnpm ytvf manifest projects/my-video --approve
 pnpm ytvf storyboard projects/my-video
 ```
+
+`pnpm ytvf plan projects/my-video` is the mandatory preflight. It prints the Key Message Codex inferred from the brief, the scene plan, exact UCC template and palette contract, audio authority, Seedance settings, quality gates, and the compilation diagram. If Seedance resolution/sound or HeyGen-versus-ElevenLabs audio authority is not explicit, it stops and asks instead of assuming.
+
+Every approved video release contains both a 1920×1080 landscape rendition and a 1080×1920 portrait rendition. They reuse one asset graph but are independently composed using `UCC-Slidedeck-YT-generator/src/youtube` and `media-library/templates/portrait-9x16` respectively.
 
 Simple names like `my-video` create project folders under `projects/<name>/`. Explicit paths such as `projects/my-video` or `/path/to/my-video` are preserved.
 

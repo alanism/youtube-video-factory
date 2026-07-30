@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { lstat, mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 
@@ -27,7 +27,7 @@ export async function assertNoSymlink(path: string): Promise<void> {
 
 export async function writeTextAtomic(path: string, content: string): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
-  const temporary = `${path}.tmp`;
+  const temporary = `${path}.${randomUUID()}.tmp`;
   await writeFile(temporary, content, { encoding: "utf8", mode: 0o600 });
   await rename(temporary, path);
 }

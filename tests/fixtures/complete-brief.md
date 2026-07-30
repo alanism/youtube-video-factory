@@ -9,11 +9,17 @@ quality: "high"
 music: false
 soundEffects: false
 captions: "phrase"
-voiceProvider: "existing"
+narrationAuthority: "existing"
 providers: []
 costCeilingUsd: 0
 autonomy: "review-gated"
-output: "output/clean-clone-acceptance.mp4"
+renditions: ["16:9", "9:16"]
+landscapeTemplate: "feature-left-16x9"
+portraitTemplate: "portrait-concept-explainer"
+rubricMinimum: 40
+minimumCriterionScore: 3
+maxRepairCycles: 3
+blockers: [missing-template]
 ---
 
 # Clean Clone Acceptance

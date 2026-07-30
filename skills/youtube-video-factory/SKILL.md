@@ -13,9 +13,10 @@ Turn a thorough brief and approved references into a validated video without mak
 2. Create an isolated project with `pnpm ytvf init projects/<project-id> --title "<title>"`.
 3. Ask the user to edit `PRODUCTION_BRIEF.md` or run `pnpm ytvf brief projects/<project-id>`.
 4. Read [brief-contract.md](references/brief-contract.md). Stop on missing material decisions.
-5. Run `pnpm ytvf plan projects/<project-id>`. This is mutation-free.
-6. Generate a draft manifest, explain its consequential choices, then record approval with `pnpm ytvf manifest projects/<project-id> --approve`.
-7. Generate `STORYBOARD.md` and `SCRIPT.md`.
+5. Run `pnpm ytvf plan projects/<project-id>`. This mutation-free command gives the user a Key Message, learner outcome, scene outline, exact palette/templates, provider contract, validation gates, and Mermaid compilation diagram.
+6. Before any provider call, explicitly ask for any missing Seedance model, resolution, generated-sound policy, motion contract, HeyGen mode, or final audio authority. Never infer these from a provider name.
+7. Generate a draft manifest, explain its consequential choices, then record approval with `pnpm ytvf manifest projects/<project-id> --approve`.
+8. Generate `BUILD_PLAN.md`, `STORYBOARD.md`, and `SCRIPT.md`.
 
 Never write a key, token, credential, signed URL, or OAuth record into the project. Provider keys are process-environment inputs only.
 
@@ -26,14 +27,14 @@ Never write a key, token, credential, signed URL, or OAuth record into the proje
 - For a missing visual, create Codex image tasks with `pnpm ytvf image plan <project>`, then follow [image-workflow.md](references/image-workflow.md). Use the built-in `imagegen` skill/tool. Do not use an OpenAI API key.
 - For a 2×2 story sheet or Seedance transition sequence, use the frame-pack rules in [image-workflow.md](references/image-workflow.md).
 - For narration, presenter, or motion work, read [provider-operations.md](references/provider-operations.md). Verify billing source and estimate before the first paid call.
-- Keep narration as audio authority when compositing muted HeyGen presenters.
+- Respect the manifest's declared audio authority: use ElevenLabs as the final master and mute HeyGen only when ElevenLabs is selected; otherwise use HeyGen's generated audio intentionally.
 
 ## Compose and approve
 
 1. Generate narration and phrase captions only after manifest and paid-call approval.
 2. Run `pnpm ytvf preview <project>`.
 3. Inspect every scene midpoint, every transition, the late timeline, captions, safe zones, and media playback.
-4. Do not record preview approval on the user's behalf. After explicit approval, run `pnpm ytvf approve-preview <project>`.
+4. Do not record preview approval on the user's behalf. Both 16:9 and 9:16 compositions must be inspected and approved by hash before final rendering.
 5. Run `pnpm ytvf build <project>`, `pnpm ytvf validate <project>`, and `pnpm ytvf receipt <project>`.
 6. Read [hyperframes-gates.md](references/hyperframes-gates.md) before diagnosing or changing a composition.
 

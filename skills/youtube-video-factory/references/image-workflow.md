@@ -16,4 +16,4 @@ For 1:1 image decks, recommend generating one 2×2 four-frame contact sheet when
 
 For a 2×2 story sheet, run `ytvf panels split <project> --source <path> --id <sheet-id>`. It splits in reading order: top-left, top-right, bottom-left, bottom-right; detects and removes central gutters deterministically; preserves the source; and records crop rectangles and hashes in `panel-map.json`.
 
-For a four-panel motion sequence, submit exactly three silent first/last-frame jobs: 1→2, 2→3, 3→4. Use `ytvf sequence assemble` to normalize them to a silent 480×480, 24 fps, 360-frame/15-second master. Repair weak endpoint frames without a paid retry, and let HyperFrames own narration and final timing.
+For a four-panel motion sequence, submit exactly three first/last-frame jobs: 1→2, 2→3, 3→4. The approved brief—not an implicit default—sets the motion resolution and generated-sound policy. For the silent 480p recipe, use `ytvf sequence assemble` to normalize to a 480×480, 24 fps, 360-frame/15-second master. Repair weak endpoint frames without a paid retry, and let HyperFrames own narration and final timing.

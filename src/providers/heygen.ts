@@ -11,9 +11,11 @@ const execFileAsync = promisify(execFile);
 
 export interface HeyGenAvatarRequest {
   avatarId: string;
-  audioPath: string;
+  audioPath?: string;
   audioDurationSeconds: number;
   outputPath: string;
+  script?: string;
+  voiceId?: string;
   engine?: "avatar_iii" | "avatar_iv";
   resolution?: "720p" | "1080p";
   aspectRatio?: "16:9" | "9:16" | "1:1";
@@ -76,6 +78,7 @@ export class HeyGenCliAdapter implements ProviderAdapter<HeyGenAvatarRequest> {
   }
 
   async submit(request: HeyGenAvatarRequest, context: ProviderContext): Promise<ProviderJob> {
+    if (!request.audioPath && !(request.script && request.voiceId)) throw new Error("HeyGen requires either an approved audio master or script plus HeyGen voice ID.");
     const canonical = {
       avatarId:request.avatarId,
       audioDurationSeconds:request.audioDurationSeconds,
@@ -83,19 +86,22 @@ export class HeyGenCliAdapter implements ProviderAdapter<HeyGenAvatarRequest> {
       resolution:request.resolution ?? "1080p",
       aspectRatio:request.aspectRatio ?? "16:9",
       outputFormat:request.outputFormat ?? "webm",
-      audioPath:request.audioPath,
+      ...(request.audioPath ? { audioPath:request.audioPath } : { script:request.script, voiceId:request.voiceId }),
     };
     const claim = await claimProviderJob(context.projectDirectory, this.id, canonical);
     if (claim.reused && claim.jobId) return claim;
     if (context.dryRun) return claim;
-    const upload = await this.run(["asset","create","--file",request.audioPath]);
-    const assetId = String(findValue(upload,["asset_id","assetId","id"]) ?? "");
-    if (!assetId) throw new Error("HeyGen returned no audio asset ID.");
+    let assetId: string | undefined;
+    if (request.audioPath) {
+      const upload = await this.run(["asset","create","--file",request.audioPath]);
+      assetId = String(findValue(upload,["asset_id","assetId","id"]) ?? "");
+      if (!assetId) throw new Error("HeyGen returned no audio asset ID.");
+    }
     const requestPath = join(context.projectDirectory,"provider-records",`heygen-${claim.requestHash}.request.json`);
     const payload = {
       type:"avatar",
       avatar_id:request.avatarId,
-      audio_asset_id:assetId,
+      ...(assetId ? { audio_asset_id:assetId } : { script:request.script, voice_id:request.voiceId }),
       engine:{ type:request.engine ?? "avatar_iii" },
       resolution:request.resolution ?? "1080p",
       aspect_ratio:request.aspectRatio ?? "16:9",
@@ -112,7 +118,7 @@ export class HeyGenCliAdapter implements ProviderAdapter<HeyGenAvatarRequest> {
       requestHash:claim.requestHash,
       jobId:videoId,
       state:"running",
-      usage:{ audioAssetId:assetId, requestHash:canonicalHash(payload) },
+      usage:{ ...(assetId ? { audioAssetId:assetId } : { voiceId:request.voiceId ?? "" }), requestHash:canonicalHash(payload) },
     };
     await recordProviderJob(context.projectDirectory, this.id, job);
     return job;

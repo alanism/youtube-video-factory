@@ -229,10 +229,29 @@
 
           <h3>Providers and budget</h3>
           <div class="grid">
-            <label>Voice provider<select id="voiceProvider"><option>elevenlabs</option><option>existing</option><option>none</option></select></label>
+            <label>Final audio authority<select id="narrationAuthority"><option value="">Choose before generation</option><option value="elevenlabs">ElevenLabs master audio</option><option value="heygen">HeyGen-generated audio</option><option value="existing">Existing approved audio</option><option value="none">No narration</option></select></label>
             <label>Voice ID<input id="voiceId" placeholder="Optional"></label>
             <label>Voice model<input id="voiceModel" value="eleven_flash_v2_5"></label>
             <label>Cost ceiling USD<input id="costCeiling" value="0"></label>
+          </div>
+          <div class="grid">
+            <label>Seedance model<input id="motionModel" value="bytedance/seedance-1-5-pro"></label>
+            <label>Seedance resolution<select id="motionResolution"><option value="">Choose before generation</option><option>480p</option><option>720p</option><option>1080p</option></select></label>
+            <label>Seedance sound<select id="motionAudio"><option value="">Choose before generation</option><option value="false">Silent</option><option value="true">Generated sound</option></select></label>
+            <label>Seedance motion contract<select id="motionContract"><option value="">Choose before generation</option><option value="panel-sequence-1-2-3-4">Four panels: 1→2, 2→3, 3→4</option><option value="custom">Custom approved contract</option></select></label>
+          </div>
+          <div class="grid">
+            <label>HeyGen mode<select id="heygenMode"><option value="">Choose if HeyGen is allowed</option><option>required</option><option>optional</option><option>disabled</option></select></label>
+            <label>HeyGen avatar/look ID<input id="avatarId" placeholder="Required when HeyGen is used"></label>
+            <label>HeyGen voice ID<input id="heygenVoiceId" placeholder="Required when HeyGen supplies final audio"></label>
+            <label>HeyGen engine<select id="avatarEngine"><option value="">Choose before generation</option><option value="avatar_iii">Avatar III</option><option value="avatar_iv">Avatar IV</option></select></label>
+            <label>HeyGen alpha required<select id="heygenAlphaRequired"><option value="">Choose before generation</option><option value="true">Yes</option><option value="false">No</option></select></label>
+          </div>
+          <div class="grid">
+            <label>Landscape UCC template<input id="landscapeTemplate" value="feature-left-16x9"></label>
+            <label>Portrait UCC template<input id="portraitTemplate" value="portrait-concept-explainer"></label>
+            <label>Rubric release minimum<input id="rubricMinimum" value="40"></label>
+            <label>Minimum criterion score<input id="minimumCriterionScore" value="3"></label>
           </div>
           <label>Provider permissions</label>
           <textarea id="providersText" placeholder="Example: ElevenLabs allowed for narration. OpenRouter allowed only after estimate. HeyGen no. GCP staging yes if needed."></textarea>
@@ -375,12 +394,15 @@
       const projectId=slug(value("projectId")||title);
       const deliverableType=value("deliverableType");
       const deliverable=selectedDeliverable();
-      const providerText=value("providersText");
-      const voiceProvider=deliverableType==="youtube-video"?value("voiceProvider"):"none";
+      const narrationAuthority=deliverableType==="youtube-video"?value("narrationAuthority"):"none";
+      const providerText=[value("providersText"),`renditions: ["16:9", "9:16"]`,`narrationAuthority: ${narrationAuthority}`,`motionModel: ${value("motionModel")}`,`motionResolution: ${value("motionResolution")}`,`motionAudio: ${value("motionAudio")}`,`motionContract: ${value("motionContract")}`,`heygenMode: ${value("heygenMode")}`,`avatarId: ${value("avatarId")}`,`heygenVoiceId: ${value("heygenVoiceId")}`,`avatarEngine: ${value("avatarEngine")}`,`heygenAlphaRequired: ${value("heygenAlphaRequired")}`,`landscapeTemplate: ${value("landscapeTemplate")}`,`portraitTemplate: ${value("portraitTemplate")}`,`rubricMinimum: ${value("rubricMinimum")}`,`minimumCriterionScore: ${value("minimumCriterionScore")}`,`maxRepairCycles: 3`,`blockers: [missing-template, missing-required-media, caption-failure, decode-failure, aspect-ratio-failure]`].join("\\n");
+      const voiceProvider=narrationAuthority;
       const providerNames=[];
       if(voiceProvider==="elevenlabs") providerNames.push("elevenlabs");
       if(providerText.toLowerCase().includes("openrouter")) providerNames.push("openrouter");
       if(providerText.toLowerCase().includes("heygen")) providerNames.push("heygen");
+      if(value("motionResolution")||value("motionContract")) providerNames.push("openrouter");
+      if(value("heygenMode")&&value("heygenMode")!=="disabled") providerNames.push("heygen");
       if(providerText.toLowerCase().includes("gcp")) providerNames.push("gcp");
       const providerList=`[${[...new Set(providerNames)].map((item)=>`"${item}"`).join(",")}]`;
       const palette=selectedPalette();

@@ -10,10 +10,11 @@ deliverable: "YouTube video"
 designPack: "ivory-dusk-editorial"
 fps: 30
 quality: "high"
+releaseVersion: "v1"
 music: false
 soundEffects: false
 captions: "phrase"
-voiceProvider: "elevenlabs"
+narrationAuthority: "elevenlabs"
 voiceId: ""
 voiceModel: "eleven_flash_v2_5"
 voiceSpeed: 0.92
@@ -22,7 +23,15 @@ voiceSimilarity: 0.75
 providers: ["elevenlabs"]
 costCeilingUsd: 0
 autonomy: "review-gated"
-output: "output/${id}.mp4"
+renditions: ["16:9", "9:16"]
+landscapeTemplate: "feature-left-16x9"
+portraitTemplate: "portrait-concept-explainer"
+landscapeOutput: "output/${id}-16x9.mp4"
+portraitOutput: "output/${id}-9x16.mp4"
+rubricMinimum: 40
+minimumCriterionScore: 3
+maxRepairCycles: 3
+blockers: ["missing-template", "missing-required-media", "caption-failure", "decode-failure", "aspect-ratio-failure"]
 ---
 
 # ${title}

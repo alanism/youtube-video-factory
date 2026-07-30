@@ -11,6 +11,8 @@
     "briefHash",
     "approval",
     "output",
+    "release",
+    "renditions",
     "designPack",
     "design",
     "autonomy",
@@ -19,7 +21,7 @@
     "scenes"
   ],
   "properties": {
-    "schemaVersion": { "const": 1 },
+    "schemaVersion": { "const": 2 },
     "ontologyVersion": { "const": 1 },
     "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
     "title": { "type": "string", "minLength": 1 },
@@ -47,11 +49,79 @@
       },
       "additionalProperties": false
     },
+    "release": {
+      "type": "object",
+      "required": ["version", "keyMessage", "learnerOutcome", "qualityGate"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "keyMessage": { "type": "string", "minLength": 1 },
+        "learnerOutcome": { "type": "string", "minLength": 1 },
+        "qualityGate": {
+          "type": "object",
+          "required": ["rubricMinimum", "minimumCriterionScore", "maxRepairCycles", "blockers"],
+          "properties": {
+            "rubricMinimum": { "type": "number", "minimum": 40 },
+            "minimumCriterionScore": { "type": "number", "minimum": 3 },
+            "maxRepairCycles": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "blockers": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "renditions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "aspectRatio", "width", "height", "templateFamily", "templateSource", "defaultTemplate", "destination"],
+        "properties": {
+          "id": { "enum": ["landscape-16x9", "portrait-9x16"] },
+          "aspectRatio": { "enum": ["16:9", "9:16"] },
+          "width": { "enum": [1920, 1080] },
+          "height": { "enum": [1080, 1920] },
+          "templateFamily": { "enum": ["ucc-youtube", "ucc-portrait"] },
+          "templateSource": { "type": "string", "minLength": 1 },
+          "defaultTemplate": { "type": "string", "minLength": 1 },
+          "destination": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "designPack": { "type": "string", "minLength": 1 },
     "design": { "type": "object", "required": ["pack", "palette", "typography", "motion"] },
     "autonomy": { "enum": ["manual", "review-gated", "approved-batch"] },
-    "audio": { "type": "object", "required": ["music", "soundEffects", "captions", "narrationAuthority"] },
-    "providers": { "type": "object", "required": ["allowed", "costCeilingUsd", "paidPilotRequired"] },
+    "audio": {
+      "type": "object",
+      "required": ["music", "soundEffects", "captions", "narrationAuthority"],
+      "properties": { "narrationAuthority": { "enum": ["elevenlabs", "heygen", "existing", "none"] } }
+    },
+    "providers": {
+      "type": "object",
+      "required": ["allowed", "costCeilingUsd", "paidPilotRequired"],
+      "properties": {
+        "openrouter": {
+          "type": "object",
+          "required": ["model", "resolution", "generateAudio", "motionContract"],
+          "properties": {
+            "model": { "type": "string", "minLength": 1 },
+            "resolution": { "enum": ["480p", "720p", "1080p"] },
+            "generateAudio": { "type": "boolean" },
+            "motionContract": { "enum": ["panel-sequence-1-2-3-4", "custom"] }
+          }
+        },
+        "heygen": {
+          "type": "object",
+          "required": ["mode", "avatarId", "engine", "audioAuthority", "alphaRequired"],
+          "properties": {
+            "mode": { "enum": ["required", "optional", "disabled"] },
+            "avatarId": { "type": "string", "minLength": 1 },
+            "engine": { "enum": ["avatar_iii", "avatar_iv"] },
+            "audioAuthority": { "enum": ["elevenlabs", "heygen"] },
+            "voiceId": { "type": "string" },
+            "alphaRequired": { "type": "boolean" }
+          }
+        }
+      }
+    },
     "scenes": {
       "type": "array",
       "minItems": 1,

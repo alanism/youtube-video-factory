@@ -125,13 +125,16 @@ export interface SceneManifest {
   narration?: {
     text: string;
     asset?: string;
-    provider: "elevenlabs" | "existing" | "none";
+    provider: "elevenlabs" | "heygen" | "existing" | "none";
   };
   captions?: CaptionPhrase[];
   primaryVisual?: {
     asset: string;
     fit?: "cover" | "contain";
+    aspectRatio?: "1:1" | "9:16" | "16:9" | "free";
   };
+  /** Requires a full-bleed square source in the official portrait hero frame. */
+  squareHero?: boolean;
   supportingVisuals?: Array<{
     asset: string;
     fit?: "cover" | "contain";
@@ -151,11 +154,56 @@ export interface SceneManifest {
   overlay?: {
     text: string;
   };
+  /** Deterministic, non-functional proof graphic rendered by the UCC portrait template. */
+  proofCard?: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    chips?: string[];
+    illustrative?: boolean;
+  };
+  /** Conversion end-card hierarchy rendered by the UCC portrait template. */
+  ctaCard?: {
+    brand: string;
+    primary: string;
+    secondary: string;
+    attribution: string;
+    body?: string;
+  };
+  /** Reference-faithful lower editorial panel for an official portrait composition. */
+  editorialPanel?: {
+    eyebrow: string;
+    body: string;
+    rail: string;
+    /** Optional CTA hierarchy rendered inside the same editorial panel. */
+    secondary?: string;
+    attribution?: string;
+  };
   transition?: string;
 }
 
+export type RenditionId = "landscape-16x9" | "portrait-9x16";
+
+export interface Rendition {
+  id: RenditionId;
+  aspectRatio: "16:9" | "9:16";
+  width: 1920 | 1080;
+  height: 1080 | 1920;
+  templateFamily: "ucc-youtube" | "ucc-portrait";
+  templateSource: string;
+  defaultTemplate: string;
+  destination: string;
+}
+
+export interface QualityGate {
+  rubricMinimum: number;
+  minimumCriterionScore: number;
+  maxRepairCycles: number;
+  blockers: string[];
+}
+
 export interface ProductionManifest {
-  schemaVersion: 1;
+  schemaVersion: 2;
   ontologyVersion: 1;
   id: string;
   title: string;
@@ -164,15 +212,23 @@ export interface ProductionManifest {
     status: "draft" | "approved";
     approvedHash?: string;
   };
+  /** Primary output mirrors the first explicitly requested rendition. */
   output: {
-    width: 1920;
-    height: 1080;
+    width: 1920 | 1080;
+    height: 1080 | 1920;
     fps: 24 | 30 | 60;
     quality: "draft" | "standard" | "high";
     codec: "h264";
     audioCodec: "aac";
     destination: string;
   };
+  release: {
+    version: string;
+    keyMessage: string;
+    learnerOutcome: string;
+    qualityGate: QualityGate;
+  };
+  renditions: Rendition[];
   designPack: string;
   design: {
     pack: DesignPack;
@@ -185,7 +241,7 @@ export interface ProductionManifest {
     music: boolean;
     soundEffects: boolean;
     captions: "phrase" | "word" | "off";
-    narrationAuthority: "elevenlabs" | "existing" | "none";
+    narrationAuthority: "elevenlabs" | "heygen" | "existing" | "none";
   };
   providers: {
     allowed: Array<"elevenlabs" | "heygen" | "openrouter" | "gcp-staging">;
@@ -199,11 +255,20 @@ export interface ProductionManifest {
       similarityBoost: number;
     };
     heygen?: {
+      mode: "required" | "optional" | "disabled";
       avatarId: string;
       engine: "avatar_iii" | "avatar_iv";
+      audioAuthority: "elevenlabs" | "heygen";
+      voiceId?: string;
+      alphaRequired: boolean;
     };
     openrouter?: {
       model: string;
+      resolution: "480p" | "720p" | "1080p";
+      generateAudio: boolean;
+      motionContract: "panel-sequence-1-2-3-4" | "custom";
+      sourceAspectRatio?: "1:1" | "9:16" | "16:9";
+      outputAspectRatio?: "1:1" | "9:16" | "16:9";
     };
   };
   scenes: SceneManifest[];

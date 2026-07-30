@@ -12,12 +12,13 @@ HyperFrames is the required composition and rendering engine.
 
 Required gate:
 
-1. Pinned doctor payload is healthy.
+1. Both official template contracts are available: `UCC-Slidedeck-YT-generator/src/youtube` for landscape and `media-library/templates/portrait-9x16` for portrait.
+2. Pinned doctor payload is healthy.
 2. Compiler output is deterministic across two runs.
 3. Strict check with scene and transition snapshots passes.
 4. Human inspects the Studio preview, especially late scenes and media seeking.
 5. Exact preview composition is approved by hash.
-6. High-quality render completes.
-7. FFprobe and a full decode confirm resolution, FPS, codecs, duration, and clean streams.
+7. High-quality renders complete for both 16:9 and 9:16 outputs.
+8. FFprobe and a full decode confirm each rendition's resolution, FPS, codecs, duration, and clean streams.
 
 A passing mechanical check does not substitute for preview approval.

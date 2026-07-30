@@ -19,10 +19,17 @@ designPack: ivory-dusk-editorial
 fps: 30
 music: false
 captions: phrase
-voiceProvider: elevenlabs
+narrationAuthority: elevenlabs
 voiceId: voice
 providers: [elevenlabs]
 costCeilingUsd: 5
+renditions: [16:9, 9:16]
+landscapeTemplate: feature-left-16x9
+portraitTemplate: portrait-concept-explainer
+rubricMinimum: 40
+minimumCriterionScore: 3
+maxRepairCycles: 3
+blockers: [missing-template]
 ---
 # Fixture
 ## Scene 01: Test

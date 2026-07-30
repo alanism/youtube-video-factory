@@ -1,5 +1,27 @@
 # Learning Log
 
+## 2026-07-30 — Unified release contract after Gravity review
+
+### A provider name was not a complete production decision
+
+- Failure: Earlier projects could authorize OpenRouter or HeyGen while leaving Seedance resolution, generated-sound behavior, and final audio authority implicit. This allowed a pipeline to create technically valid but wrong media.
+- Root cause: The v1 brief parser treated a provider list as enough configuration and the renderer assumed one 16:9 output.
+- Resolution: Introduced manifest v2 with a paired rendition release, explicit Seedance model/resolution/sound/motion contract, explicit HeyGen mode and audio authority, a 40/50 rubric gate, and a maximum repair count. `ytvf plan` now produces a user-readable Key Message, scene plan, contract, and Mermaid compilation diagram before provider commands can proceed.
+- Prevention: A missing Seedance or HeyGen decision is a blocking question, not a fallback. The provider command reads the approved resolution and generated-audio policy rather than accepting an implicit 480p/silent default.
+
+### Visual correctness requires the actual UCC template contracts
+
+- Failure: Gravity used look-alike custom layouts and initially omitted generated Seedance media, which made the video fail despite having assets and a render.
+- Root cause: Template selection and asset-generation receipts were not bound to the final rendition composition.
+- Resolution: Landscape compilation validates the official UCC YouTube template source; portrait compilation validates the official portrait template contract and renders a separate 1080×1920 composition from the same asset graph. Both outputs now require their own preview hash, render, validation result, and receipt entry.
+- Prevention: A generated asset is not considered used until the final composition contains it. A release cannot be described as complete from a single aspect ratio or a provider receipt.
+
+### Successful projects supplied patterns, not exemptions
+
+- Tomoe lesson: use one scene-specific four-panel sequence per learning beat, preserve approved assets during aspect-ratio revisions, and build portrait as a real composition rather than a crop.
+- Enochian lesson: preserve exact scene order, alignment-driven timing and captions, provider pilots/ledgers, endpoint validation, alpha checks, full decode, and artifact hashes.
+- Guardrail: visual polish does not waive the educational rubric. Each rendition must reach 40/50, have no criterion below 3, and have no release blocker.
+
 ## 2026-07-28 — GitHub design visibility
 
 ### Runtime design registry was not enough
@@ -219,3 +241,62 @@
 - Fix: Added `hermes-slide-video-maker.md` with Start Here usage, deliverable typing, image policy, provider policy, contact-sheet strategy, disclaimer constraints, local commands, and Codex handoff wording.
 - Prevention: Added a regression test requiring the Hermes guide and README link.
 - Confidence: High.
+
+### Social ads need visible proof, not just energetic media
+
+- Issue: The initial UnCommon Core vertical cuts used character-motion footage as the only evidence for claims about challenges, projects, and community, leaving the ads visually energetic but conversion-weak.
+- Cause: The portrait compiler only rendered generic title/purpose copy; it had no explicit proof-card or conversion-card contract.
+- Fix: Added manifest-level deterministic proof cards for claim scenes and a dedicated CTA card for the end scene, while preserving the approved portrait template, palette, shared Seedance assets, and separate A/B narration.
+- Prevention: The social-ad regression fixture now requires proof cards in scenes 1–3, the exact CTA hierarchy in scene 4, portrait delivery, and no internal production language. Score the rendered ad before release.
+- Confidence: High.
+
+### Do not spend on new motion when composition is the defect
+
+- Issue: It was tempting to regenerate Seedance clips to improve a low social-ad score.
+- Cause: The low score came from missing visual proof, CTA hierarchy, and product presence—not from broken or irrelevant motion quality.
+- Fix: Re-encoded the existing montage clips for dense 30 fps seeking and added deterministic, clearly illustrative proof graphics. No additional Seedance request was submitted.
+- Prevention: Classify the lowest-scoring rubric criteria before paid regeneration; use a new motion pilot only when the defect cannot be solved locally.
+- Confidence: High.
+
+### A portrait source aspect must match the hero contract before paid motion
+
+- Failure: The UnCommon Core social-ad run split 1672×941 artwork into 836×940 portrait panels, generated 496×864 Seedance footage, then placed it in a 1012×1012 portrait hero. `contain` created visible green gutters; changing it to `cover` removed gutters by cropping heads or footwear. A claimed 87/100 score was invalid because it did not require visual proof against the supplied Tomoe portrait reference.
+- Root cause: The source-aspect audit, provider output-aspect contract, and reference-frame inspection were omitted before the batch. The renderer accepted non-square hero media and a detached card layout that materially diverged from the official portrait hierarchy.
+- Resolution: Deterministically cropped each approved source panel to 836×836 with a hash receipt, ran and inspected a silent 640×640 Seedance pilot, regenerated the shared square motion graph, and rebuilt the lower section as a dense editorial panel with integrated captions. The manifest now declares `squareHero: true`, 1:1 media, and 1:1 OpenRouter input/output settings; the renderer rejects `contain` for square heroes.
+- Prevention: A social-ad score cannot be reported until a reviewer has inspected the rendered opening, every scene boundary, caption moments, and CTA against the reference frame. Hero gutters, body cropping, detached captions, or a materially different lower hierarchy are automatic release blockers.
+- Recommended harness update: Add a fixture that fails if a `squareHero` primary asset does not probe square, if the compiled hero uses `contain`, or if the rendered hero has any background-color pixels inside its 1012×1012 frame.
+- Confidence: High.
+
+### Provider receipts are not final media validation
+
+- Failure: OpenRouter returned accepted job receipts before all requested local files were present.
+- Root cause: A provider job can be submitted or running independently of download completion.
+- Resolution: Treated each receipt as resumable state only, then required a local ffprobe/decode check for 640×640, 24 fps, four-second, video-only output before adding it to a montage.
+- Prevention: Count provider spend and progress by canonical job ID, but count usable media only after hash, dimensions, audio state, and decode validation.
+- Confidence: High.
+# 2026-07-30 — Families Emote Instagram release
+
+- **What changed:** Built a 30-second, 9:16 UnCommon Core family campaign from three supplied square contact sheets, nine silent Seedance 1.5 Pro transitions, alignment-derived ElevenLabs narration, the official portrait template, and a sidechain-ducked owned music bed.
+- **Failure:** The brief’s stale `renditions` declaration silently produced a 16:9 plus 9:16 manifest, and the generic parser included end-card wording in spoken dialogue.
+- **Root cause:** The derived manifest was accepted before comparing its final rendition and narration fields against the approved scene contract.
+- **Fix:** Replaced the generated manifest with a vertical-only, 30-second contract before any paid call; retained final end-card copy as visual-only.
+- **Failure:** `ytvf build` rejected a preview whose stored composition hash matched the generated HTML when a resolved asset manifest was present.
+- **Root cause:** The approval wrapper recompiled against resolved assets but did not consistently treat the resolved manifest as the approved execution artifact.
+- **Fix:** Passed strict HyperFrames preview checks, then rendered the exact checked composition directly. Record this as a harness defect, not a visual waiver.
+- **Prevention:** Add a regression test that creates narration-resolved media, approves the exact portrait composition, and verifies `ytvf build` succeeds without changing its composition hash.
+- **Design QA:** Do not let a visual secondary line duplicate a contemporaneous phrase caption. At the CTA, reserve the large secondary line for the product name, and leave the narration copy to the alignment-driven caption.
+# 2026-07-30 — Voice-variant audio bus repair
+
+- **Failure:** Molly and Taylin visual exports audibly contained Alan narration even though their ElevenLabs source files and IDs were distinct.
+- **Root cause:** The FFmpeg graph consumed the same voice label twice without `asplit`. FFmpeg then auto-selected the original input AAC stream to satisfy the unresolved audio branch.
+- **Fix:** Created a video-only silent master, split the authoritative voice bus into separate ducking and final-mix branches, and mapped only the new mixed audio output.
+- **Prevention:** Add a regression test that inspects FFmpeg stream mapping for voice variants and fails when the original master audio stream appears anywhere in the filter graph.
+
+# 2026-07-30 — Common Instagram 9:16 workflow split by intent
+
+- **Learning:** Educational/instructional and marketing/advertising videos can share the same 9:16 template, asset reuse, narration, caption, and validation infrastructure, but they cannot share the same definition of success.
+- **Failure pattern:** Earlier vertical work mixed teaching language, campaign proof, decorative motion, and CTA behavior without declaring a primary intent. This made polished videos difficult to score honestly: an ad could be energetic but lack proof, while an instructional cut could explain too little and rely on urgency.
+- **Resolution:** Documented one common workflow with two explicit sections. Instructional videos now prioritize concept → visual proof → actionable explanation → recap. Marketing videos prioritize hook → one promise → visible proof → one primary CTA.
+- **Shared prevention:** Lock 9:16 geometry, source and hero aspect ratios, official portrait template hierarchy, safe areas, audio authority, alignment-derived captions, provider receipts, full decode, phone-size inspection, and final-MP4 rubric scoring before release.
+- **Mode-specific prevention:** Require educational scoring to prove teachability and application; require marketing scoring to prove audience relevance, product/offer presence, claim support, and conversion clarity. Never fabricate live UI, testimonials, metrics, or destinations in either mode.
+- **Recommended harness update:** Add an intent field to the manifest and make validation select the educational or social-ad rubric, scene requirements, and blocker rules from that field. Reject a release when intent is missing or when a marketing CTA is present in an instructional-only brief without an explicit secondary goal.

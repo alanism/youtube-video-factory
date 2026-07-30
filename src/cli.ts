@@ -11,6 +11,7 @@ import { approveReference } from "./core/quarantine.js";
 import { approveManifest, manifestFromBrief, validateManifest, type CustomDesignRegistry } from "./core/manifest.js";
 import { initializeProject } from "./core/project.js";
 import { writeReviewDocuments } from "./core/review-documents.js";
+import { buildPlanMarkdown, incompleteBuildPlanMarkdown } from "./core/build-plan.js";
 import { assertContained, canonicalHash, readJson, sha256File, writeJsonAtomic, writeTextAtomic } from "./core/files.js";
 import { compileHyperFrames } from "./render/hyperframes.js";
 import { allPalettes, designPacks, layouts, typographies } from "./design/registry.js";
@@ -28,6 +29,10 @@ import { assemblePanelSequence, type PanelSequenceRequest } from "./media/assemb
 const factoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const hyperframesExecutable = join(factoryRoot, "node_modules/.bin/hyperframes");
 
+async function compileRenditions(projectDirectory: string, manifest: ProductionManifest) {
+  return Promise.all(manifest.renditions.map((rendition) => compileHyperFrames(projectDirectory, manifest, rendition.id)));
+}
+
 function help(): string {
   return `YouTube Video Factory (ytvf)
 
@@ -39,6 +44,7 @@ Core workflow
   ytvf changes <project-dir> [--port 4179]
   ytvf plan <project-dir>
   ytvf manifest <project-dir> [--approve]
+  ytvf manifest approve-current <project-dir> # approve an intentionally edited manifest
   ytvf storyboard <project-dir>
   ytvf image plan <project-dir>
   ytvf panels split <project-dir> --source <path> --id <sheet-id>
@@ -161,21 +167,28 @@ async function commandChanges(): Promise<void> {
 async function commandPlan(): Promise<void> {
   const projectDirectory = projectArgument();
   const brief = await readBrief(join(projectDirectory, "PRODUCTION_BRIEF.md"));
-  const cached = existsSync(join(projectDirectory, "production-manifest.json"));
-  console.log(JSON.stringify({
-    mutationFree: true,
-    project: projectDirectory,
-    briefHash: brief.hash,
-    missingDecisions: brief.missingDecisions,
-    scenes: brief.scenes.length,
-    existingManifest: cached,
-    providerCalls: brief.frontmatter.providers ?? [],
-    costCeilingUsd: brief.frontmatter.costCeilingUsd ?? 0,
-    next: brief.missingDecisions.length ? "Complete the brief." : "Generate and approve the manifest.",
-  }, null, 2));
+  if (brief.missingDecisions.length) {
+    console.log(incompleteBuildPlanMarkdown(brief));
+    return;
+  }
+  const registryPath = join(projectDirectory, ".ytvf/design-registry.json");
+  const registry = existsSync(registryPath)
+    ? await readJson<CustomDesignRegistry & { schemaVersion: number }>(registryPath)
+    : { schemaVersion: 1, designPacks: [], palettes: [], typographies: [], motions: [] };
+  console.log(buildPlanMarkdown(manifestFromBrief(brief, registry)));
 }
 
 async function commandManifest(): Promise<void> {
+  if (process.argv[3] === "approve-current") {
+    const projectDirectory = projectArgument(4);
+    const current = await readJson<ProductionManifest>(join(projectDirectory, "production-manifest.json"));
+    const errors = validateManifest({ ...current, approval: { status: "draft" } }, projectDirectory);
+    if (errors.length) throw new Error(`Manifest validation failed:\n- ${errors.join("\n- ")}`);
+    const manifest = approveManifest(current);
+    await writeJsonAtomic(join(projectDirectory, "production-manifest.json"), manifest);
+    console.log(`Approved existing manifest. Hash: ${manifest.approval.approvedHash}`);
+    return;
+  }
   const projectDirectory = projectArgument();
   const brief = await readBrief(join(projectDirectory, "PRODUCTION_BRIEF.md"));
   const registryPath = join(projectDirectory, ".ytvf/design-registry.json");
@@ -193,7 +206,7 @@ async function commandStoryboard(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadApprovedManifest(projectDirectory);
   await writeReviewDocuments(projectDirectory, manifest);
-  console.log("STORYBOARD.md and SCRIPT.md generated.");
+  console.log("BUILD_PLAN.md, STORYBOARD.md, and SCRIPT.md generated.");
 }
 
 async function commandImage(): Promise<void> {
@@ -247,6 +260,7 @@ async function commandNarrate(): Promise<void> {
   if (!hasFlag("--approve-paid")) throw new Error("Narration is a paid call. Re-run with --approve-paid after reviewing ytvf plan.");
   const projectDirectory = projectArgument();
   const manifest = await loadApprovedManifest(projectDirectory);
+  if (manifest.audio.narrationAuthority !== "elevenlabs") throw new Error("ElevenLabs narration is disabled because the approved brief selects HeyGen as final audio authority.");
   const settings = manifest.providers.elevenlabs;
   if (!settings?.voiceId) throw new Error("The approved manifest has no ElevenLabs voice ID.");
   const adapter = new ElevenLabsAdapter();
@@ -382,8 +396,9 @@ async function commandPresenter(): Promise<void> {
   const requestFile = flag("--request");
   if (!requestFile) throw new Error("--request <project-relative-json> is required.");
   const input = await readJson<{
-    audioPath: string;
+    audioPath?: string;
     audioDurationSeconds: number;
+    script?: string;
     outputPath: string;
     sceneId?: string;
     presenterMode?: NonNullable<ProductionManifest["scenes"][number]["presenter"]>["mode"];
@@ -393,16 +408,23 @@ async function commandPresenter(): Promise<void> {
   }>(assertContained(projectDirectory, join(projectDirectory, requestFile)));
   const settings = manifest.providers.heygen;
   if (!settings?.avatarId) throw new Error("The approved manifest has no HeyGen avatar ID.");
+  const audioAuthority = manifest.audio.narrationAuthority;
+  if (audioAuthority === "elevenlabs" && !input.audioPath) throw new Error("ElevenLabs audio authority requires audioPath for HeyGen lip-sync.");
+  if (audioAuthority === "heygen" && !input.script) throw new Error("HeyGen audio authority requires a dialogue-only script.");
+  if (audioAuthority === "heygen" && !settings.voiceId) throw new Error("HeyGen audio authority requires the approved HeyGen voice ID.");
   const adapter = new HeyGenCliAdapter();
+  const heygenAudio = audioAuthority === "elevenlabs"
+    ? { audioPath: assertContained(projectDirectory, join(projectDirectory, input.audioPath!)) }
+    : { script: input.script!, voiceId: settings.voiceId! };
   const request: HeyGenAvatarRequest = {
     avatarId: settings.avatarId,
-    audioPath: assertContained(projectDirectory, join(projectDirectory, input.audioPath)),
     audioDurationSeconds: input.audioDurationSeconds,
     outputPath: assertContained(projectDirectory, join(projectDirectory, input.outputPath)),
     engine: settings.engine,
     resolution: "1080p",
     aspectRatio: input.aspectRatio ?? "16:9",
     outputFormat: input.outputFormat ?? "webm",
+    ...heygenAudio,
     ...(input.title ? { title: input.title } : {}),
   };
   const [access, estimate] = await Promise.all([adapter.verifyAccess(request), adapter.estimate(request)]);
@@ -423,7 +445,7 @@ async function commandPresenter(): Promise<void> {
       mode: input.presenterMode ?? "circle-bottom-right",
       asset: input.outputPath,
       provider: "heygen",
-      muted: true,
+      muted: audioAuthority !== "heygen",
     };
     await writeJsonAtomic(join(projectDirectory, ".ytvf/resolved-manifest.json"), resolved);
   }
@@ -434,12 +456,15 @@ interface LocalMotionRequest {
   prompt: string;
   firstFrame: string;
   lastFrame: string;
+  firstFrameUrl?: string;
+  lastFrameUrl?: string;
   outputPath: string;
   duration?: number;
   resolution?: string;
   aspectRatio?: string;
   seed?: number;
   sceneId?: string;
+  panelTransition?: "1-2" | "2-3" | "3-4";
 }
 
 async function commandMotion(): Promise<void> {
@@ -452,6 +477,13 @@ async function commandMotion(): Promise<void> {
   const input = await readJson<LocalMotionRequest>(assertContained(projectDirectory, join(projectDirectory, requestFile)));
   const settings = manifest.providers.openrouter;
   if (!settings?.model) throw new Error("The approved manifest has no OpenRouter motion model.");
+  if (input.resolution && input.resolution !== settings.resolution) throw new Error(`Motion request resolution must match the approved brief: ${settings.resolution}.`);
+  if (settings.outputAspectRatio && input.aspectRatio && input.aspectRatio !== settings.outputAspectRatio) {
+    throw new Error(`Motion request aspect ratio must match the approved brief: ${settings.outputAspectRatio}.`);
+  }
+  if (settings.motionContract === "panel-sequence-1-2-3-4" && !input.panelTransition) {
+    throw new Error("The approved panel-sequence motion contract requires panelTransition: 1-2, 2-3, or 3-4.");
+  }
   const firstPath = assertContained(projectDirectory, join(projectDirectory, input.firstFrame));
   const lastPath = assertContained(projectDirectory, join(projectDirectory, input.lastFrame));
   const outputPath = assertContained(projectDirectory, join(projectDirectory, input.outputPath));
@@ -461,25 +493,37 @@ async function commandMotion(): Promise<void> {
     firstFrameHash: await sha256File(firstPath),
     lastFrameHash: await sha256File(lastPath),
     duration: input.duration ?? 5,
-    resolution: input.resolution ?? "480p",
+    resolution: settings.resolution,
     aspectRatio: input.aspectRatio ?? "1:1",
+    motionContract: settings.motionContract,
+    panelTransition: input.panelTransition ?? "custom",
     seed: input.seed ?? 1729,
   });
   const stager = new GcpFrameStager();
   const staged: StagedFrame[] = [];
+  const suppliedFrameUrls = input.firstFrameUrl || input.lastFrameUrl
+    ? [input.firstFrameUrl, input.lastFrameUrl]
+    : undefined;
+  if (suppliedFrameUrls && (!input.firstFrameUrl || !input.lastFrameUrl || suppliedFrameUrls.some((url) => {
+    try { return new URL(url!).protocol !== "https:" || !new URL(url!).hostname.endsWith(".netlify.app"); } catch { return true; }
+  }))) {
+    throw new Error("Explicit frame URLs must be HTTPS URLs hosted on a Netlify draft deployment.");
+  }
   let safeToRelease = false;
   try {
-    staged.push(await stager.stage(firstPath, manifest.id, requestIdentity));
-    staged.push(await stager.stage(lastPath, manifest.id, requestIdentity));
+    if (!suppliedFrameUrls) {
+      staged.push(await stager.stage(firstPath, manifest.id, requestIdentity));
+      staged.push(await stager.stage(lastPath, manifest.id, requestIdentity));
+    }
     const request: OpenRouterVideoRequest = {
       model: settings.model,
       prompt: input.prompt,
       duration: input.duration ?? 5,
-      resolution: input.resolution ?? "480p",
+      resolution: settings.resolution,
       aspectRatio: input.aspectRatio ?? "1:1",
-      firstFrameUrl: staged[0]!.publicUrl,
-      lastFrameUrl: staged[1]!.publicUrl,
-      generateAudio: false,
+      firstFrameUrl: suppliedFrameUrls?.[0] ?? staged[0]!.publicUrl,
+      lastFrameUrl: suppliedFrameUrls?.[1] ?? staged[1]!.publicUrl,
+      generateAudio: settings.generateAudio,
       seed: input.seed ?? 1729,
       outputPath,
     };
@@ -492,6 +536,7 @@ async function commandMotion(): Promise<void> {
       schemaVersion: 1,
       requestHash: requestIdentity,
       objects: staged.map(({ objectKey, hash }) => ({ objectKey, hash })),
+      ...(suppliedFrameUrls ? { frameUrls: suppliedFrameUrls } : {}),
     });
     const context = { projectDirectory, manifest, approvedRequestHash: manifest.approval.approvedHash ?? "", dryRun: false };
     let job = await adapter.submit(request, context);
@@ -523,83 +568,88 @@ async function commandMotion(): Promise<void> {
 async function commandPreview(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadExecutionManifest(projectDirectory);
-  const result = await compileHyperFrames(projectDirectory, manifest);
-  await runHyperFrames(["check", "--strict", "--snapshots", "--at-transitions", result.directory], factoryRoot);
+  const results = await compileRenditions(projectDirectory, manifest);
+  for (const result of results) await runHyperFrames(["check", "--strict", "--snapshots", "--at-transitions", result.directory], factoryRoot);
   if (hasFlag("--check-only")) {
-    console.log(`Preview checks passed: ${result.compositionPath}`);
+    console.log(`Preview checks passed: ${results.map((result) => result.compositionPath).join(", ")}`);
     return;
   }
-  console.log("Mechanical checks passed. Opening HyperFrames Studio; inspect the whole timeline before approval.");
-  await runHyperFrames(["preview", result.directory], factoryRoot);
+  console.log(`Mechanical checks passed for ${results.length} requested rendition(s). Opening the first approved HyperFrames Studio preview.`);
+  await runHyperFrames(["preview", results[0]!.directory], factoryRoot);
 }
 
 async function commandApprovePreview(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadExecutionManifest(projectDirectory);
-  const composition = join(projectDirectory, "build/hyperframes/index.html");
-  if (!existsSync(composition)) throw new Error("No compiled preview exists.");
+  const renditions = manifest.renditions.map((rendition) => ({ id: rendition.id, composition: join(projectDirectory, "build/hyperframes", rendition.id, "index.html") }));
+  if (renditions.some(({ composition }) => !existsSync(composition))) throw new Error("Every requested rendition preview is required before approval.");
   await writeJsonAtomic(join(projectDirectory, ".ytvf/preview-approval.json"), {
-    schemaVersion: 1,
+    schemaVersion: 2,
     manifestApprovalHash: manifest.approval.approvedHash,
-    compositionHash: await sha256File(composition),
+    renditions: await Promise.all(renditions.map(async ({ id, composition }) => ({ id, compositionHash: await sha256File(composition) }))),
     approved: true,
   });
-  console.log("Preview approval recorded for the exact compiled composition.");
+  console.log("Preview approval recorded for every exact compiled rendition.");
 }
 
 async function commandBuild(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadExecutionManifest(projectDirectory);
-  const result = await compileHyperFrames(projectDirectory, manifest);
-  const approval = await readJson<{ approved: boolean; manifestApprovalHash: string; compositionHash: string }>(
+  const results = await compileRenditions(projectDirectory, manifest);
+  const approval = await readJson<{ approved: boolean; manifestApprovalHash: string; renditions: Array<{ id: string; compositionHash: string }> }>(
     join(projectDirectory, ".ytvf/preview-approval.json"),
   );
-  if (!approval.approved
-    || approval.manifestApprovalHash !== manifest.approval.approvedHash
-    || approval.compositionHash !== await sha256File(result.compositionPath)) {
-    throw new Error("Final render is blocked until this exact preview is explicitly approved.");
+  for (const result of results) {
+    const approved = approval.renditions.find((item) => item.id === result.rendition.id);
+    if (!approval.approved || approval.manifestApprovalHash !== manifest.approval.approvedHash || approved?.compositionHash !== await sha256File(result.compositionPath)) {
+      throw new Error(`Final render is blocked until the exact ${result.rendition.id} preview is explicitly approved.`);
+    }
+    const output = resolve(projectDirectory, result.rendition.destination);
+    await mkdir(dirname(output), { recursive: true });
+    await runHyperFrames(["render", "--strict", "--quality", manifest.output.quality, "--fps", String(manifest.output.fps), "--output", output, result.directory], factoryRoot);
+    console.log(`Rendered ${output}`);
   }
-  const output = resolve(projectDirectory, manifest.output.destination);
-  await mkdir(dirname(output), { recursive: true });
-  await runHyperFrames(["render", "--strict", "--quality", manifest.output.quality, "--fps", String(manifest.output.fps), "--output", output, result.directory], factoryRoot);
-  console.log(`Rendered ${output}`);
 }
 
 async function commandValidate(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadExecutionManifest(projectDirectory);
-  const errors = validateManifest(manifest, projectDirectory);
-  const buildPath = join(projectDirectory, "build/hyperframes/index.html");
-  if (existsSync(buildPath)) await runHyperFrames(["check", "--strict", "--at-transitions", join(projectDirectory, "build/hyperframes")], factoryRoot);
-  const output = assertContained(projectDirectory, join(projectDirectory, manifest.output.destination));
-  let media: Record<string, unknown> = { checked: false, reason: "final output does not exist" };
-  if (existsSync(output)) {
-    const probe = spawnSync("ffprobe", [
-      "-v", "error", "-show_entries",
-      "format=duration,format_name:stream=codec_type,codec_name,width,height,r_frame_rate,sample_rate,channels",
-      "-of", "json", output,
-    ], { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 });
-    if (probe.status !== 0) errors.push(`ffprobe failed: ${probe.stderr.trim()}`);
-    let parsed: { streams?: Array<Record<string, unknown>>; format?: Record<string, unknown> } = {};
-    try { parsed = JSON.parse(probe.stdout) as typeof parsed; } catch { errors.push("ffprobe did not return valid JSON"); }
-    const video = parsed.streams?.find((stream) => stream.codec_type === "video");
-    const audio = parsed.streams?.find((stream) => stream.codec_type === "audio");
-    if (video?.codec_name !== "h264") errors.push("final video codec is not H.264");
-    if (video?.width !== 1920 || video?.height !== 1080) errors.push("final resolution is not 1920x1080");
-    if (video?.r_frame_rate !== `${manifest.output.fps}/1`) errors.push(`final frame rate is not ${manifest.output.fps} fps`);
-    if (manifest.scenes.some((scene) => scene.narration?.asset) && audio?.codec_name !== "aac") errors.push("final narration audio codec is not AAC");
-    const decode = spawnSync("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"], {
-      encoding: "utf8",
-      maxBuffer: 20 * 1024 * 1024,
-    });
-    if (decode.status !== 0 || decode.stderr.trim()) errors.push(`full decode failed: ${decode.stderr.trim()}`);
-    media = { checked: true, probe: parsed, fullDecode: decode.status === 0 && !decode.stderr.trim() };
+  const errors = validateManifest({ ...manifest, approval: { status: "draft" } }, projectDirectory);
+  const media: Record<string, unknown> = {};
+  for (const rendition of manifest.renditions) {
+    const buildDirectory = join(projectDirectory, "build/hyperframes", rendition.id);
+    if (existsSync(join(buildDirectory, "index.html"))) await runHyperFrames(["check", "--strict", "--at-transitions", buildDirectory], factoryRoot);
+    const output = assertContained(projectDirectory, join(projectDirectory, rendition.destination));
+    let renditionMedia: Record<string, unknown> = { checked: false, reason: "final output does not exist" };
+    if (existsSync(output)) {
+      const probe = spawnSync("ffprobe", [
+        "-v", "error", "-show_entries",
+        "format=duration,format_name:stream=codec_type,codec_name,width,height,r_frame_rate,sample_rate,channels",
+        "-of", "json", output,
+      ], { encoding: "utf8", maxBuffer: 10 * 1024 * 1024 });
+      if (probe.status !== 0) errors.push(`${rendition.id}: ffprobe failed: ${probe.stderr.trim()}`);
+      let parsed: { streams?: Array<Record<string, unknown>>; format?: Record<string, unknown> } = {};
+      try { parsed = JSON.parse(probe.stdout) as typeof parsed; } catch { errors.push(`${rendition.id}: ffprobe did not return valid JSON`); }
+      const video = parsed.streams?.find((stream) => stream.codec_type === "video");
+      const audio = parsed.streams?.find((stream) => stream.codec_type === "audio");
+      if (video?.codec_name !== "h264") errors.push(`${rendition.id}: final video codec is not H.264`);
+      if (video?.width !== rendition.width || video?.height !== rendition.height) errors.push(`${rendition.id}: final resolution is not ${rendition.width}x${rendition.height}`);
+      if (video?.r_frame_rate !== `${manifest.output.fps}/1`) errors.push(`${rendition.id}: final frame rate is not ${manifest.output.fps} fps`);
+      if (manifest.scenes.some((scene) => scene.narration?.asset) && audio?.codec_name !== "aac") errors.push(`${rendition.id}: final narration audio codec is not AAC`);
+      const decode = spawnSync("ffmpeg", ["-v", "error", "-i", output, "-f", "null", "-"], {
+        encoding: "utf8",
+        maxBuffer: 20 * 1024 * 1024,
+      });
+      if (decode.status !== 0 || decode.stderr.trim()) errors.push(`${rendition.id}: full decode failed: ${decode.stderr.trim()}`);
+      renditionMedia = { checked: true, probe: parsed, fullDecode: decode.status === 0 && !decode.stderr.trim() };
+    }
+    media[rendition.id] = renditionMedia;
   }
   const result = {
-    status: errors.length ? "FAIL" : existsSync(output) ? "PASS" : "PASS-PREVIEW-ONLY",
+    status: errors.length ? "FAIL" : manifest.renditions.every((rendition) => existsSync(join(projectDirectory, rendition.destination))) ? "PASS" : "PASS-PREVIEW-ONLY",
     manifestApprovalHash: manifest.approval.approvedHash,
     scenes: manifest.scenes.length,
-    hyperframesChecked: existsSync(buildPath),
+    hyperframesChecked: manifest.renditions.every((rendition) => existsSync(join(projectDirectory, "build/hyperframes", rendition.id, "index.html"))),
     finalMedia: media,
     errors,
   };
@@ -704,7 +754,6 @@ async function commandDesign(): Promise<void> {
 async function commandReceipt(): Promise<void> {
   const projectDirectory = projectArgument();
   const manifest = await loadExecutionManifest(projectDirectory);
-  const output = resolve(projectDirectory, manifest.output.destination);
   const validationPath = join(projectDirectory, "validation/validation-result.json");
   const validation = existsSync(validationPath)
     ? await readJson<{ status: string }>(validationPath)
@@ -713,13 +762,21 @@ async function commandReceipt(): Promise<void> {
     schemaVersion: 1,
     project: manifest.title,
     manifestApprovalHash: manifest.approval.approvedHash,
+    release: manifest.release,
     scenes: manifest.scenes.length,
     durationSeconds: manifest.scenes.reduce((sum, scene) => sum + scene.durationSeconds, 0),
-    resolution: `${manifest.output.width}x${manifest.output.height}`,
     fps: manifest.output.fps,
     renderer: "HyperFrames 0.7.77",
-    output: existsSync(output) ? manifest.output.destination : null,
-    outputHash: existsSync(output) ? await sha256File(output) : null,
+    renditions: await Promise.all(manifest.renditions.map(async (rendition) => {
+      const output = resolve(projectDirectory, rendition.destination);
+      return {
+        id: rendition.id,
+        resolution: `${rendition.width}x${rendition.height}`,
+        template: rendition.defaultTemplate,
+        output: existsSync(output) ? rendition.destination : null,
+        outputHash: existsSync(output) ? await sha256File(output) : null,
+      };
+    })),
     validation: validation.status,
   };
   await writeJsonAtomic(join(projectDirectory, "BUILD_RECEIPT.json"), receipt);

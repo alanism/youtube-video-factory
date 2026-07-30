@@ -28,6 +28,6 @@ The adapter contract tests prove request shapes, lifecycle handling, downloads, 
 ## Provider roles
 
 - ElevenLabs: timestamped narration and phrase-caption timing.
-- HeyGen: presenter video. Mute it in the final composition and retain the narration master.
-- OpenRouter: capability-selected motion generation such as Seedance. Do not hardcode provider-specific assumptions outside the adapter.
+- HeyGen: presenter video. If ElevenLabs is the declared final authority, mute HeyGen and retain the ElevenLabs master; if HeyGen is the declared authority, submit a dialogue-only script with the approved HeyGen voice and retain its audio intentionally.
+- OpenRouter: capability-selected motion generation such as Seedance. The approved brief must explicitly set model, resolution, generated-sound policy, and motion contract; do not hardcode provider-specific assumptions outside the adapter.
 - GCP: temporary public input staging. Delete staged objects after dependent jobs finish.
