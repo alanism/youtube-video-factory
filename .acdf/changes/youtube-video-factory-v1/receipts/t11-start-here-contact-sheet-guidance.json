@@ -1,0 +1,18 @@
+{
+  "taskId": "t11-start-here-contact-sheet-guidance",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Update Start Here with four-frame contact-sheet guidance and user-authored-only disclaimer policy.",
+  "actualChange": "Added Start Here notes and generated brief fields for the 2x2 four-frame 1:1 contact-sheet workflow, Seedance 1->2/2->3/3->4 transition reuse, and user-authored-only disclaimer policy. Updated README and image workflow reference.",
+  "verificationCommands": [
+    "pnpm test -- tests/start-here.test.ts",
+    "pnpm test:security",
+    "git diff --check"
+  ],
+  "evidenceFiles": [
+    "evidence/t11_start_here_test.log",
+    "evidence/t11_security.log"
+  ],
+  "prevention": "Start Here tests now require the contact-sheet, Seedance, and user-authored-only disclaimer guidance."
+}

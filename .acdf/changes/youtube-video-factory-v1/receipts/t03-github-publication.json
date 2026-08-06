@@ -1,0 +1,20 @@
+{
+  "taskId": "t03-github-publication",
+  "agentId": "root",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Commit and publish the ACDF-wrapped YouTube Video Factory release candidate.",
+  "actualChange": "Committed the release candidate, pushed branch agent/initial-hyperframes-proof, and opened draft PR #1 into main.",
+  "verificationCommands": [
+    "git status -sb",
+    "git log -1 --oneline",
+    "gh pr view 1 --json number,title,url,state,isDraft,baseRefName,headRefName"
+  ],
+  "evidenceFiles": [
+    "evidence/t03_git_status.log",
+    "evidence/t03_git_log.log",
+    "evidence/t03_pr.log"
+  ],
+  "pullRequest": "https://github.com/alanism/youtube-video-factory/pull/1",
+  "prevention": "Keep publication as its own ACDF task so GitHub state is visible instead of implied by chat."
+}

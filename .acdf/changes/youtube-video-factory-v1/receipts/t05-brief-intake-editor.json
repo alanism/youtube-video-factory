@@ -1,0 +1,21 @@
+{
+  "taskId": "t05-brief-intake-editor",
+  "agentId": "root",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Make the briefing page support both attached files and typed draft prompts for image, video, and copywriting context.",
+  "actualChange": "Added Prompt and copy drafts UI, /api/text-reference endpoint, quarantined Markdown draft storage, README documentation, learning-log entry, and brief editor tests.",
+  "verificationCommands": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm test:security",
+    "pnpm build"
+  ],
+  "evidenceFiles": [
+    "evidence/t05_typecheck.log",
+    "evidence/t05_test.log",
+    "evidence/t05_security.log",
+    "evidence/t05_build.log"
+  ],
+  "prevention": "The brief editor test now verifies uploaded references plus typed prompt/copy drafts are visible in the UI and saved under references/quarantine."
+}

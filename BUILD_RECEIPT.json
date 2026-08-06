@@ -1,64 +1,76 @@
 {
   "receiptVersion": 1,
   "project": "YouTube Video Factory",
-  "buildId": "ytvf-m0-20260728",
-  "milestone": 0,
-  "status": "preview-ready",
-  "renderApproval": "pending",
+  "buildId": "ytvf-v0.1.0-20260728",
+  "status": "clone-acceptance-passed-live-providers-pending",
   "createdOn": "2026-07-28",
   "toolchain": {
     "node": "22.22.3",
     "pnpm": "11.9.0",
     "hyperframes": "0.7.77",
     "ffmpeg": "8.1.2",
-    "chrome": "152.0.7928.2"
+    "typescript": "5.9.3"
   },
-  "composition": {
-    "id": "ytvf-proof",
-    "width": 1920,
-    "height": 1080,
-    "fps": 30,
-    "durationSeconds": 17.665229,
-    "layout": "feature-left-4x3",
-    "designPack": "ivory-dusk-editorial",
-    "sceneCount": 2,
-    "captionPhraseCount": 6,
-    "transitionCount": 1,
-    "music": false,
-    "soundEffects": false
-  },
-  "assets": [
-    {
-      "id": "proof-video",
-      "path": "assets/proof/field.mp4",
-      "sha256": "66c9a40d19f6d5aca1d72d81097219fd484811a62c81014f59d3e5692b69c1a4",
-      "provenance": "deterministically generated locally with FFmpeg"
-    },
-    {
-      "id": "proof-narration",
-      "path": "assets/proof/narration.wav",
-      "sha256": "aae9b93c9d6a6f0b789978a4ad9e523f8a47b2c97d975166f34047531e3bd47e",
-      "provenance": "generated locally with the operating-system speech synthesizer"
-    }
-  ],
-  "sourceHashes": {
-    "index.html": "c48a94cfad4dd54f143a0e13efaff61042c2fe1850c95e88cc484ff935daad8d",
-    "index.motion.json": "63ce7c61c4b98f5cbf32e7c51ff1c06faa74b438e35a5f47ed57f125df8a9abd",
-    "pnpm-lock.yaml": "36f2f5c3aa18cd32b563196c8363bb28bc068a8f9e0318b99f460e4b3384a323"
+  "factory": {
+    "layouts": 17,
+    "originalPalettes": 31,
+    "factoryPalettes": 1,
+    "typographySystems": 5,
+    "defaultDesignPack": "ivory-dusk-editorial",
+    "codexSkill": "skills/youtube-video-factory/SKILL.md",
+    "cli": "ytvf",
+    "ontologyVersion": 1
   },
   "validation": {
-    "doctorRequiredChecks": "pass",
-    "lint": "pass",
-    "strictCheck": "pass",
-    "transitionSnapshots": "inspected",
-    "lateSceneMedia": "pass",
-    "repeatSnapshotHashes": "identical",
-    "secretScan": "pass",
-    "highQualityRender": "not-run-pending-preview-approval",
-    "ffprobeFinal": "not-run-pending-render"
+    "typecheck": "pass",
+    "unitAndIntegrationTests": {
+      "status": "pass",
+      "count": 29,
+      "includes": [
+        "brief determinism",
+        "manifest approval hashes",
+        "17-layout registry and geometry",
+        "reference quarantine and symlink rejection",
+        "Codex built-in image tasks",
+        "provider request idempotency",
+        "mocked ElevenLabs lifecycle",
+        "mocked HeyGen lifecycle",
+        "mocked OpenRouter lifecycle",
+        "mocked GCP staging",
+        "private 15-scene Enochian forward compile",
+        "Enochian four-panel gutter split",
+        "360-frame silent sequence assembly",
+        "GitHub-visible design docs",
+        "layout PNG preview coverage",
+        "IBM Plex Sans Serif Mono typography coverage",
+        "project subfolder initialization",
+        "local start page generation",
+        "root briefing worksheet with copy and download export",
+        "Start Here visible palette selection",
+        "Start Here visible typography selection",
+        "Start Here deliverable-agnostic image deck and non-video brief fields"
+      ]
+    },
+    "designSystemDocs": "pass",
+    "layoutPreviewPngs": 17,
+    "cleanCloneFlow": "pass",
+    "hyperframesStrictCheck": "pass",
+    "hyperframesSnapshots": "inspected",
+    "repeatManifestHash": "identical",
+    "repeatCompositionHash": "identical",
+    "secretPatternScan": "pass",
+    "highQualityFactoryDemoRender": "not-run-current-memory-preflight-failed",
+    "liveProviderPilots": "not-run-no-credentials-in-process-environment"
   },
-  "providerUsage": {
-    "paidCalls": 0,
-    "externalNetworkCallsDuringComposition": 0
+  "providerStatus": {
+    "elevenlabs": "implemented-and-mock-tested",
+    "heygen": "implemented-and-mock-tested-official-cli-present",
+    "openrouter": "implemented-and-mock-tested",
+    "gcpStaging": "implemented-and-mock-tested-gcloud-present",
+    "codexImage2": "project-job-and-skill-workflow-implemented-no-api-key"
+  },
+  "releaseGate": {
+    "publicCodePush": "ready",
+    "v0.1.0Tag": "blocked-until-live-provider-pilots-and-external-user-tests"
   }
 }

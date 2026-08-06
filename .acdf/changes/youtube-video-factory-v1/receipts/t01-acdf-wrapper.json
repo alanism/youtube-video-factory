@@ -1,0 +1,11 @@
+{
+  "taskId": "t01-acdf-wrapper",
+  "agentId": "root",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Add ACDF governance wrapper for the YouTube Video Factory release candidate.",
+  "actualChange": "Added ACDF reference files, change intent, models, proposal, design, task board, risk review, authority snapshot, build ledger, runbook, retrospective, and learning-log entries.",
+  "verificationCommand": "find .acdf -type f",
+  "evidenceFile": "evidence/t01_acdf_files.log",
+  "prevention": "Future public factory work should begin with an ACDF change container before implementation or publication."
+}

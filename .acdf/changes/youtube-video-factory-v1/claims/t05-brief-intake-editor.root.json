@@ -1,0 +1,14 @@
+{
+  "taskId": "t05-brief-intake-editor",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-28T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "src/core/brief-html.ts",
+    "src/core/quarantine.ts",
+    "tests/brief-editor.test.ts",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "learning_log.md"
+  ]
+}

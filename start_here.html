@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>YouTube Video Factory - Start Here</title>
+  <style>
+    :root{
+      --bg-primary:#ffffff;
+      --bg-sidebar:#fbfbfc;
+      --bg-accent:#f4f4f5;
+      --text-primary:#18181b;
+      --text-secondary:#71717a;
+      --text-muted:#a1a1aa;
+      --border-light:#f4f4f5;
+      --border-standard:#e4e4e7;
+      --brand-dark:#18181b;
+      --brand-active:#16a34a;
+      --radius-md:6px;
+      --radius-lg:8px;
+      --motion-standard:300ms cubic-bezier(0.4,0,0.2,1);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg-primary);color:var(--text-primary);font-family:"IBM Plex Sans","IBM Plex",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .app{min-height:100vh;display:flex}
+    aside{position:sticky;top:0;width:256px;height:100vh;padding:24px 18px;background:var(--bg-sidebar);border-right:1px solid var(--border-standard)}
+    aside h2{margin:0 0 4px;font-size:.75rem;letter-spacing:.025em;text-transform:uppercase;color:var(--text-muted)}
+    aside strong{display:block;margin-bottom:24px;font-size:1.05rem}
+    nav a{display:block;margin:4px 0;padding:9px 10px;border-radius:var(--radius-md);color:var(--text-secondary);text-decoration:none;font-weight:600;transition:background-color var(--motion-standard),transform var(--motion-standard),color var(--motion-standard)}
+    nav a:hover{background:var(--bg-accent);color:var(--text-primary);transform:translateY(-1px)}
+    main{flex:1;min-width:0}
+    header{position:sticky;top:0;z-index:30;padding:14px 32px;background:rgba(255,255,255,.86);border-bottom:1px solid rgba(228,228,231,.8);backdrop-filter:blur(16px)}
+    header p{margin:0;color:var(--text-secondary);font-size:.9rem}
+    .editor{max-width:960px;margin:0 auto;padding:4rem 4rem 8rem}
+    h1{margin:0 0 14px;font-size:clamp(2.4rem,7vw,4.6rem);line-height:.95;letter-spacing:-.045em;font-weight:600}
+    h2{margin:54px 0 16px;font-size:1.5rem;line-height:1.15;letter-spacing:-.025em;font-weight:600}
+    h3{margin:0 0 8px;font-size:1.25rem;letter-spacing:-.025em}
+    p{font-size:1rem;line-height:1.625;color:var(--text-secondary)}
+    label{display:block;margin:14px 0 8px;font-weight:600;color:var(--text-primary)}
+    input,select,textarea{width:100%;border:1px solid var(--border-standard);border-radius:var(--radius-md);background:#fff;color:var(--text-primary);padding:12px 13px;font:1rem/1.5 "IBM Plex Sans","IBM Plex",system-ui,sans-serif;transition:border-color var(--motion-standard),box-shadow var(--motion-standard),background-color var(--motion-standard)}
+    textarea{min-height:112px;resize:vertical}
+    input:focus,select:focus,textarea:focus{outline:0;border-color:#d4d4d8;box-shadow:0 0 0 4px rgba(228,228,231,.5)}
+    .intro{max-width:700px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .panel{margin:24px 0;padding:24px;border:1px solid var(--border-standard);border-radius:var(--radius-lg);background:#fff;box-shadow:0 0 10px rgba(0,0,0,.025)}
+    .conditional{display:block}
+    .conditional.is-hidden{display:none}
+    .hint{margin-top:6px;color:var(--text-muted);font-size:.88rem}
+    .note{margin:16px 0;padding:14px 16px;border:1px solid var(--border-standard);border-radius:var(--radius-lg);background:var(--bg-sidebar);color:var(--text-secondary);font-size:.94rem;line-height:1.55}
+    .note b{color:var(--text-primary)}
+    .picker-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0}
+    .filter{max-width:260px}
+    .palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:14px;max-height:430px;overflow:auto;padding:2px}
+    .palette-card,.type-card{border:1px solid var(--border-standard);border-radius:var(--radius-lg);background:#fff;padding:12px;text-align:left;cursor:pointer;transition:box-shadow var(--motion-standard),transform var(--motion-standard),border-color var(--motion-standard)}
+    .palette-card:hover,.type-card:hover{transform:translateY(-1px);box-shadow:0 0 10px rgba(0,0,0,.05)}
+    .palette-card[aria-pressed="true"],.type-card[aria-pressed="true"]{border-color:var(--brand-dark);box-shadow:0 0 0 3px rgba(24,24,27,.08)}
+    .palette-card small,.type-card small{display:block;margin-top:4px;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.025em}
+    .swatches{display:grid;grid-template-columns:repeat(5,1fr);height:54px;overflow:hidden;border-radius:var(--radius-md);border:1px solid var(--border-light);margin-bottom:10px}
+    .swatch{min-width:0}
+    .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+    .type-card{min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+    .font-specimen{display:grid;gap:10px;margin-bottom:14px;padding:16px;border:1px solid var(--border-light);border-radius:var(--radius-md);background:linear-gradient(180deg,#fff,#fbfbfc)}
+    .type-headline{font-size:2rem;line-height:1;letter-spacing:-.045em;font-weight:600;color:var(--text-primary)}
+    .type-body{font-size:.95rem;line-height:1.45;color:var(--text-secondary)}
+    .type-caption{font-size:.72rem;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+    .type-mono{font-size:.78rem;line-height:1.25;color:var(--text-secondary)}
+    .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .serif{font-family:"IBM Plex Serif",Georgia,serif}
+    .sans{font-family:"IBM Plex Sans","IBM Plex",system-ui,sans-serif}
+    .selection-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:16px}
+    .summary-card{padding:14px;border:1px solid var(--border-standard);border-radius:var(--radius-lg);background:var(--bg-sidebar)}
+    .summary-card b{display:block;margin-bottom:4px}
+    .actions{position:sticky;bottom:0;z-index:30;display:flex;flex-wrap:wrap;gap:10px;margin:40px -16px 0;padding:14px 16px;background:rgba(255,255,255,.92);border:1px solid rgba(228,228,231,.8);border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.12);backdrop-filter:blur(14px)}
+    button,a.button{border:0;border-radius:var(--radius-md);background:var(--brand-dark);color:#fff;padding:11px 14px;text-decoration:none;font-weight:700;cursor:pointer;transition:transform 200ms ease-out,box-shadow var(--motion-standard),background-color var(--motion-standard)}
+    button:hover,a.button:hover{transform:translateY(-1px);box-shadow:0 0 15px rgba(24,24,27,.18)}
+    button:active,a.button:active{transform:scale(.96)}
+    .secondary{background:#3f3f46}
+    pre{white-space:pre-wrap;min-height:320px;max-height:620px;overflow:auto;background:var(--bg-sidebar);border:1px solid var(--border-standard);border-radius:var(--radius-lg);padding:18px;color:var(--text-primary);font: .92rem/1.55 "IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    code{background:var(--bg-accent);padding:2px 6px;border-radius:4px}
+    .caption{font-size:.75rem;line-height:1.5;font-weight:500;letter-spacing:.025em;text-transform:uppercase;color:var(--text-muted)}
+    @media (max-width:860px){
+      .app{display:block}
+      aside{position:relative;width:auto;height:auto;border-right:0;border-bottom:1px solid var(--border-standard)}
+      nav{display:flex;flex-wrap:wrap;gap:6px}
+      nav a{margin:0}
+      .editor{padding:2rem 1.25rem 7rem}
+      header{padding:12px 20px}
+      .actions{border-radius:var(--radius-lg)}
+    }
+    .workflow-step{width:100%;border:0;background:transparent;color:var(--text-secondary);text-align:left;margin:4px 0;padding:10px;border-radius:var(--radius-md);font-weight:650;cursor:pointer}.workflow-step b{color:var(--brand-active);margin-right:8px}.workflow-step.active{background:#ecfdf3;color:var(--text-primary)}.guided-hidden{display:none}.readiness-rail{position:fixed;right:28px;top:88px;width:250px;padding:18px;background:#fff;border:1px solid var(--border-standard);border-radius:var(--radius-lg);box-shadow:0 12px 30px rgba(0,0,0,.08);z-index:20}.readiness-rail h3{font-size:1rem}.readiness-rail ul{padding-left:18px;color:var(--text-secondary);font-size:.85rem;line-height:1.7}.readiness-rail li.ready{color:#15803d}.workflow-tools{display:flex;gap:8px;align-items:center;margin-top:12px}.workflow-tools button{padding:8px 10px;font-size:.8rem}@media(min-width:1240px){.editor{margin-right:285px}}@media(max-width:1239px){.readiness-rail{display:none}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <h2>YouTube Video Factory</h2>
+      <strong>Start Here</strong>
+      <nav aria-label="Brief sections">
+        <a href="#intent">Project intent</a>
+        <a href="#deliverable">Deliverable specs</a>
+        <a href="#visual">Visual system</a>
+        <a href="#providers">Providers</a>
+        <a href="#scenes">Scenes</a>
+        <a href="#output-section">Generated brief</a>
+      </nav>
+      <p class="hint">This file is local-only. It does not upload your brief, keys, or references.</p>
+    </aside>
+    <main>
+      <header>
+        <p>Fill this out, copy/download the brief, then paste it into Codex.</p>
+      </header>
+      <div class="editor">
+        <section class="intro">
+          <p class="caption">Minimal Workspace briefing page</p>
+          <h1>Describe the media you want.</h1>
+          <p>Use this page to write the first production brief. It includes visible palette and typography choices, prompt drafts, reference notes, provider policy, and scene planning.</p>
+        </section>
+
+        <section id="intent" class="panel">
+          <h2>1. Project Intent</h2>
+          <div class="grid">
+            <label>Project title<input id="title" value="My YouTube Video"></label>
+            <label>Project ID<input id="projectId" value="my-youtube-video"></label>
+            <label>Deliverable type<select id="deliverableType"><option value="youtube-video">YouTube Video</option><option value="image-deck">Image Deck</option><option value="slide-deck">Slide Deck</option><option value="image-set">Image Set</option><option value="motion-sequence">Motion Sequence</option><option value="interactive">Interactive / Mini-App — planning only</option></select></label>
+            <label>Audience<input id="audience" placeholder="Who should watch this?"></label>
+            <label class="conditional video-field motion-field">Target runtime<input id="runtime" placeholder="Example: 5 minutes"></label>
+          </div>
+          <label>What should the viewer understand, feel, or do after watching?</label>
+          <textarea id="outcome"></textarea>
+          <label>Topic, thesis, and story arc</label>
+          <textarea id="story"></textarea>
+          <label>Explicit exclusions</label>
+          <textarea id="exclusions" placeholder="No music, no logo, no new narration, no provider spend without approval..."></textarea>
+        </section>
+
+        <section id="deliverable" class="panel">
+          <h2>2. Deliverable Specs</h2>
+          <div class="grid">
+            <label>Output count<input id="outputCount" type="number" min="1" value="1"></label>
+            <label>Primary aspect ratio<select id="aspectRatio"><option>16:9</option><option>1:1</option><option>4:3</option><option>9:16</option><option>mixed</option><option>responsive</option><option>custom</option></select></label>
+            <label>Target resolution<input id="resolution" value="1920x1080"></label>
+            <label>Output format<select id="outputFormat"><option>mp4</option><option>png</option><option>jpg</option><option>pdf</option><option>html</option><option>webm</option></select></label>
+          </div>
+          <label>Output naming pattern</label>
+          <input id="outputPattern" value="output/{projectId}.mp4">
+
+          <div class="grid">
+            <label>Image source policy<select id="imageSourcePolicy"><option value="ai-generated">AI generates from prompts</option><option value="user-supplied">User supplies images</option><option value="mixed">Mixed — some AI, some uploaded</option><option value="reuse-existing">Reuse existing assets</option><option value="no-new-images">No new images</option></select></label>
+            <label>Preferred image model or source<input id="imageModel" placeholder="Codex Image 2, FLUX, uploaded assets, etc."></label>
+          </div>
+          <label>Supplied asset notes</label>
+          <textarea id="suppliedAssetNotes" placeholder="List folders, filenames, contact sheets, reference packs, or assets the user will provide."></textarea>
+
+          <div class="conditional video-field">
+            <h3>Video-specific fields</h3>
+            <div class="grid">
+              <label>Frame rate<select id="fps"><option>30</option><option>24</option><option>60</option></select></label>
+              <label>Captions<select id="captions"><option>phrase</option><option>word</option><option>off</option></select></label>
+            </div>
+          </div>
+
+          <div class="conditional image-field deck-field slide-field">
+            <h3>Image / deck fields</h3>
+            <p class="note"><b>Recommended reusable image path:</b> for image decks, consider generating a single 2×2 contact sheet with four 1:1 frames. The sheet can be split into four still slide images, or the four panels can become three Seedance 1.5 Pro first/last-frame transitions: panel 1→2, 2→3, and 3→4.</p>
+            <div class="grid">
+              <label>Frame or slide count<input id="frameCount" type="number" min="1" value="4"></label>
+              <label>Allow mixed aspect ratios<select id="allowMixedAspectRatios"><option>false</option><option>true</option></select></label>
+              <label>Text overlay density<select id="textOverlayDensity"><option>minimal</option><option>moderate</option><option>none</option><option>text-heavy</option></select></label>
+              <label>Deck transition style<select id="transitionStyle"><option>none</option><option>cut</option><option>fade</option><option>editorial-push</option><option>interactive/navigable</option></select></label>
+            </div>
+          </div>
+
+          <div class="conditional interactive-field">
+            <h3>Interactive planning fields</h3>
+            <p class="hint">Interactive / Mini-App is planning-only in this factory version. Codex should create a plan unless a separate app-build plan is approved.</p>
+            <label>Interaction model</label>
+            <textarea id="interactionModel" placeholder="Describe navigation, inputs, buttons, quiz states, simulations, or user actions."></textarea>
+          </div>
+        </section>
+
+        <section id="visual" class="panel">
+          <h2>3. Visual System</h2>
+          <div class="grid">
+            <label>Design pack<select id="designPack"><option>ivory-dusk-editorial</option><option>ivory-dusk</option></select></label>
+            <label>Quality target<select id="quality"><option>high</option><option>standard</option><option>draft</option></select></label>
+          </div>
+
+          <h3>Choose a color palette</h3>
+          <p class="hint">These are the registered factory palettes, shown as real five-color chips so users can make a visual decision before Codex builds.</p>
+          <div class="picker-toolbar">
+            <label class="filter">Filter palettes<input id="paletteFilter" placeholder="Try rose, denim, math, ivory..."></label>
+          </div>
+          <div id="paletteGrid" class="palette-grid" role="listbox" aria-label="Color palettes"></div>
+
+          <h3>Choose typography</h3>
+          <p class="hint">The public system stays IBM Plex complete: Sans, Serif, and Mono combinations.</p>
+          <div id="typeGrid" class="type-grid" role="listbox" aria-label="Typography combinations"></div>
+
+          <div class="selection-summary">
+            <div class="summary-card"><b>Selected palette</b><span id="selectedPaletteLabel">Ivory Dusk Editorial</span></div>
+            <div class="summary-card"><b>Selected typography</b><span id="selectedTypographyLabel">Editorial Authority</span></div>
+          </div>
+
+          <label>Reference files you will attach later</label>
+          <textarea id="references" placeholder="List local filenames or folders, and describe role: style, identity, composition, palette, subject, prompt-draft, copy-context, source-media."></textarea>
+          <label>Image prompt drafts</label>
+          <textarea id="imagePrompts"></textarea>
+          <label>Video / motion prompt drafts</label>
+          <textarea id="videoPrompts"></textarea>
+          <label>Copywriting or script context</label>
+          <textarea id="copyContext"></textarea>
+        </section>
+
+        <section id="providers" class="panel">
+          <h2>4. Education, Review Lenses, Providers</h2>
+          <h3>Optional education / domain metadata</h3>
+          <div class="grid">
+            <label>Subject / domain<input id="subjectDomain" placeholder="Example: California History / Social Studies"></label>
+            <label>Grade level<input id="gradeLevel" placeholder="Example: Grade 4"></label>
+            <label>Age range<input id="ageRange" placeholder="Example: ages 9–10"></label>
+            <label>Reading level<input id="readingLevel" placeholder="Example: 4th grade, Lexile 800–900L"></label>
+          </div>
+          <label>Curriculum standard(s), citations, or factual authority</label>
+          <textarea id="curriculumStandards" placeholder="Example: CA.CCSS.SS.4.1 — Physical and Human Geographic Features That Define California"></textarea>
+          <label>Creative / review lenses</label>
+          <textarea id="creativeLenses" placeholder="List coach cards, reviewer lenses, brand constraints, pedagogy lenses, or custom review roles. Example: Robert_Greene_historical_narratives_lens applies to frame-01."></textarea>
+          <p class="note"><b>Disclaimer policy:</b> the factory must not add disclaimers or advisory language unless the user, Hermes, or another briefing agent explicitly writes that text into the brief.</p>
+
+          <h3>Providers and budget</h3>
+          <div class="grid">
+            <label>Final audio authority<select id="narrationAuthority"><option value="">Choose before generation</option><option value="elevenlabs">ElevenLabs master audio</option><option value="heygen">HeyGen-generated audio</option><option value="existing">Existing approved audio</option><option value="none">No narration</option></select></label>
+            <label>Voice ID<input id="voiceId" placeholder="Optional"></label>
+            <label>Voice model<input id="voiceModel" value="eleven_flash_v2_5"></label>
+            <label>Cost ceiling USD<input id="costCeiling" value="0"></label>
+          </div>
+          <div class="grid">
+            <label>Seedance model<input id="motionModel" value="bytedance/seedance-1-5-pro"></label>
+            <label>Seedance resolution<select id="motionResolution"><option value="">Choose before generation</option><option>480p</option><option>720p</option><option>1080p</option></select></label>
+            <label>Seedance sound<select id="motionAudio"><option value="">Choose before generation</option><option value="false">Silent</option><option value="true">Generated sound</option></select></label>
+            <label>Seedance motion contract<select id="motionContract"><option value="">Choose before generation</option><option value="panel-sequence-1-2-3-4">Four panels: 1→2, 2→3, 3→4</option><option value="custom">Custom approved contract</option></select></label>
+          </div>
+          <div class="grid">
+            <label>HeyGen mode<select id="heygenMode"><option value="">Choose if HeyGen is allowed</option><option>required</option><option>optional</option><option>disabled</option></select></label>
+            <label>HeyGen avatar/look ID<input id="avatarId" placeholder="Required when HeyGen is used"></label>
+            <label>HeyGen voice ID<input id="heygenVoiceId" placeholder="Required when HeyGen supplies final audio"></label>
+            <label>HeyGen engine<select id="avatarEngine"><option value="">Choose before generation</option><option value="avatar_iii">Avatar III</option><option value="avatar_iv">Avatar IV</option></select></label>
+            <label>HeyGen alpha required<select id="heygenAlphaRequired"><option value="">Choose before generation</option><option value="true">Yes</option><option value="false">No</option></select></label>
+          </div>
+          <div class="grid">
+            <label>Landscape UCC template<input id="landscapeTemplate" value="feature-left-16x9"></label>
+            <label>Portrait UCC template<input id="portraitTemplate" value="portrait-concept-explainer"></label>
+            <label>Rubric release minimum<input id="rubricMinimum" value="40"></label>
+            <label>Minimum criterion score<input id="minimumCriterionScore" value="3"></label>
+          </div>
+          <label>Provider permissions</label>
+          <textarea id="providersText" placeholder="Example: ElevenLabs allowed for narration. OpenRouter allowed only after estimate. HeyGen no. GCP staging yes if needed."></textarea>
+          <label>Music / SFX policy</label>
+          <textarea id="audioPolicy" placeholder="Default: music off, sound effects off."></textarea>
+        </section>
+
+        <section id="scenes" class="panel">
+          <h2>5. Scenes / Frames</h2>
+          <label>Structured scene or frame plan</label>
+          <textarea id="scenePlan" style="min-height:320px" placeholder="Frame 01: Opening&#10;Title:&#10;Purpose:&#10;Narration / copy:&#10;Visual description:&#10;Image prompt:&#10;Aspect ratio:&#10;Output filename:&#10;Creative lens:&#10;Quality checks:"></textarea>
+          <label>Quality gates</label>
+          <textarea id="qualityGates" placeholder="List validation checks. Example: all images are 1:1; text legible at 400x400; no factual errors; style consistent across frames."></textarea>
+        </section>
+
+        <div class="actions">
+          <button id="generate">Generate brief</button>
+          <button id="copy" class="secondary">Copy for Codex</button>
+          <button id="download-md" class="secondary">Download PRODUCTION_BRIEF.md</button>
+          <button id="download-txt" class="secondary">Download brief.txt</button>
+          <a class="button secondary" href="DESIGN_SYSTEM.md">See layouts and palettes</a>
+          <a class="button secondary" href="docs/start-here/design.md">Start page design.md</a>
+        </div>
+
+        <section id="output-section">
+          <h2>Generated Markdown</h2>
+          <pre id="output"></pre>
+          <h2>Paste into Codex</h2>
+          <p>Open this repo in Codex and paste the generated brief with: <code>Use the YouTube Video Factory skill. Create a video project from this brief.</code></p>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    const palettes=[
+      {id:"ucc-core",label:"UCC Core",group:"channel",colors:["#D94A55","#101A2F","#FFFBFB","#E7B2BC","#5A7690"]},
+      {id:"math",label:"Math",group:"channel",colors:["#2D6CDF","#101A2F","#DFEAFF","#AFC4D4","#F2F5F6"]},
+      {id:"science",label:"Science",group:"channel",colors:["#087F72","#D89B32","#D9F0EB","#101A2F","#F2F5F6"]},
+      {id:"history",label:"History / Sociology",group:"channel",colors:["#8B3F35","#24364B","#EEE0D2","#101A2F","#F4F1EA"]},
+      {id:"ela",label:"ELA",group:"channel",colors:["#8A4568","#D97855","#F1DFE8","#101A2F","#FFFBFB"]},
+      {id:"ai",label:"AI / Technology",group:"channel",colors:["#1F9BB7","#6557B8","#D9EEF5","#101A2F","#F2F5F6"]},
+      {id:"product",label:"Product Tutorial",group:"channel",colors:["#316EA8","#D94A55","#DDE8F3","#101A2F","#F2F5F6"]},
+      {id:"pedagogy",label:"Pedagogy / Parents",group:"channel",colors:["#6F7F5B","#B8694F","#E5EADB","#101A2F","#F4F1EA"]},
+      {id:"midnight-heritage",label:"Midnight Heritage",group:"inspiration",colors:["#020202","#223A5A","#A2282B","#38613F","#BFB194"]},
+      {id:"forest-harbor",label:"Forest Harbor",group:"inspiration",colors:["#133228","#326042","#B2CCDB","#C3CDCE","#D2C1A3"]},
+      {id:"blush-polo",label:"Blush Polo",group:"inspiration",colors:["#050505","#374752","#FCC5EC","#E4E9EF","#D8D4CB"]},
+      {id:"anchor-crimson",label:"Anchor Crimson",group:"inspiration",colors:["#191C1F","#41444C","#9A9EA7","#174041","#C61F46"]},
+      {id:"moss-atelier",label:"Moss Atelier",group:"inspiration",colors:["#050702","#2D2D22","#37420C","#8A8567","#F1F0EB"]},
+      {id:"old-money-sky",label:"Old Money Sky",group:"inspiration",colors:["#0E0F0E","#581F0D","#D6B488","#F3F3F0","#B8CBD2"]},
+      {id:"espresso-fog",label:"Espresso Fog",group:"inspiration",colors:["#645143","#CEBFB3","#E0E3E7","#8C8C8D","#302423"]},
+      {id:"hunter-rose",label:"Hunter Rose",group:"inspiration",colors:["#1F5132","#C1898B","#FFFFFF","#552E23","#0A0812"]},
+      {id:"violet-taupe",label:"Violet Taupe",group:"inspiration",colors:["#95939B","#CECECE","#B5ACC1","#E3C4AD","#4A4541"]},
+      {id:"ash-pink-electric",label:"Ash Pink Electric",group:"inspiration",colors:["#E2C2BD","#B8C2C4","#ECECEF","#0083BB","#232A30"]},
+      {id:"wine-steel",label:"Wine & Steel",group:"inspiration",colors:["#EBF0F5","#AC262D","#751F22","#25627C","#131712"]},
+      {id:"denim-crimson",label:"Denim Crimson",group:"inspiration",colors:["#B8CED9","#14192C","#AB2728","#9DA6A5","#EBEBEB"]},
+      {id:"cyan-chocolate",label:"Cyan Chocolate",group:"inspiration",colors:["#719C95","#C0D1BF","#AECDE9","#B9966E","#381708"]},
+      {id:"sport-bloom",label:"Sport Bloom",group:"inspiration",colors:["#038A61","#E84579","#F696C1","#F5D6DB","#BDC8C9"]},
+      {id:"soft-rose-street",label:"Soft Rose Street",group:"inspiration",colors:["#EAE1E5","#E3D1BF","#C4BDB8","#EBC4B9","#D48179"]},
+      {id:"orchid-citrus",label:"Orchid Citrus",group:"inspiration",colors:["#F096C8","#0392F0","#85A441","#FFC025","#EF790B"]},
+      {id:"cavalli-coast",label:"Cavalli Coast",group:"inspiration",colors:["#D7511D","#E4D4BA","#9CBAB6","#558BA3","#193048"]},
+      {id:"bordeaux-noir",label:"Bordeaux Noir",group:"inspiration",colors:["#191917","#6D6864","#FCD6BC","#5B191D","#2D1012"]},
+      {id:"kalamata-harbor",label:"Kalamata Harbor",group:"inspiration",colors:["#080808","#62424D","#545E3A","#476482","#E2E1DB"]},
+      {id:"yacht-club",label:"Yacht Club",group:"inspiration",colors:["#28A476","#A7C3B2","#F5F5F5","#0289CD","#0244A6"]},
+      {id:"peach-veil",label:"Peach Veil",group:"inspiration",colors:["#1C1813","#AA9485","#BF9F92","#DCC9C3","#E4E4E4"]},
+      {id:"tiger-smoke",label:"Tiger Smoke",group:"inspiration",colors:["#E75323","#F46B27","#E7C7B9","#C2C2C2","#453F3D"]},
+      {id:"ivory-dusk",label:"Ivory Dusk",group:"inspiration",colors:["#182131","#58586B","#D8D4DE","#DFD7CD","#BEB6B0"]},
+      {id:"ivory-dusk-editorial",label:"Ivory Dusk Editorial",group:"factory",colors:["#EEE6D8","#D8CBB8","#24202A","#5F5363","#A6793B"]}
+    ];
+    const typographies=[
+      {id:"editorial-authority",label:"Editorial Authority",description:"IBM Plex Serif headline · IBM Plex Sans body",headlineClass:"serif",bodyClass:"sans",captionClass:"sans",monoClass:"mono"},
+      {id:"modern-clarity",label:"Modern Clarity",description:"IBM Plex Sans headline · IBM Plex Serif body",headlineClass:"sans",bodyClass:"serif",captionClass:"sans",monoClass:"mono"},
+      {id:"humanist-voice",label:"Humanist Voice",description:"IBM Plex Sans headline · IBM Plex Serif body",headlineClass:"sans",bodyClass:"serif",captionClass:"sans",monoClass:"mono"},
+      {id:"research-notebook",label:"Research Notebook",description:"Mono headline · Sans body",headlineClass:"mono",bodyClass:"sans",captionClass:"sans",monoClass:"mono"},
+      {id:"technical-signal",label:"Technical Signal",description:"Mono headline · Mono body",headlineClass:"mono",bodyClass:"mono",captionClass:"sans",monoClass:"mono"}
+    ];
+    const deliverables={
+      "youtube-video":{label:"YouTube video",format:"mp4",count:"1",frames:"1",aspect:"16:9",resolution:"1920x1080",pattern:"output/{projectId}.mp4",voice:"elevenlabs",show:["video-field"]},
+      "image-deck":{label:"Image deck",format:"png",count:"4",frames:"4",aspect:"1:1",resolution:"1024x1024",pattern:"frames/frame-{##}-{slug}.png",voice:"none",show:["image-field","deck-field"]},
+      "slide-deck":{label:"Slide deck",format:"pdf",count:"8",frames:"8",aspect:"16:9",resolution:"1920x1080",pattern:"slides/slide-{##}-{slug}.png",voice:"none",show:["slide-field","deck-field"]},
+      "image-set":{label:"Image set",format:"png",count:"4",frames:"4",aspect:"1:1",resolution:"1024x1024",pattern:"images/image-{##}-{slug}.png",voice:"none",show:["image-field"]},
+      "motion-sequence":{label:"Motion sequence",format:"mp4",count:"1",frames:"3",aspect:"1:1",resolution:"480x480",pattern:"motion/{projectId}.mp4",voice:"none",show:["motion-field"]},
+      "interactive":{label:"Interactive / Mini-App — planning only",format:"html",count:"1",frames:"1",aspect:"responsive",resolution:"responsive",pattern:"interactive/index.html",voice:"none",show:["interactive-field"]}
+    };
+    const state={palette:"ivory-dusk-editorial",typography:"editorial-authority",deliverable:"youtube-video"};
+    const slug=(input)=>String(input||"untitled-video").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"untitled-video";
+    const value=(id)=>document.getElementById(id).value.trim();
+    const block=(title,content)=>content?`## ${title}\n\n${content}\n\n`:"";
+    const yaml=(input)=>String(input||"").replaceAll("\\","\\\\").replaceAll('"','\\"');
+    const yamlBlock=(input,indent="  ")=>String(input||"").split("\n").map((line)=>`${indent}${line}`).join("\n")||`${indent}`;
+    function selectedPalette(){return palettes.find((item)=>item.id===state.palette)||palettes[0]}
+    function selectedTypography(){return typographies.find((item)=>item.id===state.typography)||typographies[0]}
+    function selectedDeliverable(){return deliverables[value("deliverableType")]||deliverables["youtube-video"]}
+    function applyDeliverableDefaults(){
+      const id=value("deliverableType");
+      const spec=deliverables[id]||deliverables["youtube-video"];
+      if(state.deliverable!==id){
+        state.deliverable=id;
+        document.getElementById("outputCount").value=spec.count;
+        document.getElementById("frameCount").value=spec.frames;
+        document.getElementById("aspectRatio").value=spec.aspect;
+        document.getElementById("resolution").value=spec.resolution;
+        document.getElementById("outputFormat").value=spec.format;
+        document.getElementById("outputPattern").value=spec.pattern;
+        document.getElementById("voiceProvider").value=spec.voice;
+      }
+      for(const item of document.querySelectorAll(".conditional")){
+        const visible=spec.show.some((className)=>item.classList.contains(className));
+        item.classList.toggle("is-hidden",!visible);
+      }
+    }
+    function renderPalettes(){
+      const filter=value("paletteFilter").toLowerCase();
+      const grid=document.getElementById("paletteGrid");
+      grid.innerHTML="";
+      for(const palette of palettes.filter((item)=>`${item.label} ${item.id} ${item.group}`.toLowerCase().includes(filter))){
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="palette-card";
+        button.setAttribute("aria-pressed",String(palette.id===state.palette));
+        button.innerHTML=`<div class="swatches">${palette.colors.map((color)=>`<span class="swatch" style="background:${color}" title="${color}"></span>`).join("")}</div><b>${palette.label}</b><small>${palette.group} · ${palette.id}</small>`;
+        button.addEventListener("click",()=>{state.palette=palette.id;renderAll()});
+        grid.appendChild(button);
+      }
+    }
+    function renderTypographies(){
+      const grid=document.getElementById("typeGrid");
+      grid.innerHTML="";
+      for(const type of typographies){
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="type-card";
+        button.setAttribute("aria-pressed",String(type.id===state.typography));
+        button.innerHTML=`<div class="font-specimen" aria-hidden="true"><span class="type-caption ${type.captionClass}">Font sample</span><span class="type-headline ${type.headlineClass}">Feature Round</span><span class="type-body ${type.bodyClass}">A clean briefing page for turning ideas into narrated video.</span><span class="type-mono ${type.monoClass}">scene_01 · 1920x1080 · 30fps</span></div><b>${type.label}</b><small>${type.description}</small>`;
+        button.addEventListener("click",()=>{state.typography=type.id;renderAll()});
+        grid.appendChild(button);
+      }
+    }
+    function brief(){
+      const title=value("title")||"Untitled YouTube Video";
+      const projectId=slug(value("projectId")||title);
+      const deliverableType=value("deliverableType");
+      const deliverable=selectedDeliverable();
+      const narrationAuthority=deliverableType==="youtube-video"?value("narrationAuthority"):"none";
+      const providerText=[value("providersText"),`renditions: ["16:9", "9:16"]`,`narrationAuthority: ${narrationAuthority}`,`motionModel: ${value("motionModel")}`,`motionResolution: ${value("motionResolution")}`,`motionAudio: ${value("motionAudio")}`,`motionContract: ${value("motionContract")}`,`heygenMode: ${value("heygenMode")}`,`avatarId: ${value("avatarId")}`,`heygenVoiceId: ${value("heygenVoiceId")}`,`avatarEngine: ${value("avatarEngine")}`,`heygenAlphaRequired: ${value("heygenAlphaRequired")}`,`landscapeTemplate: ${value("landscapeTemplate")}`,`portraitTemplate: ${value("portraitTemplate")}`,`rubricMinimum: ${value("rubricMinimum")}`,`minimumCriterionScore: ${value("minimumCriterionScore")}`,`maxRepairCycles: 3`,`blockers: [missing-template, missing-required-media, caption-failure, decode-failure, aspect-ratio-failure]`].join("\\n");
+      const voiceProvider=narrationAuthority;
+      const providerNames=[];
+      if(voiceProvider==="elevenlabs") providerNames.push("elevenlabs");
+      if(providerText.toLowerCase().includes("openrouter")) providerNames.push("openrouter");
+      if(providerText.toLowerCase().includes("heygen")) providerNames.push("heygen");
+      if(value("motionResolution")||value("motionContract")) providerNames.push("openrouter");
+      if(value("heygenMode")&&value("heygenMode")!=="disabled") providerNames.push("heygen");
+      if(providerText.toLowerCase().includes("gcp")) providerNames.push("gcp");
+      const providerList=`[${[...new Set(providerNames)].map((item)=>`"${item}"`).join(",")}]`;
+      const palette=selectedPalette();
+      const typography=selectedTypography();
+      const outputPattern=value("outputPattern").replaceAll("{projectId}",projectId);
+      return `---\ntitle: "${yaml(title)}"\nprojectId: "${projectId}"\naudience: "${yaml(value("audience"))}"\ndeliverableType: "${deliverableType}"\ndeliverable: "${yaml(deliverable.label)}"\ndesignPack: "${value("designPack")}"\npalette: "${palette.id}"\ntypography: "${typography.id}"\nquality: "${value("quality")}"\naspectRatio: "${yaml(value("aspectRatio"))}"\nresolution: "${yaml(value("resolution"))}"\noutputFormat: "${value("outputFormat")}"\noutputCount: ${Number(value("outputCount")||1)}\noutputPattern: "${yaml(outputPattern)}"\nimageSourcePolicy: "${value("imageSourcePolicy")}"\nimageModel: "${yaml(value("imageModel"))}"\nframeCount: ${Number(value("frameCount")||value("outputCount")||1)}\nallowMixedAspectRatios: ${value("allowMixedAspectRatios")}\ntextOverlayDensity: "${value("textOverlayDensity")}"\ntransitionStyle: "${value("transitionStyle")}"\ndisclaimerPolicy: "user-authored-only"\nfourFrameContactSheetWorkflow: "recommended-for-1x1-image-decks-and-seedance-transitions"\nmusic: false\nsoundEffects: false\ncaptions: "${deliverableType==="youtube-video"?value("captions"):"off"}"\nfps: ${deliverableType==="youtube-video"?Number(value("fps")||30):0}\nvoiceProvider: "${voiceProvider}"\nvoiceId: "${voiceProvider==="none"?"":yaml(value("voiceId"))}"\nvoiceModel: "${voiceProvider==="none"?"":yaml(value("voiceModel"))}"\nproviders: ${providerList}\ncostCeilingUsd: ${Number(value("costCeiling")||0)}\nautonomy: "review-gated"\ninteractivePlanningOnly: ${deliverableType==="interactive"}\neducation:\n  subject: "${yaml(value("subjectDomain"))}"\n  gradeLevel: "${yaml(value("gradeLevel"))}"\n  ageRange: "${yaml(value("ageRange"))}"\n  readingLevel: "${yaml(value("readingLevel"))}"\n  standards: |-\n${yamlBlock(value("curriculumStandards"),"    ")}\ncreativeLenses: |-\n${yamlBlock(value("creativeLenses"),"  ")}\nqualityGates: |-\n${yamlBlock(value("qualityGates"),"  ")}\n---\n\n# ${title}\n\n${block("Summary",value("outcome"))}${block("Story Arc",value("story"))}${block("Runtime",deliverableType==="youtube-video"||deliverableType==="motion-sequence"?value("runtime"):"")}## Deliverable Specs\n\n- Deliverable type: ${deliverableType}\n- Deliverable: ${deliverable.label}\n- Output count: ${value("outputCount")}\n- Output format: ${value("outputFormat")}\n- Output pattern: ${outputPattern}\n- Aspect ratio: ${value("aspectRatio")}\n- Resolution: ${value("resolution")}\n- Image source policy: ${value("imageSourcePolicy")}\n- Image model/source: ${value("imageModel")||"not specified"}\n- Disclaimer policy: user-authored only; do not add disclaimers unless the brief explicitly includes them.\n\n## Four-Frame Contact Sheet Workflow\n\nFor 1:1 image decks, consider generating one 2×2 contact sheet containing four related frames. The sheet can be split into four still slide images, or the panels can feed three Seedance 1.5 Pro first/last-frame clips: panel 1→2, panel 2→3, and panel 3→4.\n\n${block("Supplied Asset Notes",value("suppliedAssetNotes"))}${block("Education / Domain Context",[value("subjectDomain"),value("gradeLevel"),value("ageRange"),value("readingLevel"),value("curriculumStandards")].filter(Boolean).join("\\n"))}${block("Creative / Review Lenses",value("creativeLenses"))}## Visual System\n\n- Design pack: ${value("designPack")}\n- Palette: ${palette.label} (${palette.id}) — ${palette.colors.join(", ")}\n- Typography: ${typography.label} (${typography.id}) — ${typography.description}\n\n${block("References To Attach",value("references"))}${block("Image Prompt Drafts",value("imagePrompts"))}${block("Video / Motion Prompt Drafts",value("videoPrompts"))}${block("Copywriting / Script Context",value("copyContext"))}${block("Provider Permissions",providerText)}${block("Music / SFX Policy",value("audioPolicy"))}${block("Interaction Model",deliverableType==="interactive"?value("interactionModel"):"")}${block("Exclusions",value("exclusions"))}## Scene / Frame Plan\n\n${value("scenePlan") || "Frame 01: Opening\\nTitle:\\nPurpose:\\nNarration / copy:\\nVisual description:\\nImage prompt:\\nAspect ratio:\\nOutput filename:\\nCreative lens:\\nQuality checks:"}\n\n${block("Quality Gates",value("qualityGates"))}`;
+    }
+    function renderBrief(){
+      document.getElementById("selectedPaletteLabel").textContent=`${selectedPalette().label} (${selectedPalette().id})`;
+      document.getElementById("selectedTypographyLabel").textContent=`${selectedTypography().label} (${selectedTypography().id})`;
+      applyDeliverableDefaults();
+      document.getElementById("output").textContent=brief();
+    }
+    function renderAll(){applyDeliverableDefaults();renderPalettes();renderTypographies();renderBrief()}
+    document.querySelectorAll("input,select,textarea").forEach((field)=>field.addEventListener("input",()=>{if(field.id==="paletteFilter")renderPalettes();if(field.id==="deliverableType")applyDeliverableDefaults();renderBrief()}));
+    document.getElementById("generate").addEventListener("click",renderBrief);
+    document.getElementById("copy").addEventListener("click",async()=>{
+      renderBrief();
+      const output=document.getElementById("output");
+      try{
+        await navigator.clipboard.writeText(output.textContent);
+      }catch{
+        const range=document.createRange();
+        range.selectNodeContents(output);
+        const selection=window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        alert("Browser clipboard access was blocked. The brief is selected now; press Cmd+C or Ctrl+C to copy it.");
+      }
+    });
+    function download(name,type){renderBrief();const blob=new Blob([document.getElementById("output").textContent],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+    document.getElementById("download-md").addEventListener("click",()=>download("PRODUCTION_BRIEF.md","text/markdown"));
+    document.getElementById("download-txt").addEventListener("click",()=>download("youtube-video-brief.txt","text/plain"));
+    renderAll();
+    // Guided workspace overlay: existing fields and generated brief stay unchanged for compatibility.
+    const steps=[{label:"Setup",sections:["intent","deliverable"],required:["title","projectId","audience","outcome"]},{label:"Creative",sections:["visual"],required:["story"]},{label:"Production",sections:["providers","scenes"],required:["scenePlan"]},{label:"Review",sections:["output-section"],required:[]}];
+    let activeStep=Number(localStorage.getItem("ytvf-start-step")||0);
+    const nav=document.querySelector("aside nav");
+    const rail=document.createElement("aside");rail.className="readiness-rail";document.body.appendChild(rail);
+    const saveKey="ytvf-start-here-draft";
+    function renderWorkflow(){
+      activeStep=Math.max(0,Math.min(steps.length-1,activeStep));localStorage.setItem("ytvf-start-step",String(activeStep));
+      nav.innerHTML=steps.map((step,index)=>`<button class="workflow-step ${index===activeStep?"active":""}" data-step="${index}"><b>0${index+1}</b>${step.label}</button>`).join("");
+      steps.forEach((step,index)=>step.sections.forEach(id=>document.getElementById(id).classList.toggle("guided-hidden",index!==activeStep)));
+      document.querySelector(".actions").classList.toggle("guided-hidden",activeStep!==3);
+      const complete=steps.flatMap(step=>step.required).filter(id=>value(id).trim()).length;
+      const total=steps.flatMap(step=>step.required).length;
+      rail.innerHTML=`<div class="mono">BRIEF READINESS</div><h3>${complete}/${total} required decisions</h3><ul>${steps.flatMap(step=>step.required).map(id=>`<li class="${value(id).trim()?"ready":""}">${id.replace(/([A-Z])/g," $1")}</li>`).join("")}</ul><p class="hint">Save drafts locally. Export only after Review.</p><div class="workflow-tools"><button id="previous-step" type="button">Previous</button><button id="next-step" type="button">${activeStep===3?"Review complete":"Next"}</button></div><label class="hint" for="import-brief">Import existing brief<input id="import-brief" type="file" accept=".md,.txt,text/markdown,text/plain"></label>`;
+      nav.querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{activeStep=Number(button.dataset.step);renderWorkflow()}));
+      rail.querySelector("#previous-step").addEventListener("click",()=>{activeStep--;renderWorkflow()});rail.querySelector("#next-step").addEventListener("click",()=>{if(activeStep<3){activeStep++;renderWorkflow()}});
+      rail.querySelector("#import-brief").addEventListener("change",async(event)=>{const file=event.target.files[0];if(!file)return;const text=await file.text();const frontmatter=text.match(/^---\n([\s\S]*?)\n---/);for(const [,key,raw] of (frontmatter?.[1]||"").matchAll(/^(title|projectId|audience|deliverableType|designPack|quality|aspectRatio|resolution|outputFormat|imageSourcePolicy|imageModel|costCeilingUsd):\s*["']?(.+?)["']?\s*$/gm)){const field=document.getElementById(key);if(field)field.value=raw}const summary=text.match(/## Summary\s*\n+([\s\S]*?)(?=\n## |$)/);if(summary)document.getElementById("outcome").value=summary[1].trim();const story=text.match(/## Story Arc\s*\n+([\s\S]*?)(?=\n## |$)/);if(story)document.getElementById("story").value=story[1].trim();renderAll();renderWorkflow()});
+    }
+    const saved=localStorage.getItem(saveKey);if(saved){try{const draft=JSON.parse(saved);Object.entries(draft).forEach(([id,stored])=>{const field=document.getElementById(id);if(field&&typeof stored==="string")field.value=stored});}catch{localStorage.removeItem(saveKey)}}
+    document.querySelectorAll("input,select,textarea").forEach(field=>field.addEventListener("input",()=>{const draft=Object.fromEntries([...document.querySelectorAll("input,select,textarea")].filter(item=>item.id).map(item=>[item.id,item.value]));localStorage.setItem(saveKey,JSON.stringify(draft));renderWorkflow()}));
+    renderWorkflow();
+  </script>
+</body>
+</html>

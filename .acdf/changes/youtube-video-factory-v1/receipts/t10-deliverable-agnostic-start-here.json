@@ -1,0 +1,21 @@
+{
+  "taskId": "t10-deliverable-agnostic-start-here",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Make Start Here deliverable-agnostic based on Hermes image-deck feedback.",
+  "actualChange": "Added deliverable type selection, output count, aspect ratio, resolution, output format, output naming pattern, image source policy, optional education metadata, creative/review lenses, structured scene/frame planning, and quality gates. Generated briefs now include deliverableType, non-video voiceProvider none, image/deck output patterns, and interactivePlanningOnly for interactive planning.",
+  "verificationCommands": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm test:security",
+    "pnpm build"
+  ],
+  "evidenceFiles": [
+    "evidence/t10_typecheck.log",
+    "evidence/t10_test.log",
+    "evidence/t10_security.log",
+    "evidence/t10_build.log"
+  ],
+  "prevention": "Start Here tests now require deliverable-agnostic fields and image-deck output patterns."
+}

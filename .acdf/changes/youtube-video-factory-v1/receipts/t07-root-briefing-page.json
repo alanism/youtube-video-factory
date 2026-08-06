@@ -1,0 +1,21 @@
+{
+  "taskId": "t07-root-briefing-page",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Make the repository root start page the actual first-run briefing worksheet.",
+  "actualChange": "Converted root start_here.html into a self-contained brief builder with project intent, visual direction, provider and budget policy, scene planning, reference listing, image/video/copywriting prompt drafts, copy-to-Codex, Markdown download, and plain-text download. Updated README, learning log, and regression coverage.",
+  "verificationCommands": [
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm test:security",
+    "pnpm build"
+  ],
+  "evidenceFiles": [
+    "evidence/t07_typecheck.log",
+    "evidence/t07_test.log",
+    "evidence/t07_security.log",
+    "evidence/t07_build.log"
+  ],
+  "prevention": "A root start page regression test now requires the briefing fields and export actions to remain present."
+}

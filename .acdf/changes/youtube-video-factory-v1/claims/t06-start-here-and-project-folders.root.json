@@ -1,0 +1,16 @@
+{
+  "taskId": "t06-start-here-and-project-folders",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "start_here.html",
+    "bin/ytvf.mjs",
+    "src/cli.ts",
+    "src/core/project.ts",
+    "tests/**",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "learning_log.md"
+  ]
+}

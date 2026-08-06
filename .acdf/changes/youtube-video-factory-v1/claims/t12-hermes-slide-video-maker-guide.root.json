@@ -1,0 +1,13 @@
+{
+  "taskId": "t12-hermes-slide-video-maker-guide",
+  "agentId": "root",
+  "status": "CLAIMED",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "allowedFiles": [
+    "README.md",
+    "hermes-slide-video-maker.md",
+    "tests/hermes-guide.test.ts",
+    ".acdf/changes/youtube-video-factory-v1/**",
+    "learning_log.md"
+  ]
+}

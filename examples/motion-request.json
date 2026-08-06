@@ -1,0 +1,11 @@
+{
+  "sceneId": "02",
+  "prompt": "Continuous restrained action between the supplied endpoints. Preserve identity, wardrobe, props, environment, illustration style, palette, and lighting. No new characters, objects, text, cuts, or conflicting camera angles.",
+  "firstFrame": "assets/approved/panel-01.png",
+  "lastFrame": "assets/approved/panel-02.png",
+  "outputPath": "motion/scene-02/clip-01.mp4",
+  "duration": 5,
+  "resolution": "480p",
+  "aspectRatio": "1:1",
+  "seed": 1729
+}

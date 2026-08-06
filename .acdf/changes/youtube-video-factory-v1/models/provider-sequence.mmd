@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant User
+    participant Codex
+    participant CLI as ytvf CLI
+    participant Ledger as Provider Ledger
+    participant Provider
+    User->>Codex: Supplies brief, keys, and approval
+    Codex->>CLI: Runs provider command with env key
+    CLI->>Ledger: Check request hash and cost ceiling
+    alt existing completed job
+        Ledger-->>CLI: Reuse completed asset
+    else existing running job
+        Ledger-->>CLI: Resume polling by provider job ID
+    else new approved request
+        CLI->>Provider: Submit immutable provider request
+        Provider-->>CLI: Provider job ID
+        CLI->>Ledger: Persist job ID immediately
+        CLI->>Provider: Poll with bounded timeout
+        Provider-->>CLI: Completed media or failure
+        CLI->>Ledger: Write sanitized receipt
+    end
+    CLI-->>Codex: Project-relative output path and status
+    Codex-->>User: Review result

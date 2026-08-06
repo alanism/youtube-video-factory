@@ -1,0 +1,131 @@
+$ node --import tsx --test tests/*.test.ts tests/**/*.test.ts
+TAP version 13
+# Subtest: localhost brief editor saves Markdown and quarantines references
+ok 1 - localhost brief editor saves Markdown and quarantines references
+  ---
+  duration_ms: 94.462583
+  type: 'test'
+  ...
+# Subtest: brief conversion is deterministic and approval is hash-bound
+ok 2 - brief conversion is deterministic and approval is hash-bound
+  ---
+  duration_ms: 56.314333
+  type: 'test'
+  ...
+# Subtest: incomplete brief stops before manifest generation
+ok 3 - incomplete brief stops before manifest generation
+  ---
+  duration_ms: 0.630458
+  type: 'test'
+  ...
+# Subtest: manifest validation enforces visual limits and presenter-safe layouts
+ok 4 - manifest validation enforces visual limits and presenter-safe layouts
+  ---
+  duration_ms: 0.398125
+  type: 'test'
+  ...
+# Subtest: Codex image tasks are deterministic and require no API credential
+ok 5 - Codex image tasks are deterministic and require no API credential
+  ---
+  duration_ms: 102.072959
+  type: 'test'
+  ...
+# Subtest: compiles one deterministic top-level HyperFrames composition
+ok 6 - compiles one deterministic top-level HyperFrames composition
+  ---
+  duration_ms: 86.146041
+  type: 'test'
+  ...
+# Subtest: ships the complete YouTube design registry
+ok 7 - ships the complete YouTube design registry
+  ---
+  duration_ms: 0.993542
+  type: 'test'
+  ...
+# Subtest: every layout frame stays within 1920x1080
+ok 8 - every layout frame stays within 1920x1080
+  ---
+  duration_ms: 0.765083
+  type: 'test'
+  ...
+# Subtest: forward-compiles the private 15-scene Enochian fixture when available
+ok 9 - forward-compiles the private 15-scene Enochian fixture when available
+  ---
+  duration_ms: 504.306416
+  type: 'test'
+  ...
+# Subtest: detects and deterministically splits the supplied Enochian 2x2 contact sheet
+ok 10 - detects and deterministically splits the supplied Enochian 2x2 contact sheet
+  ---
+  duration_ms: 5983.73775
+  type: 'test'
+  ...
+# Subtest: canonical request claims prevent duplicate paid submissions
+ok 11 - canonical request claims prevent duplicate paid submissions
+  ---
+  duration_ms: 20.237375
+  type: 'test'
+  ...
+# Subtest: paid execution requires approval and respects the ceiling
+ok 12 - paid execution requires approval and respects the ceiling
+  ---
+  duration_ms: 0.335125
+  type: 'test'
+  ...
+# Subtest: ElevenLabs adapter verifies, generates timestamped audio, and reuses the request
+ok 13 - ElevenLabs adapter verifies, generates timestamped audio, and reuses the request
+  ---
+  duration_ms: 102.219083
+  type: 'test'
+  ...
+# Subtest: OpenRouter adapter discovers, estimates, submits, polls, and downloads
+ok 14 - OpenRouter adapter discovers, estimates, submits, polls, and downloads
+  ---
+  duration_ms: 30.382917
+  type: 'test'
+  ...
+# Subtest: HeyGen CLI adapter verifies account/avatar and runs a resumable generation
+ok 15 - HeyGen CLI adapter verifies account/avatar and runs a resumable generation
+  ---
+  duration_ms: 837.893459
+  type: 'test'
+  ...
+# Subtest: GCP frame stager uses content-addressed objects, verifies public access, and releases
+ok 16 - GCP frame stager uses content-addressed objects, verifies public access, and releases
+  ---
+  duration_ms: 4.351917
+  type: 'test'
+  ...
+# Subtest: quarantines signed content and requires explicit approval
+ok 17 - quarantines signed content and requires explicit approval
+  ---
+  duration_ms: 35.695625
+  type: 'test'
+  ...
+# Subtest: rejects traversal, active content, spoofed formats, and duplicates without residue
+ok 18 - rejects traversal, active content, spoofed formats, and duplicates without residue
+  ---
+  duration_ms: 16.714084
+  type: 'test'
+  ...
+# Subtest: refuses approval when a quarantined file is replaced by a symlink
+ok 19 - refuses approval when a quarantined file is replaced by a symlink
+  ---
+  duration_ms: 10.713375
+  type: 'test'
+  ...
+# Subtest: repository text contains no credential-shaped values or signed URLs
+ok 20 - repository text contains no credential-shaped values or signed URLs
+  ---
+  duration_ms: 88.583667
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6981.073125

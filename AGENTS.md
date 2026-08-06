@@ -1,3 +1,9 @@
+# YouTube Video Factory
+
+For any request to create, plan, generate, narrate, animate, render, resume, or validate a YouTube slide video in this repository, first read and use `skills/youtube-video-factory/SKILL.md`.
+
+Treat `PRODUCTION_BRIEF.md` as human intent, `production-manifest.json` as the approved semantic contract, and the compiled HyperFrames composition as a generated artifact. Keep every production under `projects/<project-id>/`. Never store provider credentials in this repository.
+
 # HyperFrames Composition Project
 
 ## Skills — USE THESE FIRST

@@ -1,0 +1,139 @@
+$ node bin/ytvf.mjs doctor
+{
+  "node": "v22.22.3",
+  "ffmpeg": {
+    "available": true,
+    "version": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "ffprobe": {
+    "available": true,
+    "version": "ffprobe version 8.1.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "hyperframes": {
+    "compositionReady": true,
+    "renderReady": false,
+    "doctor": {
+      "ok": false,
+      "platform": "darwin",
+      "arch": "arm64",
+      "checks": [
+        {
+          "name": "Version",
+          "ok": false,
+          "detail": "0.7.77 → 0.7.78 available",
+          "hint": "Run: hyperframes upgrade"
+        },
+        {
+          "name": "Node.js",
+          "ok": true,
+          "detail": "v22.22.3 (darwin arm64)"
+        },
+        {
+          "name": "CPU",
+          "ok": true,
+          "detail": "8 cores · Apple M1 @ 2400MHz"
+        },
+        {
+          "name": "Memory",
+          "ok": false,
+          "detail": "8.0 GB total · 1.6 GB available",
+          "hint": "Low memory — renders may fail. Close other apps or increase RAM."
+        },
+        {
+          "name": "Disk",
+          "ok": true,
+          "detail": "6.1 GB free"
+        },
+        {
+          "name": "Frames cache",
+          "ok": true,
+          "detail": "/var/folders/yd/bsms1xx53sq71wsdrrwwqvlr0000gn/T/hyperframes-extract-cache-501 · 6.1 GB free at /var/folders/yd/bsms1xx53sq71wsdrrwwqvlr0000gn/T · default"
+        },
+        {
+          "name": "Archive extractor",
+          "ok": true,
+          "detail": "unzip"
+        },
+        {
+          "name": "Environment",
+          "ok": true,
+          "detail": "non-TTY"
+        },
+        {
+          "name": "whisper-cpp",
+          "ok": false,
+          "detail": "Not found (optional — needed for transcription)",
+          "hint": "brew install whisper-cpp"
+        },
+        {
+          "name": "TTS (Kokoro)",
+          "ok": false,
+          "detail": "Not installed (optional — local voice fallback)",
+          "hint": "pip install kokoro-onnx soundfile"
+        },
+        {
+          "name": "BGM (MusicGen)",
+          "ok": false,
+          "detail": "Not installed (optional — local music fallback)",
+          "hint": "pip install transformers torch soundfile numpy"
+        },
+        {
+          "name": "FFmpeg",
+          "ok": true,
+          "detail": "ffmpeg 8.1.2 at /opt/homebrew/bin/ffmpeg"
+        },
+        {
+          "name": "FFprobe",
+          "ok": true,
+          "detail": "ffprobe 8.1.2 at /opt/homebrew/bin/ffprobe"
+        },
+        {
+          "name": "Chrome",
+          "ok": true,
+          "detail": "cache: $HOME/.cache/hyperframes/chrome/chrome-headless-shell/mac_arm-152.0.7928.2/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+        },
+        {
+          "name": "Docker",
+          "ok": true,
+          "detail": "Docker version 29.3.1, build c2be9ccfc3"
+        },
+        {
+          "name": "Docker running",
+          "ok": false,
+          "detail": "Not running",
+          "hint": "Start Docker Desktop or run: sudo systemctl start docker"
+        }
+      ],
+      "_meta": {
+        "version": "0.7.77",
+        "latestVersion": "0.7.78",
+        "updateAvailable": true
+      }
+    }
+  },
+  "providers": {
+    "elevenlabs": {
+      "credentialPresent": false
+    },
+    "heygen": {
+      "apiCredentialPresent": false,
+      "cli": {
+        "available": true,
+        "version": "heygen version v0.5.0"
+      }
+    },
+    "openrouter": {
+      "credentialPresent": false
+    },
+    "gcpStaging": {
+      "configured": false,
+      "cli": {
+        "available": true,
+        "version": "Google Cloud SDK 566.0.0"
+      }
+    },
+    "codexImage2": {
+      "mode": "Codex built-in image generation; no API key"
+    }
+  }
+}

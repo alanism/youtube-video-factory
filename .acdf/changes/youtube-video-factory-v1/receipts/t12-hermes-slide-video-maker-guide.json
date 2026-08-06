@@ -1,0 +1,18 @@
+{
+  "taskId": "t12-hermes-slide-video-maker-guide",
+  "agentId": "root",
+  "timestamp": "2026-07-29T00:00:00Z",
+  "status": "PASS",
+  "plannedChange": "Add a Hermes-facing guide for using Start Here and handing briefs to Codex.",
+  "actualChange": "Added hermes-slide-video-maker.md with Start Here usage, deliverable types, image policy, four-frame contact-sheet workflow, disclaimer policy, provider policy, local commands, Codex handoff prompts, and completeness checklist. Linked it from README and added guide tests.",
+  "verificationCommands": [
+    "pnpm test -- tests/hermes-guide.test.ts",
+    "pnpm test:security",
+    "git diff --check"
+  ],
+  "evidenceFiles": [
+    "evidence/t12_hermes_guide_test.log",
+    "evidence/t12_security.log"
+  ],
+  "prevention": "Hermes guide tests now require the guide to cover Start Here, Codex handoff, provider limits, contact-sheet strategy, disclaimer policy, and local commands."
+}
